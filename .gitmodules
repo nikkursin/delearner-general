@@ -1,0 +1,6 @@
+[submodule "delearner-frontend"]
+	path = delearner-frontend
+	url = git@github.com:nikkursin/delearner-frontend.git
+[submodule "delearner-backend"]
+	path = delearner-backend
+	url = git@github.com:nikkursin/delearner-backend.git
