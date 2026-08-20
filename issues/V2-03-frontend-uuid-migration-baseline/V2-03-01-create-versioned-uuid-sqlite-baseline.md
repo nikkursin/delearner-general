@@ -1,7 +1,7 @@
 # V2-03-01 — Create versioned UUID SQLite baseline
 
 **Parent epic:** V2-03 — Frontend UUID + Migration Baseline  
-**Status:** Planned  
+**Status:** Done
 **Workspace:** frontend  
 **Size:** 2 story point(s)  
 **Dependencies:** V2-02-01  
@@ -30,10 +30,10 @@ Review only if ID assumptions leak into UI; no redesign. If this subtask exposes
 
 ## Acceptance Criteria
 
-- [ ] A clean app install creates the new schema; old developer data need not migrate; migration runner structure exists for future upgrades.
-- [ ] Existing relevant tests still pass.
-- [ ] New behavior has focused automated coverage where feasible.
-- [ ] No unrelated product/UI behavior changed.
+- [x] A clean app install creates the new schema; old developer data need not migrate; migration runner structure exists for future upgrades.
+- [x] Existing relevant tests still pass.
+- [x] New behavior has focused automated coverage where feasible.
+- [x] No unrelated product/UI behavior changed.
 
 ## Verification
 
