@@ -1,7 +1,7 @@
 # V2-01-02 — Install canonical docs and root agent entry points
 
 **Parent epic:** V2-01 — Root Coordination Repository Foundation  
-**Status:** Planned  
+**Status:** Done  
 **Workspace:** root  
 **Size:** 1 story point(s)  
 **Dependencies:** V2-01-01  

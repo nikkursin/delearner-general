@@ -1,0 +1,46 @@
+# DE Vocab Learner Root Coordination Repository
+
+This repository coordinates the Version 2 DE Vocab Learner work across the
+frontend and backend Git submodules. It owns cross-repository documentation,
+issues, integration scaffolding, and the pinned compatible child revisions.
+
+Implementation ownership remains in the child repositories:
+
+- `delearner-frontend/`: Qt/QML/Felgo client, local SQLite, client tests.
+- `delearner-backend/`: Qt/C++ backend, PostgreSQL persistence, backend tests.
+
+## Agent Entry Points
+
+Start from these root files before changing cross-repository work:
+
+1. `AGENTS.md` for repository ownership, reading order, scope, and commit rules.
+2. `issues/00-VERSION-2-ISSUE-INDEX.md` for Version 2 epic order.
+3. The selected epic and subtask under `issues/`.
+4. Canonical docs referenced by the selected issue.
+
+Canonical source-of-truth documents:
+
+- `docs/00-SYSTEM-CONCEPT.md`
+- `docs/01-SHARED-DATA-CONTRACT.md`
+- `docs/02-SYNC-PROTOCOL.md`
+- `docs/03-PRODUCT-ROADMAP.md`
+- `docs/04-VERSION-2-PLAN.md`
+- `docs/07-ISSUE-PLANNING-RULES.md`
+
+## Submodules
+
+Initialize child repositories after a fresh clone:
+
+```sh
+git submodule update --init --recursive
+```
+
+The root repository pins exact frontend/backend revisions. Do not casually
+update submodule pointers; root commits should represent a compatible system
+state.
+
+## Current Scope
+
+Version 2 adds authenticated, account-based, offline-capable multi-device sync
+for the existing free product. It does not include payments, premium features,
+sharing, new quiz families, or a broad Version 3 UI redesign.
