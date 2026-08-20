@@ -142,6 +142,12 @@ The initial word/group create and update fixtures are in
 event envelopes, authenticated ownership context, device context and full-state
 word/group payloads for frontend and backend compatibility tests.
 
+Review statistics, synchronized learning settings and delete tombstone fixtures
+are in `contracts/fixtures/v1/review-settings-and-tombstone-events.json`.
+Review-statistics fixtures use the reviewed word UUID as the sync entity ID.
+Learning-setting fixtures cover account-level learning preferences only. Delete
+fixtures carry tombstone identity and timestamps instead of dead full payloads.
+
 ## Delete Representation
 
 Deletes use tombstones.

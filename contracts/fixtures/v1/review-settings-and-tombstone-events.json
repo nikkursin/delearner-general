@@ -1,0 +1,184 @@
+{
+  "fixtureSet": "delearner.sync.v1.review-settings-and-tombstone-events",
+  "contractVersion": "1.0",
+  "apiRouteMajor": "/api/v1",
+  "description": "Canonical Version 2 contract fixtures for review statistics, synchronized learning settings and delete tombstones.",
+  "assumptions": {
+    "identity": "Syncable entity ids, event ids, owner user ids and device ids are UUID strings. A word_review_stats entity is identified by its word_id.",
+    "ownership": "The authenticated user context owns every payload and tombstone in this fixture set.",
+    "operations": "Create and update mutations carry full current state. Delete mutations carry tombstone identity and timestamps only.",
+    "syncScope": "Raw quiz session history and device-local UI settings are intentionally absent."
+  },
+  "fixtures": [
+    {
+      "name": "word_review_stats_create_full_state",
+      "operation": "create",
+      "eventId": "744b5b99-7fb4-4a3f-a91f-d38cb0c4c30d",
+      "deviceId": "b8e96c4a-f2cb-4ef3-8412-d6694a8358e4",
+      "entityType": "word_review_stats",
+      "entityId": "471e206c-9c4f-4212-ae90-e90a2ee04ce4",
+      "updatedAt": "2026-01-16T12:20:00Z",
+      "context": {
+        "authenticatedUserId": "df5cb428-b235-4b56-9a21-137f1169015b"
+      },
+      "payload": {
+        "word_id": "471e206c-9c4f-4212-ae90-e90a2ee04ce4",
+        "ownerUserId": "df5cb428-b235-4b56-9a21-137f1169015b",
+        "correct_answers": 3,
+        "wrong_answers": 1,
+        "last_reviewed_at": "2026-01-16T12:20:00Z",
+        "ease_factor": 2.5,
+        "interval_days": 2,
+        "due_at": "2026-01-18T12:20:00Z",
+        "created_at": "2026-01-16T12:20:00Z",
+        "updated_at": "2026-01-16T12:20:00Z"
+      }
+    },
+    {
+      "name": "word_review_stats_update_full_state",
+      "operation": "update",
+      "eventId": "2de874c3-a259-4e58-8809-fc2df4c8eeaa",
+      "deviceId": "b8e96c4a-f2cb-4ef3-8412-d6694a8358e4",
+      "entityType": "word_review_stats",
+      "entityId": "471e206c-9c4f-4212-ae90-e90a2ee04ce4",
+      "updatedAt": "2026-01-20T07:40:00Z",
+      "context": {
+        "authenticatedUserId": "df5cb428-b235-4b56-9a21-137f1169015b"
+      },
+      "payload": {
+        "word_id": "471e206c-9c4f-4212-ae90-e90a2ee04ce4",
+        "ownerUserId": "df5cb428-b235-4b56-9a21-137f1169015b",
+        "correct_answers": 4,
+        "wrong_answers": 2,
+        "last_reviewed_at": "2026-01-20T07:40:00Z",
+        "ease_factor": 2.6,
+        "interval_days": 4,
+        "due_at": "2026-01-24T07:40:00Z",
+        "created_at": "2026-01-16T12:20:00Z",
+        "updated_at": "2026-01-20T07:40:00Z"
+      }
+    },
+    {
+      "name": "learning_setting_create_full_state",
+      "operation": "create",
+      "eventId": "54a5c31c-362d-44bf-8fb6-ad25efecfa7c",
+      "deviceId": "b8e96c4a-f2cb-4ef3-8412-d6694a8358e4",
+      "entityType": "app_setting",
+      "entityId": "0dc0f0a1-6e93-4c2e-8a3d-b46d91845cdb",
+      "updatedAt": "2026-01-15T08:50:00Z",
+      "context": {
+        "authenticatedUserId": "df5cb428-b235-4b56-9a21-137f1169015b"
+      },
+      "payload": {
+        "id": "0dc0f0a1-6e93-4c2e-8a3d-b46d91845cdb",
+        "ownerUserId": "df5cb428-b235-4b56-9a21-137f1169015b",
+        "setting_key": "learning.native_language",
+        "setting_value": "en",
+        "value_type": "string",
+        "scope": "account_learning",
+        "created_at": "2026-01-15T08:50:00Z",
+        "updated_at": "2026-01-15T08:50:00Z"
+      }
+    },
+    {
+      "name": "learning_setting_update_full_state",
+      "operation": "update",
+      "eventId": "e2ef9790-8843-4cb0-b0f6-794b50a3ae0a",
+      "deviceId": "b8e96c4a-f2cb-4ef3-8412-d6694a8358e4",
+      "entityType": "app_setting",
+      "entityId": "0dc0f0a1-6e93-4c2e-8a3d-b46d91845cdb",
+      "updatedAt": "2026-01-19T11:05:00Z",
+      "context": {
+        "authenticatedUserId": "df5cb428-b235-4b56-9a21-137f1169015b"
+      },
+      "payload": {
+        "id": "0dc0f0a1-6e93-4c2e-8a3d-b46d91845cdb",
+        "ownerUserId": "df5cb428-b235-4b56-9a21-137f1169015b",
+        "setting_key": "learning.native_language",
+        "setting_value": "es",
+        "value_type": "string",
+        "scope": "account_learning",
+        "created_at": "2026-01-15T08:50:00Z",
+        "updated_at": "2026-01-19T11:05:00Z"
+      }
+    },
+    {
+      "name": "group_delete_tombstone",
+      "operation": "delete",
+      "eventId": "5ba05586-0864-4e5f-aaf1-33b7d70cbca0",
+      "deviceId": "b8e96c4a-f2cb-4ef3-8412-d6694a8358e4",
+      "entityType": "group",
+      "entityId": "0b2cfd59-d17f-4772-9de0-7db26005f507",
+      "updatedAt": "2026-01-25T13:00:00Z",
+      "context": {
+        "authenticatedUserId": "df5cb428-b235-4b56-9a21-137f1169015b"
+      },
+      "tombstone": {
+        "entity_type": "group",
+        "entity_id": "0b2cfd59-d17f-4772-9de0-7db26005f507",
+        "ownerUserId": "df5cb428-b235-4b56-9a21-137f1169015b",
+        "deletedAt": "2026-01-25T13:00:00Z",
+        "updatedAt": "2026-01-25T13:00:00Z"
+      }
+    },
+    {
+      "name": "word_delete_tombstone",
+      "operation": "delete",
+      "eventId": "91ac4729-5641-46d4-860c-4cf2188e046d",
+      "deviceId": "b8e96c4a-f2cb-4ef3-8412-d6694a8358e4",
+      "entityType": "word",
+      "entityId": "471e206c-9c4f-4212-ae90-e90a2ee04ce4",
+      "updatedAt": "2026-01-25T13:10:00Z",
+      "context": {
+        "authenticatedUserId": "df5cb428-b235-4b56-9a21-137f1169015b"
+      },
+      "tombstone": {
+        "entity_type": "word",
+        "entity_id": "471e206c-9c4f-4212-ae90-e90a2ee04ce4",
+        "ownerUserId": "df5cb428-b235-4b56-9a21-137f1169015b",
+        "deletedAt": "2026-01-25T13:10:00Z",
+        "updatedAt": "2026-01-25T13:10:00Z"
+      }
+    },
+    {
+      "name": "word_review_stats_delete_tombstone",
+      "operation": "delete",
+      "eventId": "511b57b5-25d8-4ea5-a675-4a45f6e2958d",
+      "deviceId": "b8e96c4a-f2cb-4ef3-8412-d6694a8358e4",
+      "entityType": "word_review_stats",
+      "entityId": "471e206c-9c4f-4212-ae90-e90a2ee04ce4",
+      "updatedAt": "2026-01-25T13:20:00Z",
+      "context": {
+        "authenticatedUserId": "df5cb428-b235-4b56-9a21-137f1169015b"
+      },
+      "tombstone": {
+        "entity_type": "word_review_stats",
+        "entity_id": "471e206c-9c4f-4212-ae90-e90a2ee04ce4",
+        "word_id": "471e206c-9c4f-4212-ae90-e90a2ee04ce4",
+        "ownerUserId": "df5cb428-b235-4b56-9a21-137f1169015b",
+        "deletedAt": "2026-01-25T13:20:00Z",
+        "updatedAt": "2026-01-25T13:20:00Z"
+      }
+    },
+    {
+      "name": "learning_setting_delete_tombstone",
+      "operation": "delete",
+      "eventId": "4a3a4e62-f136-48e2-a8ff-e3dc4ce0c1b6",
+      "deviceId": "b8e96c4a-f2cb-4ef3-8412-d6694a8358e4",
+      "entityType": "app_setting",
+      "entityId": "0dc0f0a1-6e93-4c2e-8a3d-b46d91845cdb",
+      "updatedAt": "2026-01-25T13:30:00Z",
+      "context": {
+        "authenticatedUserId": "df5cb428-b235-4b56-9a21-137f1169015b"
+      },
+      "tombstone": {
+        "entity_type": "app_setting",
+        "entity_id": "0dc0f0a1-6e93-4c2e-8a3d-b46d91845cdb",
+        "setting_key": "learning.native_language",
+        "ownerUserId": "df5cb428-b235-4b56-9a21-137f1169015b",
+        "deletedAt": "2026-01-25T13:30:00Z",
+        "updatedAt": "2026-01-25T13:30:00Z"
+      }
+    }
+  ]
+}

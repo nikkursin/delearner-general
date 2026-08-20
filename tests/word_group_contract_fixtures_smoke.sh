@@ -57,6 +57,20 @@ group_required_fields = {
     "created_at",
     "updated_at",
 }
+forbidden_sync_fields = {
+    "quiz_session_id",
+    "quiz_history",
+    "raw_quiz_history",
+    "question_history",
+    "answers",
+    "theme",
+    "navigation_state",
+    "transient_filters",
+    "search_query",
+    "layout_state",
+    "window_state",
+    "device_preferences",
+}
 
 
 def assert_uuid(value):
@@ -87,6 +101,7 @@ for item in fixtures:
 
     context = item["context"]
     payload = item["payload"]
+    assert forbidden_sync_fields.isdisjoint(payload.keys())
     assert_uuid(context["authenticatedUserId"])
     assert_uuid(payload["id"])
     assert_uuid(payload["ownerUserId"])
