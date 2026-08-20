@@ -39,6 +39,33 @@ The root repository pins exact frontend/backend revisions. Do not casually
 update submodule pointers; root commits should represent a compatible system
 state.
 
+## Shared Integration Environment
+
+The root owns shared integration scaffolding only. Child repositories keep their
+own build and test logic.
+
+Prepare local environment values:
+
+```sh
+cp .env.example .env
+```
+
+Then start the shared backend dependencies from the root:
+
+```sh
+docker compose up -d postgres
+```
+
+When backend-container testing is useful, run:
+
+```sh
+docker compose up --build backend
+```
+
+The Compose scaffold exposes PostgreSQL for Version 2 backend persistence work
+and passes database connection variables to the backend container. Local secrets
+belong in `.env`, which is ignored by Git.
+
 ## Current Scope
 
 Version 2 adds authenticated, account-based, offline-capable multi-device sync

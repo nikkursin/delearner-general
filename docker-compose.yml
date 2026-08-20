@@ -1,0 +1,42 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: delearner-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-delearner}
+      POSTGRES_USER: ${POSTGRES_USER:-delearner}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-change_me_for_local_dev}
+    ports:
+      - "${DELEARNER_POSTGRES_HOST_PORT:-5432}:5432"
+    volumes:
+      - delearner-postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U \"$${POSTGRES_USER}\" -d \"$${POSTGRES_DB}\""
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build:
+      context: ./delearner-backend
+    container_name: delearner-backend
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DELEARNER_DATABASE_HOST: ${DELEARNER_DATABASE_HOST:-postgres}
+      DELEARNER_DATABASE_PORT: ${DELEARNER_DATABASE_PORT:-5432}
+      DELEARNER_DATABASE_NAME: ${DELEARNER_DATABASE_NAME:-delearner}
+      DELEARNER_DATABASE_USER: ${DELEARNER_DATABASE_USER:-delearner}
+      DELEARNER_DATABASE_PASSWORD: ${DELEARNER_DATABASE_PASSWORD:-change_me_for_local_dev}
+    ports:
+      - "${DELEARNER_BACKEND_HOST_PORT:-8080}:${DELEARNER_BACKEND_CONTAINER_PORT:-8080}"
+
+volumes:
+  delearner-postgres-data:

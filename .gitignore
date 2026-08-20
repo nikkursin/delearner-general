@@ -1,0 +1,12 @@
+.env
+.env.*
+!.env.example
+
+# Root integration environment state.
+.delearner-data/
+postgres-data/
+
+# Local build and tool output.
+build/
+.cache/
+.DS_Store
