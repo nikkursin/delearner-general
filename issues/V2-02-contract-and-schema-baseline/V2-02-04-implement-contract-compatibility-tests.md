@@ -1,7 +1,7 @@
 # V2-02-04 — Implement contract compatibility tests
 
 **Parent epic:** V2-02 — Contract and Schema Baseline  
-**Status:** Planned  
+**Status:** Done
 **Workspace:** root + frontend + backend  
 **Size:** 2 story point(s)  
 **Dependencies:** V2-02-02,V2-02-03  
@@ -30,10 +30,10 @@ None.
 
 ## Acceptance Criteria
 
-- [ ] Both child test suites consume the shared fixtures and a breaking semantic change cannot pass as a compatible minor change.
-- [ ] Existing relevant tests still pass.
-- [ ] New behavior has focused automated coverage where feasible.
-- [ ] No unrelated product/UI behavior changed.
+- [x] Both child test suites consume the shared fixtures and a breaking semantic change cannot pass as a compatible minor change.
+- [x] Existing relevant tests still pass.
+- [x] New behavior has focused automated coverage where feasible.
+- [x] No unrelated product/UI behavior changed.
 
 ## Verification
 

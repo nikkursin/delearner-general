@@ -1,6 +1,6 @@
 # V2-02 — Contract and Schema Baseline
 
-**Status:** Planned  
+**Status:** Done
 **Version:** 2  
 **Workspace:** root + frontend + backend  
 **Figma:** None  
@@ -25,10 +25,10 @@ Turn the approved semantic contract into an executable Version 2 compatibility b
 
 ## Epic Acceptance Criteria
 
-- [ ] Contract fixtures represent every Version 2 synced entity and operation.
-- [ ] Create/update fixtures contain full entity state and delete fixtures contain tombstone metadata only.
-- [ ] Unknown optional fields are tolerated within the same major version; unknown required semantics fail explicitly.
-- [ ] Frontend and backend validate against the same root-owned semantic fixtures.
+- [x] Contract fixtures represent every Version 2 synced entity and operation.
+- [x] Create/update fixtures contain full entity state and delete fixtures contain tombstone metadata only.
+- [x] Unknown optional fields are tolerated within the same major version; unknown required semantics fail explicitly.
+- [x] Frontend and backend validate against the same root-owned semantic fixtures.
 
 ## Subtasks
 
