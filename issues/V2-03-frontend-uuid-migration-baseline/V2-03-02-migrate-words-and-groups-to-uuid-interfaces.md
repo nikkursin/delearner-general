@@ -1,7 +1,7 @@
 # V2-03-02 — Migrate words and groups to UUID interfaces
 
 **Parent epic:** V2-03 — Frontend UUID + Migration Baseline  
-**Status:** Planned  
+**Status:** Done
 **Workspace:** frontend  
 **Size:** 2 story point(s)  
 **Dependencies:** V2-03-01,V2-02-02  
@@ -30,10 +30,10 @@ Review only if ID assumptions leak into UI; no redesign. If this subtask exposes
 
 ## Acceptance Criteria
 
-- [ ] Word/group CRUD, membership and navigation tests pass with UUID identifiers and no legacy integer ID dependency remains.
-- [ ] Existing relevant tests still pass.
-- [ ] New behavior has focused automated coverage where feasible.
-- [ ] No unrelated product/UI behavior changed.
+- [x] Word/group CRUD, membership and navigation tests pass with UUID identifiers and no legacy integer ID dependency remains.
+- [x] Existing relevant tests still pass.
+- [x] New behavior has focused automated coverage where feasible.
+- [x] No unrelated product/UI behavior changed.
 
 ## Verification
 
