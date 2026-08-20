@@ -1,7 +1,7 @@
 # V2-02-01 — Establish Version 2 version identifiers
 
 **Parent epic:** V2-02 — Contract and Schema Baseline  
-**Status:** Planned  
+**Status:** Done
 **Workspace:** root  
 **Size:** 1 story point(s)  
 **Dependencies:** V2-01-02  

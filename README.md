@@ -109,6 +109,12 @@ Run the current root integration smoke gate:
 ./scripts/run-integration.sh
 ```
 
+Print the root-owned Version 2 schema and sync/API compatibility baselines:
+
+```sh
+./scripts/contract-diagnostics.sh
+```
+
 The scripts use `./build` for root-owned generated output by default. Set
 `DELEARNER_BUILD_ROOT`, `BUILD_TYPE`, `CMAKE_GENERATOR`, or
 `CMAKE_BUILD_PARALLEL_LEVEL` to override local build behavior.

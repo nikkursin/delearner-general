@@ -33,6 +33,8 @@ require_command cmake "Install CMake and the child repository prerequisites, the
 build_type="${BUILD_TYPE:-Debug}"
 target="${1:-all}"
 
+log "Using V2 baselines: SQLite $DELEARNER_SQLITE_SCHEMA_VERSION, PostgreSQL $DELEARNER_POSTGRESQL_SCHEMA_VERSION, sync/API $DELEARNER_SYNC_API_CONTRACT_VERSION."
+
 configure_and_build_child() {
   local child="$1"
   local source_dir

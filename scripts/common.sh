@@ -4,6 +4,14 @@ set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 BUILD_ROOT="${DELEARNER_BUILD_ROOT:-$ROOT_DIR/build}"
+CONTRACT_VERSION_BASELINE_FILE="$ROOT_DIR/contracts/version-baseline.env"
+
+if [[ -s "$CONTRACT_VERSION_BASELINE_FILE" ]]; then
+  source "$CONTRACT_VERSION_BASELINE_FILE"
+else
+  printf '[delearner] ERROR: Missing contract version baseline: %s\n' "$CONTRACT_VERSION_BASELINE_FILE" >&2
+  exit 1
+fi
 
 log() {
   printf '[delearner] %s\n' "$*"
