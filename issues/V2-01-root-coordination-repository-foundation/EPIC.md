@@ -1,6 +1,6 @@
 # V2-01 — Root Coordination Repository Foundation
 
-**Status:** In Progress  
+**Status:** Done
 **Version:** 2  
 **Workspace:** root  
 **Figma:** None  
@@ -25,10 +25,10 @@ Create the system-level workspace that coordinates the existing frontend and bac
 
 ## Epic Acceptance Criteria
 
-- [ ] A fresh clone can initialize both pinned submodules using documented commands.
-- [ ] Root scripts delegate to child build/test commands rather than reimplementing them.
-- [ ] Cross-repo agents can identify canonical docs, current issue and repository ownership from the root.
-- [ ] Root commits pin an exact compatible frontend/backend revision pair.
+- [x] A fresh clone can initialize both pinned submodules using documented commands.
+- [x] Root scripts delegate to child build/test commands rather than reimplementing them.
+- [x] Cross-repo agents can identify canonical docs, current issue and repository ownership from the root.
+- [x] Root commits pin an exact compatible frontend/backend revision pair.
 
 ## Subtasks
 

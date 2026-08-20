@@ -1,7 +1,7 @@
 # V2-01-04 — Add root bootstrap/build/test orchestration
 
 **Parent epic:** V2-01 — Root Coordination Repository Foundation  
-**Status:** Planned  
+**Status:** Done
 **Workspace:** root  
 **Size:** 2 story point(s)  
 **Dependencies:** V2-01-01,V2-01-03  
