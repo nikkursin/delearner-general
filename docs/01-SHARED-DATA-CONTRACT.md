@@ -133,6 +133,15 @@ The exact shape of each entity is defined by the evolving contract and may diffe
 
 The contract is the mapping boundary between the local operational model and backend operational model.
 
+## Contract Fixtures
+
+Root-owned contract fixtures live under `contracts/fixtures/`.
+
+The initial word/group create and update fixtures are in
+`contracts/fixtures/v1/word-and-group-events.json`. They define UUID-based
+event envelopes, authenticated ownership context, device context and full-state
+word/group payloads for frontend and backend compatibility tests.
+
 ## Delete Representation
 
 Deletes use tombstones.

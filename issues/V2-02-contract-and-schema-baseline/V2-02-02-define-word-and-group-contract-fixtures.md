@@ -1,7 +1,7 @@
 # V2-02-02 — Define word and group contract fixtures
 
 **Parent epic:** V2-02 — Contract and Schema Baseline  
-**Status:** Planned  
+**Status:** Done
 **Workspace:** root  
 **Size:** 2 story point(s)  
 **Dependencies:** V2-02-01  
@@ -30,10 +30,10 @@ None.
 
 ## Acceptance Criteria
 
-- [ ] Fixtures cover create/update plus ownership/context assumptions and can be consumed by frontend and backend tests.
-- [ ] Existing relevant tests still pass.
-- [ ] New behavior has focused automated coverage where feasible.
-- [ ] No unrelated product/UI behavior changed.
+- [x] Fixtures cover create/update plus ownership/context assumptions and can be consumed by frontend and backend tests.
+- [x] Existing relevant tests still pass.
+- [x] New behavior has focused automated coverage where feasible.
+- [x] No unrelated product/UI behavior changed.
 
 ## Verification
 

@@ -1,0 +1,122 @@
+{
+  "fixtureSet": "delearner.sync.v1.word-and-group-events",
+  "contractVersion": "1.0",
+  "apiRouteMajor": "/api/v1",
+  "description": "Canonical Version 2 contract fixtures for UUID-based word and group create/update mutations.",
+  "assumptions": {
+    "identity": "Syncable entity ids, event ids, owner user ids and device ids are UUID strings.",
+    "ownership": "The authenticated user context owns every payload in this fixture set.",
+    "relationships": "word.payload.group_id references a UUID group id or is null.",
+    "operations": "Create and update mutations carry the full current entity state."
+  },
+  "fixtures": [
+    {
+      "name": "group_create_full_state",
+      "operation": "create",
+      "eventId": "2baf9a5a-7f66-4ac6-a5e8-5fc099d33c10",
+      "deviceId": "b8e96c4a-f2cb-4ef3-8412-d6694a8358e4",
+      "entityType": "group",
+      "entityId": "0b2cfd59-d17f-4772-9de0-7db26005f507",
+      "updatedAt": "2026-01-15T08:30:00Z",
+      "context": {
+        "authenticatedUserId": "df5cb428-b235-4b56-9a21-137f1169015b"
+      },
+      "payload": {
+        "id": "0b2cfd59-d17f-4772-9de0-7db26005f507",
+        "ownerUserId": "df5cb428-b235-4b56-9a21-137f1169015b",
+        "name": "Travel",
+        "color_hex": "#2F80ED",
+        "created_at": "2026-01-15T08:30:00Z",
+        "updated_at": "2026-01-15T08:30:00Z"
+      }
+    },
+    {
+      "name": "group_update_full_state",
+      "operation": "update",
+      "eventId": "9cf50f30-fba5-44ad-8dd8-f64a60a969aa",
+      "deviceId": "b8e96c4a-f2cb-4ef3-8412-d6694a8358e4",
+      "entityType": "group",
+      "entityId": "0b2cfd59-d17f-4772-9de0-7db26005f507",
+      "updatedAt": "2026-01-16T09:45:00Z",
+      "context": {
+        "authenticatedUserId": "df5cb428-b235-4b56-9a21-137f1169015b"
+      },
+      "payload": {
+        "id": "0b2cfd59-d17f-4772-9de0-7db26005f507",
+        "ownerUserId": "df5cb428-b235-4b56-9a21-137f1169015b",
+        "name": "Travel and transit",
+        "color_hex": "#27AE60",
+        "created_at": "2026-01-15T08:30:00Z",
+        "updated_at": "2026-01-16T09:45:00Z"
+      }
+    },
+    {
+      "name": "word_create_full_state",
+      "operation": "create",
+      "eventId": "0b8e87fe-5748-43a3-aa01-36bdcc46f8c2",
+      "deviceId": "b8e96c4a-f2cb-4ef3-8412-d6694a8358e4",
+      "entityType": "word",
+      "entityId": "471e206c-9c4f-4212-ae90-e90a2ee04ce4",
+      "updatedAt": "2026-01-15T08:35:00Z",
+      "context": {
+        "authenticatedUserId": "df5cb428-b235-4b56-9a21-137f1169015b"
+      },
+      "payload": {
+        "id": "471e206c-9c4f-4212-ae90-e90a2ee04ce4",
+        "ownerUserId": "df5cb428-b235-4b56-9a21-137f1169015b",
+        "german_word": "die Fahrkarte",
+        "normalized_german_word": "fahrkarte",
+        "article": "die",
+        "part_of_speech": "Nomen",
+        "native_translation": "ticket",
+        "normalized_native_translation": "ticket",
+        "example_phrase_de": "Ich kaufe eine Fahrkarte nach Berlin.",
+        "example_phrase_native": "I am buying a ticket to Berlin.",
+        "group_id": "0b2cfd59-d17f-4772-9de0-7db26005f507",
+        "notes": "Common travel vocabulary.",
+        "plural_form": "die Fahrkarten",
+        "praeteritum_form": null,
+        "partizip_ii_form": null,
+        "positive_form": null,
+        "comparative_form": null,
+        "superlative_form": null,
+        "created_at": "2026-01-15T08:35:00Z",
+        "updated_at": "2026-01-15T08:35:00Z"
+      }
+    },
+    {
+      "name": "word_update_full_state",
+      "operation": "update",
+      "eventId": "a832de71-31d7-4827-b17f-d417ee0697d4",
+      "deviceId": "b8e96c4a-f2cb-4ef3-8412-d6694a8358e4",
+      "entityType": "word",
+      "entityId": "471e206c-9c4f-4212-ae90-e90a2ee04ce4",
+      "updatedAt": "2026-01-16T10:15:00Z",
+      "context": {
+        "authenticatedUserId": "df5cb428-b235-4b56-9a21-137f1169015b"
+      },
+      "payload": {
+        "id": "471e206c-9c4f-4212-ae90-e90a2ee04ce4",
+        "ownerUserId": "df5cb428-b235-4b56-9a21-137f1169015b",
+        "german_word": "die Fahrkarte",
+        "normalized_german_word": "fahrkarte",
+        "article": "die",
+        "part_of_speech": "Nomen",
+        "native_translation": "train ticket",
+        "normalized_native_translation": "train ticket",
+        "example_phrase_de": "Die Fahrkarte gilt heute bis Mitternacht.",
+        "example_phrase_native": "The train ticket is valid until midnight today.",
+        "group_id": "0b2cfd59-d17f-4772-9de0-7db26005f507",
+        "notes": "Updated after travel quiz review.",
+        "plural_form": "die Fahrkarten",
+        "praeteritum_form": null,
+        "partizip_ii_form": null,
+        "positive_form": null,
+        "comparative_form": null,
+        "superlative_form": null,
+        "created_at": "2026-01-15T08:35:00Z",
+        "updated_at": "2026-01-16T10:15:00Z"
+      }
+    }
+  ]
+}

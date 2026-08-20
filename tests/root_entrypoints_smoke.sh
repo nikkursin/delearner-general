@@ -14,6 +14,7 @@ required_files=(
   "scripts/test-all.sh"
   "scripts/run-integration.sh"
   "contracts/version-baseline.env"
+  "contracts/fixtures/v1/word-and-group-events.json"
   "issues/00-VERSION-2-ISSUE-INDEX.md"
   "docs/00-SYSTEM-CONCEPT.md"
   "docs/01-SHARED-DATA-CONTRACT.md"

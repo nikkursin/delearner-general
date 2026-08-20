@@ -35,6 +35,7 @@ run_root_tests() {
   "$ROOT_DIR/tests/root_entrypoints_smoke.sh"
   "$ROOT_DIR/tests/root_environment_smoke.sh"
   "$ROOT_DIR/tests/contract_versions_smoke.sh"
+  "$ROOT_DIR/tests/word_group_contract_fixtures_smoke.sh"
 }
 
 run_child_tests() {
