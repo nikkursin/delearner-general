@@ -1,6 +1,6 @@
 # V2-03 — Frontend UUID + Migration Baseline
 
-**Status:** Planned  
+**Status:** Done  
 **Version:** 2  
 **Workspace:** frontend  
 **Figma:** Review only if ID assumptions leak into UI; no redesign  
@@ -25,10 +25,10 @@ Replace pre-release integer identity with canonical UUID identity and establish 
 
 ## Epic Acceptance Criteria
 
-- [ ] Syncable entities no longer require integer IDs.
-- [ ] Clean database creation produces the versioned UUID schema.
-- [ ] Existing CRUD and relationships work with UUIDs.
-- [ ] Syncable delete paths preserve tombstone state rather than hard-deleting immediately.
+- [x] Syncable entities no longer require integer IDs.
+- [x] Clean database creation produces the versioned UUID schema.
+- [x] Existing CRUD and relationships work with UUIDs.
+- [x] Syncable delete paths preserve tombstone state rather than hard-deleting immediately.
 
 ## Subtasks
 

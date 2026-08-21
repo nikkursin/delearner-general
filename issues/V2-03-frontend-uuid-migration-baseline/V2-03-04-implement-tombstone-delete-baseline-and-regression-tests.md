@@ -1,7 +1,7 @@
 # V2-03-04 — Implement tombstone delete baseline and regression tests
 
 **Parent epic:** V2-03 — Frontend UUID + Migration Baseline  
-**Status:** Planned  
+**Status:** Done  
 **Workspace:** frontend  
 **Size:** 2 story point(s)  
 **Dependencies:** V2-03-02,V2-03-03  
@@ -30,10 +30,10 @@ Review only if ID assumptions leak into UI; no redesign. If this subtask exposes
 
 ## Acceptance Criteria
 
-- [ ] Deleted syncable records can be represented for sync; normal UI no longer displays deleted items; existing free-core tests remain green.
-- [ ] Existing relevant tests still pass.
-- [ ] New behavior has focused automated coverage where feasible.
-- [ ] No unrelated product/UI behavior changed.
+- [x] Deleted syncable records can be represented for sync; normal UI no longer displays deleted items; existing free-core tests remain green.
+- [x] Existing relevant tests still pass.
+- [x] New behavior has focused automated coverage where feasible.
+- [x] No unrelated product/UI behavior changed.
 
 ## Verification
 
