@@ -1,7 +1,7 @@
 # V2-08-02 — Implement durable eventId idempotency
 
 **Parent epic:** V2-08 — Backend Mutation Processing  
-**Status:** Planned  
+**Status:** Done
 **Workspace:** backend  
 **Size:** 2 story point(s)  
 **Dependencies:** V2-08-01,V2-04-04  
