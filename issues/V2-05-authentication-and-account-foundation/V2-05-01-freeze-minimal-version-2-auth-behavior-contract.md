@@ -1,7 +1,7 @@
 # V2-05-01 — Freeze minimal Version 2 authentication behavior contract
 
 **Parent epic:** V2-05 — Authentication and Account Foundation  
-**Status:** Planned  
+**Status:** Done  
 **Workspace:** root  
 **Size:** 1 story point(s)  
 **Dependencies:** V2-01-02,V2-04-04  
@@ -30,10 +30,10 @@ None. Do not call Figma for this task. If functional testing requires a visible 
 
 ## Acceptance Criteria
 
-- [ ] Root documentation/fixtures describe the minimum authentication state transitions needed by V2 backend/client tests.
-- [ ] The contract distinguishes online first authentication from offline reopening after prior successful authentication.
-- [ ] Authenticated user identity is derived from session credentials, never trusted from mutation payload `userId`.
-- [ ] No screen layout or visual styling decision is promoted to architecture.
+- [x] Root documentation/fixtures describe the minimum authentication state transitions needed by V2 backend/client tests.
+- [x] The contract distinguishes online first authentication from offline reopening after prior successful authentication.
+- [x] Authenticated user identity is derived from session credentials, never trusted from mutation payload `userId`.
+- [x] No screen layout or visual styling decision is promoted to architecture.
 
 ## Verification
 

@@ -1,0 +1,79 @@
+{
+  "fixtureSet": "delearner.auth.v1.behavior-contract",
+  "contractVersion": "1.0",
+  "apiRouteMajor": "/api/v1",
+  "minimumExecutableProvider": "email_password",
+  "providerDirections": [
+    "apple",
+    "google"
+  ],
+  "identityRules": {
+    "authenticatedUserSource": "session_credentials",
+    "payloadUserIdAuthorization": "never_trusted",
+    "providerIdentityMerge": "explicit_verified_link_only",
+    "emailEqualityMerge": "forbidden"
+  },
+  "states": [
+    {
+      "name": "first_use_offline",
+      "priorSuccessfulAuthentication": false,
+      "network": "offline",
+      "session": "none",
+      "expectedState": "authentication_required",
+      "freeCoreAccess": false,
+      "syncAccess": false,
+      "requiredBehavior": "Initial use requires internet access and successful authentication."
+    },
+    {
+      "name": "first_use_online_sign_in_success",
+      "priorSuccessfulAuthentication": false,
+      "network": "online",
+      "session": "valid",
+      "expectedState": "authenticated_session",
+      "freeCoreAccess": true,
+      "syncAccess": true,
+      "requiredBehavior": "Successful online authentication establishes the backend user session."
+    },
+    {
+      "name": "authenticated_session",
+      "priorSuccessfulAuthentication": true,
+      "network": "online",
+      "session": "valid",
+      "expectedState": "authenticated_session",
+      "freeCoreAccess": true,
+      "syncAccess": true,
+      "requiredBehavior": "User-owned backend state is accessible only through the authenticated session identity."
+    },
+    {
+      "name": "invalid_or_expired_session_online",
+      "priorSuccessfulAuthentication": true,
+      "network": "online",
+      "session": "invalid_or_expired",
+      "expectedState": "reauthentication_required",
+      "freeCoreAccess": true,
+      "syncAccess": false,
+      "requiredBehavior": "Backend user sync state is unavailable until the client reauthenticates."
+    },
+    {
+      "name": "previously_authenticated_offline_reopen",
+      "priorSuccessfulAuthentication": true,
+      "network": "offline",
+      "session": "cached_prior_success",
+      "expectedState": "offline_free_core",
+      "freeCoreAccess": true,
+      "syncAccess": false,
+      "requiredBehavior": "The free core remains usable offline indefinitely after initial successful authentication."
+    },
+    {
+      "name": "cross_account_access_attempt",
+      "priorSuccessfulAuthentication": true,
+      "network": "online",
+      "session": "valid_for_user_a",
+      "payloadOwnerUser": "user_b",
+      "expectedState": "authorization_rejected",
+      "freeCoreAccess": true,
+      "syncAccess": false,
+      "requiredBehavior": "Backend authorization derives user identity from session credentials and rejects cross-user state access."
+    }
+  ]
+}
