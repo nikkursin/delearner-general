@@ -1,7 +1,7 @@
 # V2-04-02 — Create Version 2 canonical domain schema
 
 **Parent epic:** V2-04 — Backend PostgreSQL Domain Baseline  
-**Status:** Planned  
+**Status:** Done  
 **Workspace:** backend  
 **Size:** 2 story point(s)  
 **Dependencies:** V2-04-01,V2-02-02,V2-02-03  
@@ -30,10 +30,10 @@ None.
 
 ## Acceptance Criteria
 
-- [ ] Schema supports UUIDs and ownership without mechanically mirroring SQLite; no future sharing/payment scope is added.
-- [ ] Existing relevant tests still pass.
-- [ ] New behavior has focused automated coverage where feasible.
-- [ ] No unrelated product/UI behavior changed.
+- [x] Schema supports UUIDs and ownership without mechanically mirroring SQLite; no future sharing/payment scope is added.
+- [x] Existing relevant tests still pass.
+- [x] New behavior has focused automated coverage where feasible.
+- [x] No unrelated product/UI behavior changed.
 
 ## Verification
 
