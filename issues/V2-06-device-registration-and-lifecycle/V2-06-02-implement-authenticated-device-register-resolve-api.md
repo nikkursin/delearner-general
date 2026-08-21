@@ -1,7 +1,7 @@
 # V2-06-02 — Implement authenticated device register/resolve API
 
 **Parent epic:** V2-06 — Device Registration and Lifecycle  
-**Status:** Planned  
+**Status:** Done  
 **Workspace:** backend  
 **Size:** 2 story point(s)  
 **Dependencies:** V2-06-01  
@@ -30,10 +30,10 @@ None. Do not call Figma for this task. If functional testing requires a visible 
 
 ## Acceptance Criteria
 
-- [ ] Repeated registration from the same installation resolves safely; a device cannot be claimed across accounts without explicit authorization logic.
-- [ ] Existing relevant tests still pass.
-- [ ] New behavior has focused automated coverage where feasible.
-- [ ] No unrelated product/UI behavior changed.
+- [x] Repeated registration from the same installation resolves safely; a device cannot be claimed across accounts without explicit authorization logic.
+- [x] Existing relevant tests still pass.
+- [x] New behavior has focused automated coverage where feasible.
+- [x] No unrelated product/UI behavior changed.
 
 ## Verification
 
