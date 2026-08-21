@@ -1,7 +1,7 @@
 # V2-07-03 — Make domain mutation plus outbox write atomic
 
 **Parent epic:** V2-07 — Frontend Transactional Outbox  
-**Status:** Planned  
+**Status:** Blocked  
 **Workspace:** frontend  
 **Size:** 2 story point(s)  
 **Dependencies:** V2-07-02,V2-03-04  
@@ -58,3 +58,7 @@ None.
 - Shared schema/contract semantics are missing or contradictory.
 - A meaningful user-facing flow lacks a Figma definition.
 - Completing the task would require future-version work.
+
+## Blocker
+
+Contract-valid local outbox events require authenticated user and registered device context. V2-05-01 is currently blocked, V2-05/V2-06 are not complete, and implementing this task now would require either inventing a fake local identity or committing domain mutations without valid outbox events, both of which would violate the canonical sync/auth model.
