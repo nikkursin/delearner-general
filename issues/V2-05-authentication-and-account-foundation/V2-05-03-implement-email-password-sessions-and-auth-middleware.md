@@ -1,7 +1,7 @@
 # V2-05-03 — Implement email/password sessions and auth middleware
 
 **Parent epic:** V2-05 — Authentication and Account Foundation  
-**Status:** Planned  
+**Status:** Done
 **Workspace:** backend  
 **Size:** 2 story point(s)  
 **Dependencies:** V2-05-02  
@@ -30,10 +30,10 @@ None. Do not call Figma for this task. If functional testing requires a visible 
 
 ## Acceptance Criteria
 
-- [ ] Protected sync/domain endpoints reject unauthenticated requests and never trust arbitrary userId payload fields.
-- [ ] Existing relevant tests still pass.
-- [ ] New behavior has focused automated coverage where feasible.
-- [ ] No unrelated product/UI behavior changed.
+- [x] Protected sync/domain endpoints reject unauthenticated requests and never trust arbitrary userId payload fields.
+- [x] Existing relevant tests still pass.
+- [x] New behavior has focused automated coverage where feasible.
+- [x] No unrelated product/UI behavior changed.
 
 ## Verification
 
