@@ -1,7 +1,7 @@
 # V2-06-01 — Add backend registered-device model
 
 **Parent epic:** V2-06 — Device Registration and Lifecycle  
-**Status:** Planned  
+**Status:** Done
 **Workspace:** backend  
 **Size:** 2 story point(s)  
 **Dependencies:** V2-05-03,V2-04-01  

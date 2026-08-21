@@ -39,14 +39,15 @@ Current Version 2 values:
 
 ```text
 SQLite schema:     1.1
-PostgreSQL schema: 1.0
+PostgreSQL schema: 1.1
 Sync/API contract: 1.0
 API route major:   /api/v1
 ```
 
 These values are independent version families. SQLite advanced to `1.1` for
-the additive local outbox schema; this does not require PostgreSQL or sync/API
-versions to advance with it.
+the additive local outbox schema. PostgreSQL advanced to `1.1` for the
+additive registered-device schema. Neither change requires the sync/API
+version to advance with it.
 
 ## Database Schema Versioning
 
