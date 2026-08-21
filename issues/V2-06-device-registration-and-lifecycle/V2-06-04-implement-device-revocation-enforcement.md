@@ -1,7 +1,7 @@
 # V2-06-04 — Implement device revocation enforcement
 
 **Parent epic:** V2-06 — Device Registration and Lifecycle  
-**Status:** Planned  
+**Status:** Done  
 **Workspace:** backend + root  
 **Size:** 2 story point(s)  
 **Dependencies:** V2-06-02  

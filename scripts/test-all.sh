@@ -36,6 +36,7 @@ run_root_tests() {
   "$ROOT_DIR/tests/root_environment_smoke.sh"
   "$ROOT_DIR/tests/contract_versions_smoke.sh"
   "$ROOT_DIR/tests/auth_behavior_contract_smoke.sh"
+  "$ROOT_DIR/tests/backend_device_revocation_boundary_smoke.sh"
   "$ROOT_DIR/tests/word_group_contract_fixtures_smoke.sh"
   "$ROOT_DIR/tests/review_settings_tombstone_contract_fixtures_smoke.sh"
   "$ROOT_DIR/tests/contract_fixture_compatibility_smoke.sh"
