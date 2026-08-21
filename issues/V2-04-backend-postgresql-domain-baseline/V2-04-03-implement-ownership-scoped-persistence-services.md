@@ -30,10 +30,10 @@ None.
 
 ## Acceptance Criteria
 
-- [ ] Tests prove one user cannot read or mutate another user’s domain rows through the service/repository boundary.
-- [ ] Existing relevant tests still pass.
-- [ ] New behavior has focused automated coverage where feasible.
-- [ ] No unrelated product/UI behavior changed.
+- [x] Tests prove one user cannot read or mutate another user’s domain rows through the service/repository boundary.
+- [x] Existing relevant tests still pass.
+- [x] New behavior has focused automated coverage where feasible.
+- [x] No unrelated product/UI behavior changed.
 
 ## Verification
 
