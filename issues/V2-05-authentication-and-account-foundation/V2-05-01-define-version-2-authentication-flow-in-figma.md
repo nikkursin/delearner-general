@@ -1,7 +1,7 @@
 # V2-05-01 — Define Version 2 authentication flow in Figma
 
 **Parent epic:** V2-05 — Authentication and Account Foundation  
-**Status:** Planned  
+**Status:** Blocked  
 **Workspace:** Figma + root  
 **Size:** 1 story point(s)  
 **Dependencies:** V2-01-02  
@@ -27,6 +27,10 @@ Define/review the minimal sign-in/account-entry states needed by Version 2: firs
 ## Figma Requirement
 
 Required before implementation. Use the existing DELearner Figma file and add/review only the user-facing flow named by this task; do not redesign unrelated MVP1 screens.
+
+## Blocker
+
+2026-08-21: Figma MCP authentication is available, but the repository does not record the existing DELearner Figma file URL/key. The authenticated account has multiple Figma plans, so the agent cannot safely infer the correct file or create a substitute design without violating the task requirement to use the existing DELearner Figma file.
 
 ## Acceptance Criteria
 
