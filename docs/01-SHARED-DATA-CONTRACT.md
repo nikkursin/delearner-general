@@ -29,24 +29,24 @@ HTTP/API routes may expose only the major version, for example `/api/v1/...`, wh
 
 The backend stays client-independent. It exposes the canonical contract rather than tailoring payloads to every specific client implementation.
 
-## Version 2 Initial Baselines
+## Version 2 Current Baselines
 
 Root-owned machine-readable baselines live in `contracts/version-baseline.env`.
 They are surfaced through root diagnostics and tests so frontend and backend
 work can depend on the same compatibility source.
 
-Initial Version 2 values:
+Current Version 2 values:
 
 ```text
-SQLite schema:     1.0
+SQLite schema:     1.1
 PostgreSQL schema: 1.0
 Sync/API contract: 1.0
 API route major:   /api/v1
 ```
 
-These values are independent version families. Their initial numeric equality
-does not create a requirement that future SQLite, PostgreSQL and sync/API
-versions advance together.
+These values are independent version families. SQLite advanced to `1.1` for
+the additive local outbox schema; this does not require PostgreSQL or sync/API
+versions to advance with it.
 
 ## Database Schema Versioning
 

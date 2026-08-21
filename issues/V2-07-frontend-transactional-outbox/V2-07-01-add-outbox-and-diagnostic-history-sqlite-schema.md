@@ -1,7 +1,7 @@
 # V2-07-01 — Add outbox and diagnostic-history SQLite schema
 
 **Parent epic:** V2-07 — Frontend Transactional Outbox  
-**Status:** Planned  
+**Status:** Done
 **Workspace:** frontend  
 **Size:** 2 story point(s)  
 **Dependencies:** V2-03-01,V2-02-04  
@@ -30,10 +30,10 @@ None.
 
 ## Acceptance Criteria
 
-- [ ] Schema migration tests pass; no permanent-history requirement or fixed retention constant is elevated to architecture.
-- [ ] Existing relevant tests still pass.
-- [ ] New behavior has focused automated coverage where feasible.
-- [ ] No unrelated product/UI behavior changed.
+- [x] Schema migration tests pass; no permanent-history requirement or fixed retention constant is elevated to architecture.
+- [x] Existing relevant tests still pass.
+- [x] New behavior has focused automated coverage where feasible.
+- [x] No unrelated product/UI behavior changed.
 
 ## Verification
 
