@@ -1,6 +1,6 @@
 # V2-04 — Backend PostgreSQL Domain Baseline
 
-**Status:** Planned  
+**Status:** Done  
 **Version:** 2  
 **Workspace:** backend  
 **Figma:** None  
@@ -25,10 +25,10 @@ Establish PostgreSQL as canonical current-state persistence for Version 2 domain
 
 ## Epic Acceptance Criteria
 
-- [ ] PostgreSQL schema version is explicit and migration-tested.
-- [ ] Canonical user-owned words/groups/review/settings can be CRUD/tombstoned.
-- [ ] Ownership is enforced in persistence/service queries.
-- [ ] Current state can be read directly without replaying event history.
+- [x] PostgreSQL schema version is explicit and migration-tested.
+- [x] Canonical user-owned words/groups/review/settings can be CRUD/tombstoned.
+- [x] Ownership is enforced in persistence/service queries.
+- [x] Current state can be read directly without replaying event history.
 
 ## Subtasks
 

@@ -1,7 +1,7 @@
 # V2-04-04 — Establish atomic domain-plus-sync transaction API
 
 **Parent epic:** V2-04 — Backend PostgreSQL Domain Baseline  
-**Status:** Planned  
+**Status:** Done  
 **Workspace:** backend  
 **Size:** 2 story point(s)  
 **Dependencies:** V2-04-03  
@@ -30,10 +30,10 @@ None.
 
 ## Acceptance Criteria
 
-- [ ] Tests demonstrate rollback leaves neither side partially committed; detailed mutation processing remains for V2-08.
-- [ ] Existing relevant tests still pass.
-- [ ] New behavior has focused automated coverage where feasible.
-- [ ] No unrelated product/UI behavior changed.
+- [x] Tests demonstrate rollback leaves neither side partially committed; detailed mutation processing remains for V2-08.
+- [x] Existing relevant tests still pass.
+- [x] New behavior has focused automated coverage where feasible.
+- [x] No unrelated product/UI behavior changed.
 
 ## Verification
 
