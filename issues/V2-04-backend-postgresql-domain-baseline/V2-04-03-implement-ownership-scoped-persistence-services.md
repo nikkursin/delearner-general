@@ -1,7 +1,7 @@
 # V2-04-03 — Implement ownership-scoped persistence services
 
 **Parent epic:** V2-04 — Backend PostgreSQL Domain Baseline  
-**Status:** Planned  
+**Status:** Done  
 **Workspace:** backend  
 **Size:** 2 story point(s)  
 **Dependencies:** V2-04-02  
