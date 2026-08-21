@@ -26,7 +26,7 @@ Bind the approved status/error states to the sync/auth services without embeddin
 
 ## Figma Requirement
 
-Design/review required for meaningful new auth/sync/recovery states. If this subtask exposes new behavior not already represented, stop and obtain/produce the required Figma definition before UI implementation.
+Required only through the approved node IDs recorded by V2-14-01. Do not rediscover/traverse Figma unless the recorded references are insufficient.
 
 ## Acceptance Criteria
 

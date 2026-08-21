@@ -3,7 +3,7 @@
 **Status:** Planned  
 **Version:** 2  
 **Workspace:** backend + frontend + root  
-**Figma:** Review only if user-facing revoke/manage-device UI is introduced  
+**Figma:** None in this epic; no device-management UI is required  
 **Depends on:** V2-05  
 
 ## Goal
@@ -37,7 +37,7 @@ Give every authenticated installation a stable backend-tracked device identity a
 | [V2-06-01](./V2-06-01-add-backend-registered-device-model.md) | Add backend registered-device model | backend | 2 | V2-05-03,V2-04-01 |
 | [V2-06-02](./V2-06-02-implement-authenticated-device-register-resolve-api.md) | Implement authenticated device register/resolve API | backend | 2 | V2-06-01 |
 | [V2-06-03](./V2-06-03-persist-and-attach-client-device-identity.md) | Persist and attach client device identity | frontend | 1 | V2-06-02,V2-05-04 |
-| [V2-06-04](./V2-06-04-implement-device-revocation-enforcement.md) | Implement device revocation enforcement | backend + root | 2 | V2-06-01,V2-06-03 |
+| [V2-06-04](./V2-06-04-implement-device-revocation-enforcement.md) | Implement device revocation enforcement | backend + root | 2 | V2-06-02 |
 
 ## Canonical References
 

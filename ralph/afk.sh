@@ -60,17 +60,26 @@ for ((i=1; i<=MAX_ITERATIONS; i++)); do
       echo "==> No dependency-ready Version 2 task remains. Stopping."
       exit 0
       ;;
-    BLOCKED|BLOCKED_FIGMA|BLOCKED_DIRTY_WORKTREE)
+    BLOCKED|BLOCKED_DIRTY_WORKTREE)
       echo
       echo "==> Ralph is blocked: $RESULT"
       echo "==> Review: $AFTER"
       exit 4
       ;;
+    BLOCKED_FIGMA)
+      echo "==> Figma task blocked; continuing with independent work."
+      sleep "$SLEEP_SECONDS"
+      ;;
+    # RATE_LIMITED)
+    #   echo
+    #   echo "==> Codex reported rate/credit exhaustion. Stopping cleanly."
+    #   echo "==> Review: $AFTER"
+    #   exit 5
+    #   ;;
     RATE_LIMITED)
       echo
-      echo "==> Codex reported rate/credit exhaustion. Stopping cleanly."
-      echo "==> Review: $AFTER"
-      exit 5
+      echo "==> Rate limited. Continuing so Ralph can try another independent task."
+      sleep "$SLEEP_SECONDS"
       ;;
     *)
       echo

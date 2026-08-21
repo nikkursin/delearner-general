@@ -44,6 +44,25 @@ state.
 The root owns shared integration scaffolding only. Child repositories keep their
 own build and test logic.
 
+### Prerequisites
+
+Install the local toolchain before running root build/test commands:
+
+- Git with submodule support.
+- CMake 3.16 or newer.
+- Ninja, recommended. The scripts use Ninja automatically when available.
+- A C++20-capable compiler.
+- Qt 6 development packages required by the child projects. Current local
+  builds use QtCore, QtSql, QtTest, QtNetwork, QtHttpServer and QtWebSockets.
+- Docker with Compose for root integration environment validation and
+  PostgreSQL-backed local integration work.
+- Felgo only when building the full frontend application target. Without Felgo,
+  the frontend CMake project intentionally disables the app target and still
+  builds the frontend core library and CTest suite.
+
+On Apple Silicon, ensure the CMake architecture matches the installed Qt build.
+For Homebrew Qt under `/opt/homebrew`, use `CMAKE_OSX_ARCHITECTURES=arm64`.
+
 Initialize a fresh checkout:
 
 ```sh
@@ -77,6 +96,12 @@ belong in `.env`, which is ignored by Git.
 Root commands are thin entry points. They initialize or invoke child repository
 build/test systems without duplicating child CMake logic.
 
+Use a clean build root when you want a reproducible proof build:
+
+```sh
+DELEARNER_BUILD_ROOT=/private/tmp/delearner-build-proof CMAKE_OSX_ARCHITECTURES=arm64 ./scripts/build-all.sh
+```
+
 Build both child repositories:
 
 ```sh
@@ -94,6 +119,12 @@ Run root smoke checks and child CTest suites:
 
 ```sh
 ./scripts/test-all.sh
+```
+
+Run the same full test command against a clean proof build root:
+
+```sh
+DELEARNER_BUILD_ROOT=/private/tmp/delearner-build-proof CMAKE_OSX_ARCHITECTURES=arm64 ./scripts/test-all.sh
 ```
 
 Run only root smoke checks when platform-specific child prerequisites are not
@@ -117,10 +148,58 @@ Print the root-owned Version 2 schema and sync/API compatibility baselines:
 
 The scripts use `./build` for root-owned generated output by default. Set
 `DELEARNER_BUILD_ROOT`, `BUILD_TYPE`, `CMAKE_GENERATOR`, or
-`CMAKE_BUILD_PARALLEL_LEVEL` to override local build behavior.
+`CMAKE_BUILD_PARALLEL_LEVEL` to override local build behavior. Set
+`CMAKE_OSX_ARCHITECTURES` on macOS when the active compiler architecture and Qt
+framework architecture need to be made explicit.
+
+### Current Build Proof
+
+Verified on 2026-08-21 from this root checkout with pinned submodules:
+
+```sh
+DELEARNER_BUILD_ROOT=/private/tmp/delearner-build-proof CMAKE_OSX_ARCHITECTURES=arm64 ./scripts/build-all.sh
+DELEARNER_BUILD_ROOT=/private/tmp/delearner-build-proof CMAKE_OSX_ARCHITECTURES=arm64 ./scripts/test-all.sh
+./scripts/run-integration.sh
+```
+
+Results:
+
+- Frontend configured and built successfully. Felgo was not installed in the
+  verification environment, so CMake disabled the full app target and built the
+  frontend core library plus tests.
+- Backend configured and built successfully, including the `de_backend`
+  executable and backend test targets.
+- Full `./scripts/test-all.sh` passed: root smoke checks, 7/7 frontend CTest
+  tests and 8/8 backend CTest tests.
+- `./scripts/run-integration.sh` passed the root environment smoke gate and
+  Docker Compose configuration validation.
 
 ## Current Scope
 
 Version 2 adds authenticated, account-based, offline-capable multi-device sync
 for the existing free product. It does not include payments, premium features,
 sharing, new quiz families, or a broad Version 3 UI redesign.
+
+## Current Completion Stage
+
+The project is buildable and has executable root/frontend/backend smoke and
+unit coverage for the completed baseline work. Version 2 is not product-complete
+or release-ready yet.
+
+Based on `issues/00-VERSION-2-ISSUE-INDEX.md` and the epic status files:
+
+- Done: V2-01 root coordination repository foundation, V2-02 contract/schema
+  baseline, V2-03 frontend UUID/migration baseline, and V2-04 backend
+  PostgreSQL domain baseline.
+- Partially started: V2-07 frontend transactional outbox has completed schema
+  and serialization subtasks, but the atomic domain mutation plus outbox write
+  subtask is blocked.
+- Not yet complete: authentication/account foundation, device lifecycle,
+  backend mutation processing, incremental pull, bootstrap/re-bootstrap,
+  automatic scheduling, production sync UX, and end-to-end release gates.
+
+In practical terms, the repository is at the Version 2 foundation and
+persistence-baseline stage: the coordinated workspace, contracts, frontend UUID
+storage baseline and backend PostgreSQL current-state baseline are in place and
+buildable, while the authenticated multi-device sync product behavior still has
+major planned work remaining.

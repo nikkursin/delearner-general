@@ -4,7 +4,7 @@
 **Version:** 2  
 **Workspace:** backend + frontend + root  
 **Figma:** None  
-**Depends on:** V2-08,V2-06  
+**Depends on:** V2-08,V2-06 backend device lifecycle; frontend reconciliation follows backend query/cursor primitives  
 
 ## Goal
 

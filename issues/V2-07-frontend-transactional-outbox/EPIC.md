@@ -36,7 +36,7 @@ Guarantee that every committed local syncable mutation has a durable retryable s
 |---|---|---|---:|---|
 | [V2-07-01](./V2-07-01-add-outbox-and-diagnostic-history-sqlite-schema.md) | Add outbox and diagnostic-history SQLite schema | frontend | 2 | V2-03-01,V2-02-04 |
 | [V2-07-02](./V2-07-02-create-contract-event-serialization-layer.md) | Create contract event serialization layer | frontend | 2 | V2-07-01,V2-02-02,V2-02-03 |
-| [V2-07-03](./V2-07-03-make-domain-mutation-plus-outbox-write-atomic.md) | Make domain mutation plus outbox write atomic | frontend | 2 | V2-07-02,V2-03-04 |
+| [V2-07-03](./V2-07-03-make-domain-mutation-plus-outbox-write-atomic.md) | Make domain mutation plus outbox write atomic | frontend | 2 | V2-07-02,V2-03-04,V2-05-04,V2-06-03 |
 | [V2-07-04](./V2-07-04-implement-acknowledgement-retry-state-and-bounded-history-transition.md) | Implement acknowledgement, retry state and bounded history transition | frontend | 2 | V2-07-01,V2-07-03 |
 
 ## Canonical References

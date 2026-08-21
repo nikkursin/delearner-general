@@ -3,8 +3,8 @@
 **Status:** Planned  
 **Version:** 2  
 **Workspace:** backend + frontend + root  
-**Figma:** Recovery status reviewed in V2-14; no manual reset flow by default  
-**Depends on:** V2-09,V2-10,V2-11  
+**Figma:** No Figma before V2-14; recovery behavior first, visual review later  
+**Depends on:** backend pull/bootstrap for V2-12-01/02; client scheduling/bootstrap for V2-12-03/04  
 
 ## Goal
 
@@ -34,7 +34,7 @@ Bound server event history while allowing stale devices to recover automatically
 
 | ID | Title | Workspace | Size | Dependencies |
 |---|---|---|---:|---|
-| [V2-12-01](./V2-12-01-implement-cursor-aware-retention-boundary-and-configurable-max-window.md) | Implement cursor-aware retention boundary and configurable max window | backend | 2 | V2-09-02 |
+| [V2-12-01](./V2-12-01-implement-cursor-aware-retention-boundary-and-configurable-max-window.md) | Implement cursor-aware retention boundary and configurable max window | backend | 2 | V2-09-02,V2-10-01 |
 | [V2-12-02](./V2-12-02-detect-stale-cursor-and-return-recoverable-protocol-result.md) | Detect stale cursor and return recoverable protocol result | backend + root | 2 | V2-12-01,V2-09-01 |
 | [V2-12-03](./V2-12-03-preserve-pending-outbox-during-client-re-bootstrap.md) | Preserve pending outbox during client re-bootstrap | frontend | 2 | V2-12-02,V2-10-02 |
 | [V2-12-04](./V2-12-04-replay-preserved-mutations-and-verify-convergence.md) | Replay preserved mutations and verify convergence | frontend + backend + root | 2 | V2-12-03,V2-08-04,V2-10-03 |

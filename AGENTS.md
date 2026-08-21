@@ -303,3 +303,19 @@ A cross-repository issue is complete only when:
 - canonical docs are updated if and only if architecture/contract decisions intentionally changed;
 - frontend/backend submodule pointers reference compatible commits;
 - no unrelated behavior was changed.
+
+## Canonical Figma Design
+
+The canonical DELearner product design is:
+
+https://www.figma.com/design/7kCGSdFGQ79KpRqdaG5Pfp/DELearner?node-id=0-1
+
+Figma file key:
+
+`7kCGSdFGQ79KpRqdaG5Pfp`
+
+Agents working on tasks marked "Figma required" must use this existing file.
+
+Do not create a replacement Figma file.
+Do not infer another DELearner file from the authenticated Figma account.
+Do not redesign unrelated screens.

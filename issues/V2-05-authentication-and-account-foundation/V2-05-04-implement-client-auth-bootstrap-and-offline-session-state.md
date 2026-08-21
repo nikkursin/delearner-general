@@ -4,7 +4,7 @@
 **Status:** Planned  
 **Workspace:** frontend  
 **Size:** 2 story point(s)  
-**Dependencies:** V2-05-01,V2-05-03  
+**Dependencies:** V2-05-03  
 
 ## Objective
 
@@ -26,7 +26,7 @@ Implement the approved sign-in flow, persist the successful account/session cont
 
 ## Figma Requirement
 
-Design-first for new authentication/account flow. If this subtask exposes new behavior not already represented, stop and obtain/produce the required Figma definition before UI implementation.
+None. Do not call Figma for this task. If functional testing requires a visible state, implement the smallest functional presentation using existing project patterns and defer visual review to V2-14.
 
 ## Acceptance Criteria
 
@@ -56,5 +56,5 @@ Design-first for new authentication/account flow. If this subtask exposes new be
 
 - A major architecture boundary must change.
 - Shared schema/contract semantics are missing or contradictory.
-- A meaningful user-facing flow lacks a Figma definition.
+- A required auth behavior is missing from the canonical/root auth behavior contract.
 - Completing the task would require future-version work.

@@ -3,7 +3,7 @@
 **Status:** Planned  
 **Version:** 2  
 **Workspace:** frontend  
-**Figma:** Minimal status states only; detailed UX handled in V2-14  
+**Figma:** No Figma before V2-14; minimal functional status states only  
 **Depends on:** V2-07,V2-09,V2-10  
 
 ## Goal

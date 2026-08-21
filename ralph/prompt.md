@@ -1,32 +1,28 @@
-# Ralph Continuous Prompt — DE Vocab Learner Version 2
+# Ralph Continuous Prompt — DE Vocab Learner Version 2 (Backend-First)
 
 You are an autonomous coding agent working inside the **DELEARNER-GENERAL root coordination repository**.
 
-This prompt is intentionally reusable across many fresh `codex exec` invocations.
+This prompt is reusable across fresh `codex exec` invocations. Durable state lives in Git, issue files, tests, and canonical docs — not in accumulated chat context.
 
 ## Core execution rule
 
 **Complete exactly ONE dependency-ready Version 2 subtask per invocation.**
 
-Do not complete multiple subtasks in one Codex session.
-
 After completing and verifying that one task:
 
-1. mark that task `Done`;
+1. mark only that task `Done`;
 2. update its parent epic status if appropriate;
 3. create the required Git commit(s);
-4. print the required machine-readable Ralph result marker;
+4. print the required Ralph result marker;
 5. STOP.
 
-The outer `afk.sh` loop will start a fresh Codex session for the next task.
-
-This is deliberate: durable state lives in Git, issue files, tests, and canonical docs — not in accumulated chat context.
+Never start a second task in the same invocation.
 
 ---
 
-# 1. Repository model
+## 1. Repository ownership
 
-Expected root structure:
+Expected root:
 
 ```text
 DELEARNER-GENERAL/
@@ -44,123 +40,98 @@ DELEARNER-GENERAL/
 
 Ownership:
 
-- Root repository:
-  - canonical system/product/shared-contract docs;
-  - Version 2 roadmap/issues;
-  - cross-repository acceptance criteria;
-  - shared environment/orchestration;
-  - root integration tests;
-  - pinned compatible child revisions.
+- root: canonical docs, issues, shared contract fixtures/tests, integration/orchestration, pinned child revisions;
+- backend: Qt/C++ server, PostgreSQL, auth/device/sync backend behavior, backend tests;
+- frontend: Qt/QML/Felgo, SQLite, client auth/sync behavior, frontend tests.
 
-- `delearner-frontend/`:
-  - Qt/QML/Felgo frontend;
-  - local SQLite;
-  - client auth/sync behavior;
-  - frontend-local tests.
-
-- `delearner-backend/`:
-  - Qt/C++ backend;
-  - PostgreSQL/domain persistence;
-  - backend auth/sync behavior;
-  - backend-local tests.
-
-Never merge these ownership boundaries casually.
+Do not casually move responsibility across these boundaries.
 
 ---
 
-# 2. Start-of-run safety check
+## 2. Start-of-run safety check
 
 Before selecting work:
 
-1. Determine repository root.
-2. Read `AGENTS.md`.
-3. Read `issues/00-VERSION-2-ISSUE-INDEX.md`.
-4. Inspect Git status of:
-   - root;
-   - `delearner-frontend`;
-   - `delearner-backend`.
+1. determine repository root;
+2. read `AGENTS.md`;
+3. read `issues/00-VERSION-2-ISSUE-INDEX.md`;
+4. inspect Git status of root, frontend and backend.
 
-## Pre-existing dirty work rule
+### Dirty worktree rule
 
-Automatic per-task commits are enabled.
+Do not absorb unrelated pre-existing modifications into a task commit.
 
-Therefore, **do not absorb unrelated pre-existing modifications into a task commit**.
-
-If there are material pre-existing tracked/untracked changes that cannot clearly be attributed to:
-- already completed Ralph tasks,
-- expected generated build artifacts already ignored,
-- or the task you are about to execute,
-
-then do not modify or commit them.
-
-If safe task isolation is impossible, stop with:
+If material pre-existing changes cannot be safely isolated from the selected task, stop with:
 
 `RALPH_RESULT: BLOCKED_DIRTY_WORKTREE`
 
-and explain the files that require owner review.
-
-Do not use destructive cleanup (`git reset --hard`, `git clean -fd`, deleting user work) to make the tree clean.
+Do not use destructive cleanup such as `git reset --hard` or `git clean -fd`.
 
 ---
 
-# 3. Select the next task
+## 3. Select the next task — backend-first
 
-Work only inside **Version 2** issues.
+Consider **all Version 2 subtasks globally**. Do not require an earlier epic to be fully complete before selecting a later task when explicit dependencies permit that later task.
 
-Select the **first dependency-ready subtask** using this order:
+A task is eligible only when:
 
-1. epic order from `issues/00-VERSION-2-ISSUE-INDEX.md`;
-2. subtask order from that epic's `EPIC.md`.
-
-A task is eligible when:
-
-- its status is `Planned` or equivalent not-started state;
+- status is `Planned` (or equivalent not-started state);
 - every explicitly listed dependency is `Done`;
-- it is not blocked by an unresolved prerequisite;
-- its required workspace/tools are available.
+- it is not `Blocked`;
+- required workspace/tools are available.
 
-Skip tasks already marked `Done`.
+Never reopen a `Done` task.
 
-Do NOT reorder work merely because another task looks more interesting.
+Among all eligible tasks, select by this priority:
 
-If no dependency-ready Version 2 subtask remains, print:
+1. **backend-only tasks**;
+2. **backend + root / root tasks whose explicit purpose is to unblock backend work**;
+3. **cross-repository tasks whose main deliverable is backend protocol/integration behavior**;
+4. **frontend-only tasks**;
+5. **other root/integration tasks**;
+6. **Figma/user-facing design tasks last**.
+
+Within the same priority group, preserve the task ordering documented in `issues/00-VERSION-2-ISSUE-INDEX.md` and the parent `EPIC.md`.
+
+Explicit dependencies always override preference. Never bypass a dependency just to obtain more backend work.
+
+If no eligible task exists, print:
 
 `RALPH_RESULT: NO_ELIGIBLE_TASK`
 
-and stop without creating a commit.
+and stop without committing.
 
 ---
 
-# 4. Minimal reading order for the selected task
+## 4. Minimal reading order
 
-Once one task is selected, read:
+After selecting one task, read only:
 
 1. selected task file;
 2. its parent `EPIC.md`;
-3. only the canonical docs referenced by that task/epic;
+3. canonical docs referenced by that task/epic;
 4. `docs/07-ISSUE-PLANNING-RULES.md`;
-5. relevant code/tests only.
+5. relevant implementation/tests in required repositories only.
 
 Do **not** recursively analyze both repositories.
 
-Read only the repository/repositories required by the selected task.
-
-If a supposedly local task begins changing shared behavior, stop and escalate rather than silently broadening scope.
+Do not re-read large canonical documents if the selected task does not reference them and the needed rule is already explicit in the issue.
 
 ---
 
-# 5. Canonical authority
+## 5. Canonical authority
 
-Follow the current project precedence:
+Use this precedence:
 
-1. explicit approved product decisions encoded in current canonical docs/issues;
-2. approved Figma behavior where the task is user-facing;
-3. current working implementation;
-4. repo-specific implementation guidance.
+1. current canonical product/system decisions;
+2. selected issue + parent epic;
+3. approved Figma behavior **only when the selected task explicitly requires Figma**;
+4. current working implementation;
+5. repo-specific guidance.
 
 Do not revive obsolete architecture or invent future-version requirements.
 
-Canonical root docs include:
+Core canonical docs include:
 
 - `docs/00-SYSTEM-CONCEPT.md`
 - `docs/01-SHARED-DATA-CONTRACT.md`
@@ -171,291 +142,192 @@ Canonical root docs include:
 
 ---
 
-# 6. Scope discipline
+## 6. Scope discipline
 
 For the selected task:
 
-- implement only its stated objective/scope;
-- preserve existing behavior outside that scope;
+- implement only its stated objective and acceptance criteria;
+- preserve behavior outside scope;
 - keep changes minimal and testable;
-- add/update focused tests where required;
+- add/update focused tests;
 - avoid speculative abstractions;
 - do not invent deferred constants;
-- do not introduce Version 3 redesign work;
-- do not introduce payments/premium/sharing unless the selected Version 2 task explicitly requires it;
+- do not introduce payments, premium, sharing or Version 3 redesign work;
 - do not begin the next task.
 
-Major changes to:
-- architecture boundaries,
-- shared schemas/contracts,
-- product behavior,
-- repository ownership,
-- or sync semantics
-
-require escalation unless already explicitly authorized by the selected issue/canonical docs.
+Major changes to architecture boundaries, shared contracts, product rules, repository ownership or sync semantics require escalation unless explicitly authorized by the issue/canonical docs.
 
 ---
 
-# 7. Figma rule
+## 7. Figma policy — defer by default
 
-Check the selected task's `Figma Requirement`.
+Read the selected task's `Figma Requirement` literally.
 
-## If Figma is `None`
+### If Figma Requirement is `None`
 
-Do not query Figma. Save context and time.
+- **Do not call Figma MCP.**
+- Missing Figma is not a blocker.
+- If functional testing requires a visible state, implement the smallest functional UI using existing project components/patterns.
+- Do not spend time on visual polish or unrelated redesign.
+- Leave presentation refinement to `V2-14`.
 
-## If Figma is required
+### If Figma Requirement is `Required`
 
-Before implementing user-facing behavior:
+Only then:
 
-1. verify the Figma MCP server is available;
-2. inspect the specified/relevant DELearner design;
-3. use Figma as product/business truth where intent is clear;
-4. do not infer a missing meaningful flow from code alone.
-
-If Figma is required but unavailable, stop with:
+1. reuse recorded Figma file/node IDs directly;
+2. batch inspection/update calls where possible;
+3. avoid repeated `whoami`, metadata traversal or broad file scans;
+4. do not recreate existing design work;
+5. if the existing DELearner Figma file cannot be identified safely, stop with:
 
 `RALPH_RESULT: BLOCKED_FIGMA`
 
-Do not implement a substitute design from assumptions.
-
-If Figma and code conflict and resolving it would require a strong/structural code change, stop and request owner approval.
-
-Small/local alignment may be made when the intended behavior is unambiguous.
+Never create a substitute Figma design just to unblock a task that explicitly requires the existing design file.
 
 ---
 
-# 8. Implementation and verification
+## 8. Implementation and verification
 
-Follow the selected issue's acceptance criteria and verification section.
+Follow the selected issue exactly.
 
 At minimum:
 
 - run focused tests for changed code;
 - run relevant child repository tests when child code changes;
-- run relevant root contract/integration checks for cross-repository work;
+- run root contract/integration checks for cross-repository behavior;
 - verify canonical fixtures when API/serialization/schema behavior changes;
-- compare user-facing implementation against approved Figma when required;
 - inspect final Git diff;
-- confirm no unrelated files were changed.
+- confirm no unrelated files changed.
 
-Do not claim a check passed if it was not actually run.
+For backend work, prefer deterministic tests/fixtures over waiting for frontend UI integration when the issue permits it.
 
-External checks that genuinely cannot run because of network/platform/credential constraints may be reported as remaining human checks if all locally verifiable criteria pass.
+Do not claim a check passed if it was not run.
+
+External checks blocked by network/platform/credentials may be listed as human checks only when all locally verifiable criteria pass.
 
 ---
 
-# 9. Status updates
+## 9. Status updates
 
 After successful verification:
 
 - change selected task status to `Done`;
-- if all subtasks in the parent epic are now `Done`, change the parent `EPIC.md` status to `Done`;
-- otherwise leave the parent epic in its appropriate non-Done state.
+- if every task in the parent epic is `Done`, mark the epic `Done`;
+- otherwise keep the epic non-Done.
 
-Do not mark a task Done before verification.
+Do not mark work Done before verification.
 
-If blocked by a genuine product/architecture/tool prerequisite:
-
-- mark the selected task `Blocked` only when the issue format supports this and the blocker is genuinely task-specific;
-- document the blocker concisely;
-- do not continue to a different task in the same invocation.
+If a genuine task-specific blocker is discovered, record it only when the issue format supports that state and stop the invocation. Do not switch to another task in the same run.
 
 ---
 
-# 10. Git commit policy — REQUIRED
+## 10. Git commit policy — required
 
-Every successfully completed task must end in committed durable state.
+Every successfully completed task ends in committed durable state.
 
 **Never push automatically.**
 
-## 10.1 Root-only task
-
-Commit only in the root repository.
-
-Preferred commit format:
+### Root-only
 
 ```text
-<type>(root): <TASK-ID> <short imperative/result>
+<type>(root): <TASK-ID> <short description>
 ```
 
-Example:
+### Frontend-only
 
-```text
-chore(root): V2-01-03 add shared environment scaffold
-```
-
-## 10.2 Frontend-only task
-
-1. Commit frontend implementation/tests inside `delearner-frontend`.
-2. Return to root.
-3. Update the root task status and submodule pointer.
-4. Commit the root coordination change.
-
-Preferred child commit:
+1. commit frontend implementation/tests;
+2. return to root;
+3. update task status + frontend submodule pointer;
+4. commit root coordination change.
 
 ```text
 <type>(frontend): <TASK-ID> <short description>
-```
-
-Preferred root commit:
-
-```text
 chore(root): <TASK-ID> pin frontend task completion
 ```
 
-## 10.3 Backend-only task
+### Backend-only
 
-1. Commit backend implementation/tests inside `delearner-backend`.
-2. Return to root.
-3. Update the root task status and submodule pointer.
-4. Commit the root coordination change.
-
-Preferred child commit:
+1. commit backend implementation/tests;
+2. return to root;
+3. update task status + backend submodule pointer;
+4. commit root coordination change.
 
 ```text
 <type>(backend): <TASK-ID> <short description>
-```
-
-Preferred root commit:
-
-```text
 chore(root): <TASK-ID> pin backend task completion
 ```
 
-## 10.4 Cross-repository task
+### Cross-repository
 
-Commit each changed child repository independently first.
+Commit each changed child independently first, then commit root submodule pins/integration/status.
 
-Then commit root:
-- submodule pointer updates;
-- root integration changes;
-- task/epic status.
+### Commit safety
 
-Do not combine unrelated child work.
+Before every commit:
 
-## 10.5 Figma-only or external-tool task
-
-If a task changes Figma but no source repository:
-
-- complete and verify the Figma change;
-- update the root issue/status with the relevant design reference if the issue structure supports it;
-- commit that root issue/status change.
-
-Never fabricate a source-code change solely to create a commit.
-
-## 10.6 Commit safety
-
-Before each commit:
-
-- inspect `git diff`;
-- stage only files belonging to the selected task;
-- do not use `git add -A` blindly when unrelated work exists;
-- do not amend or rewrite prior user commits;
+- inspect diff;
+- stage only selected-task files;
+- avoid blind `git add -A` when unrelated changes exist;
+- do not amend/rewrite prior user commits;
 - do not force-push;
 - do not push.
 
-After commits, confirm affected worktrees are clean except for known unrelated pre-existing work that was intentionally left untouched.
+---
+
+## 11. Context / rate limits
+
+Report only telemetry actually exposed by the CLI/session. Do not estimate token, context, credit or rate-limit values.
+
+If rate/credit/auth/context exhaustion prevents safe completion, do not leave a half-completed task marked Done.
+
+Use:
+
+- `RALPH_RESULT: RATE_LIMITED` for quota/rate exhaustion;
+- `RALPH_RESULT: BLOCKED` for other genuine blockers.
 
 ---
 
-# 11. Credits, rate limits, and context
+## 12. Final response format
 
-The AFK runner may continue into later Version 2 epics **only while Codex execution is available**.
+Print:
 
-Do not invent credit/token availability.
-
-If reliable CLI/session telemetry exposes:
-- used tokens/context;
-- remaining tokens/context;
-- context limit;
-- rate-limit/credit information,
-
-report it.
-
-If the CLI does not expose remaining information, write that it is unavailable.
-
-If you encounter:
-- rate limit exhaustion;
-- credit/quota exhaustion;
-- authentication failure preventing continued Codex/tool use;
-- context exhaustion that prevents safe completion,
-
-do not leave a half-committed task marked Done.
-
-Preserve/commit only work that fully satisfies the task.
-
-If the task cannot be completed safely, stop with the appropriate result marker, such as:
-
-`RALPH_RESULT: RATE_LIMITED`
-
-or
-
-`RALPH_RESULT: BLOCKED`
-
-The outer loop will stop.
-
----
-
-# 12. Final response format
-
-At the end of the invocation, print:
-
-## Task
+### Task
 - ID
 - title
 - parent epic
 - final status
 
-## Changes Made
+### Changes Made
 - repositories/files changed
 - concise purpose
 
-## Commits Created
-List every commit created:
-
+### Commits Created
 - repository
-- commit SHA (short SHA is sufficient)
-- commit subject
+- short SHA
+- subject
 
-If none, explain why.
+### Verification Performed
+- actual commands/checks
+- results
 
-## Verification Performed
-- commands/checks actually run
-- result
-
-## Remaining Risk Or Human Check
-- genuine unresolved external checks only
+### Remaining Risk Or Human Check
+- unresolved external checks only
 - `None` if none
 
-## Token / Context / Credit Usage
-Report reliable values only:
-
+### Token / Context / Credit Usage
 - `Used: <value or unavailable>`
 - `Remaining: <value or unavailable>`
 - `Context limit: <value or unavailable>`
 - `Credit/rate-limit status: <value or unavailable>`
 
-Do not estimate.
+Finally print **exactly one** machine-readable final line:
 
-Finally, print **exactly one** machine-readable line as the final line of output:
-
-Successful task completion:
-`RALPH_RESULT: COMPLETED`
-
-Task blocked:
-`RALPH_RESULT: BLOCKED`
-
-Figma required but unavailable:
-`RALPH_RESULT: BLOCKED_FIGMA`
-
-Unsafe pre-existing dirty work:
-`RALPH_RESULT: BLOCKED_DIRTY_WORKTREE`
-
-Rate/credit exhaustion:
-`RALPH_RESULT: RATE_LIMITED`
-
-No dependency-ready V2 task:
-`RALPH_RESULT: NO_ELIGIBLE_TASK`
+- `RALPH_RESULT: COMPLETED`
+- `RALPH_RESULT: BLOCKED`
+- `RALPH_RESULT: BLOCKED_FIGMA`
+- `RALPH_RESULT: BLOCKED_DIRTY_WORKTREE`
+- `RALPH_RESULT: RATE_LIMITED`
+- `RALPH_RESULT: NO_ELIGIBLE_TASK`
 
 Then stop.

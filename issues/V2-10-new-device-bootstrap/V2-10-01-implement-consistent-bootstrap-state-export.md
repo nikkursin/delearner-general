@@ -26,7 +26,7 @@ Return authenticated current Version 2 user state from PostgreSQL together with 
 
 ## Figma Requirement
 
-Reuse approved auth/startup flow; no new product redesign. If this subtask exposes new behavior not already represented, stop and obtain/produce the required Figma definition before UI implementation.
+None. Do not call Figma for this task. If functional testing requires a visible state, implement the smallest functional presentation using existing project patterns and defer visual review to V2-14.
 
 ## Acceptance Criteria
 
@@ -56,5 +56,5 @@ Reuse approved auth/startup flow; no new product redesign. If this subtask expos
 
 - A major architecture boundary must change.
 - Shared schema/contract semantics are missing or contradictory.
-- A meaningful user-facing flow lacks a Figma definition.
+- A required behavior is missing from the canonical contract or issue acceptance criteria.
 - Completing the task would require future-version work.

@@ -4,7 +4,7 @@
 **Version:** 2  
 **Workspace:** Figma + frontend + root  
 **Figma:** Design/review required for meaningful new auth/sync/recovery states  
-**Depends on:** V2-05,V2-11,V2-12,V2-13  
+**Depends on:** functional auth/sync/recovery/domain coverage complete  
 
 ## Goal
 
@@ -35,7 +35,7 @@ Expose only the minimal user-facing authentication and synchronization states ne
 
 | ID | Title | Workspace | Size | Dependencies |
 |---|---|---|---:|---|
-| [V2-14-01](./V2-14-01-define-minimal-sync-and-recovery-ux-in-figma.md) | Define minimal sync and recovery UX in Figma | Figma + root | 1 | V2-05-01,V2-12-02 |
+| [V2-14-01](./V2-14-01-review-minimal-auth-sync-and-recovery-ux-in-figma.md) | Review minimal auth, sync and recovery UX in Figma | Figma + root | 1 | V2-05-04,V2-11-04,V2-12-04,V2-13-04 |
 | [V2-14-02](./V2-14-02-implement-minimal-sync-status-error-presentation.md) | Implement minimal sync status/error presentation | frontend | 2 | V2-14-01,V2-11-01,V2-12-04 |
 | [V2-14-03](./V2-14-03-hide-production-import-export-synchronization-ui.md) | Hide production import/export synchronization UI | frontend | 1 | V2-13-04 |
 | [V2-14-04](./V2-14-04-retain-and-test-internal-import-export-capability.md) | Retain and test internal import/export capability | frontend + root | 1 | V2-14-03 |

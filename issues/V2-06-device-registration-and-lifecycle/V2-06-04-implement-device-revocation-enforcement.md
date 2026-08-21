@@ -4,7 +4,7 @@
 **Status:** Planned  
 **Workspace:** backend + root  
 **Size:** 2 story point(s)  
-**Dependencies:** V2-06-01,V2-06-03  
+**Dependencies:** V2-06-02  
 
 ## Objective
 
@@ -26,7 +26,7 @@ Add revocation behavior and tests proving revoked devices cannot upload until re
 
 ## Figma Requirement
 
-Review only if user-facing revoke/manage-device UI is introduced. If this subtask exposes new behavior not already represented, stop and obtain/produce the required Figma definition before UI implementation.
+None. Do not call Figma for this task. If functional testing requires a visible state, implement the smallest functional presentation using existing project patterns and defer visual review to V2-14.
 
 ## Acceptance Criteria
 
@@ -56,5 +56,5 @@ Review only if user-facing revoke/manage-device UI is introduced. If this subtas
 
 - A major architecture boundary must change.
 - Shared schema/contract semantics are missing or contradictory.
-- A meaningful user-facing flow lacks a Figma definition.
+- A required behavior is missing from the canonical contract or selected issue. Missing Figma alone is not a blocker unless this task explicitly marks Figma as Required.
 - Completing the task would require future-version work.

@@ -4,7 +4,7 @@
 **Version:** 2  
 **Workspace:** backend + root  
 **Figma:** None  
-**Depends on:** V2-04,V2-05,V2-06,V2-07  
+**Depends on:** V2-04 plus backend auth/device prerequisites; frontend outbox is not required  
 
 ## Goal
 

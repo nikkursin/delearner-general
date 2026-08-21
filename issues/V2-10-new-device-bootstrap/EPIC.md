@@ -3,7 +3,7 @@
 **Status:** Planned  
 **Version:** 2  
 **Workspace:** backend + frontend + root  
-**Figma:** Reuse approved auth/startup flow; no new product redesign  
+**Figma:** No Figma before V2-14; use minimal functional startup states only  
 **Depends on:** V2-05,V2-06,V2-09  
 
 ## Goal

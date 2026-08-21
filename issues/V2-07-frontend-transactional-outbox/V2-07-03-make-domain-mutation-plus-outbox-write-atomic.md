@@ -1,10 +1,10 @@
 # V2-07-03 — Make domain mutation plus outbox write atomic
 
 **Parent epic:** V2-07 — Frontend Transactional Outbox  
-**Status:** Blocked  
+**Status:** Planned  
 **Workspace:** frontend  
 **Size:** 2 story point(s)  
-**Dependencies:** V2-07-02,V2-03-04  
+**Dependencies:** V2-07-02,V2-03-04,V2-05-04,V2-06-03  
 
 ## Objective
 
@@ -26,7 +26,7 @@ Integrate words, groups, review statistics and synced settings mutation paths wi
 
 ## Figma Requirement
 
-None.
+None. Do not call Figma for this task. If functional testing requires a visible state, implement the smallest functional presentation using existing project patterns and defer visual review to V2-14.
 
 ## Acceptance Criteria
 
@@ -56,7 +56,7 @@ None.
 
 - A major architecture boundary must change.
 - Shared schema/contract semantics are missing or contradictory.
-- A meaningful user-facing flow lacks a Figma definition.
+- A required behavior is missing from the canonical contract or selected issue. Missing Figma alone is not a blocker unless this task explicitly marks Figma as Required.
 - Completing the task would require future-version work.
 
 ## Blocker
