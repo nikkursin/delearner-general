@@ -1,7 +1,7 @@
 # V2-07-02 — Create contract event serialization layer
 
 **Parent epic:** V2-07 — Frontend Transactional Outbox  
-**Status:** Planned  
+**Status:** Done  
 **Workspace:** frontend  
 **Size:** 2 story point(s)  
 **Dependencies:** V2-07-01,V2-02-02,V2-02-03  
