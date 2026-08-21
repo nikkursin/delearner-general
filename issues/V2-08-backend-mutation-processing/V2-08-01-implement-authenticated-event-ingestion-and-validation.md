@@ -1,7 +1,7 @@
 # V2-08-01 — Implement authenticated event ingestion and validation
 
 **Parent epic:** V2-08 — Backend Mutation Processing  
-**Status:** Planned  
+**Status:** Done
 **Workspace:** backend  
 **Size:** 2 story point(s)  
 **Dependencies:** V2-05-03,V2-06-04,V2-02-04  
@@ -30,10 +30,10 @@ None. Do not call Figma for this task. If functional testing requires a visible 
 
 ## Acceptance Criteria
 
-- [ ] Malformed, unauthenticated and revoked-device mutations are rejected without changing canonical state.
-- [ ] Existing relevant tests still pass.
-- [ ] New behavior has focused automated coverage where feasible.
-- [ ] No unrelated product/UI behavior changed.
+- [x] Malformed, unauthenticated and revoked-device mutations are rejected without changing canonical state.
+- [x] Existing relevant tests still pass.
+- [x] New behavior has focused automated coverage where feasible.
+- [x] No unrelated product/UI behavior changed.
 
 ## Verification
 
