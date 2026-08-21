@@ -1,10 +1,10 @@
 # V2-05-02 — Implement backend user and auth-identity model
 
-**Parent epic:** V2-05 — Authentication and Account Foundation  
-**Status:** Planned  
-**Workspace:** backend  
-**Size:** 2 story point(s)  
-**Dependencies:** V2-04-01,V2-05-01  
+**Parent epic:** V2-05 — Authentication and Account Foundation
+**Status:** Done
+**Workspace:** backend
+**Size:** 2 story point(s)
+**Dependencies:** V2-04-01,V2-05-01
 
 ## Objective
 
@@ -30,10 +30,10 @@ None. Do not call Figma for this task. If functional testing requires a visible 
 
 ## Acceptance Criteria
 
-- [ ] Identity records map to one backend user; tests reject unsafe duplicate/implicit linking behavior.
-- [ ] Existing relevant tests still pass.
-- [ ] New behavior has focused automated coverage where feasible.
-- [ ] No unrelated product/UI behavior changed.
+- [x] Identity records map to one backend user; tests reject unsafe duplicate/implicit linking behavior.
+- [x] Existing relevant tests still pass.
+- [x] New behavior has focused automated coverage where feasible.
+- [x] No unrelated product/UI behavior changed.
 
 ## Verification
 
