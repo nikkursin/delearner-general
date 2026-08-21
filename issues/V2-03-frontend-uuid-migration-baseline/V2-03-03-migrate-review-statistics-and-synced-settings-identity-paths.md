@@ -1,7 +1,7 @@
 # V2-03-03 — Migrate review statistics and synced settings identity paths
 
 **Parent epic:** V2-03 — Frontend UUID + Migration Baseline  
-**Status:** Planned  
+**Status:** Done
 **Workspace:** frontend  
 **Size:** 2 story point(s)  
 **Dependencies:** V2-03-01,V2-02-03  
@@ -30,10 +30,10 @@ Review only if ID assumptions leak into UI; no redesign. If this subtask exposes
 
 ## Acceptance Criteria
 
-- [ ] Review-statistics and synced-settings tests pass and device-local settings remain outside sync serialization.
-- [ ] Existing relevant tests still pass.
-- [ ] New behavior has focused automated coverage where feasible.
-- [ ] No unrelated product/UI behavior changed.
+- [x] Review-statistics and synced-settings tests pass and device-local settings remain outside sync serialization.
+- [x] Existing relevant tests still pass.
+- [x] New behavior has focused automated coverage where feasible.
+- [x] No unrelated product/UI behavior changed.
 
 ## Verification
 
