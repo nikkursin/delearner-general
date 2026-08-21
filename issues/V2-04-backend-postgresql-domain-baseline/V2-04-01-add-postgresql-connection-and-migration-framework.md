@@ -1,7 +1,7 @@
 # V2-04-01 — Add PostgreSQL connection and migration framework
 
 **Parent epic:** V2-04 — Backend PostgreSQL Domain Baseline  
-**Status:** Planned  
+**Status:** Done  
 **Workspace:** backend  
 **Size:** 2 story point(s)  
 **Dependencies:** V2-01-03,V2-02-01  
@@ -30,10 +30,10 @@ None.
 
 ## Acceptance Criteria
 
-- [ ] Backend can initialize an empty database reproducibly and reports schema version explicitly.
-- [ ] Existing relevant tests still pass.
-- [ ] New behavior has focused automated coverage where feasible.
-- [ ] No unrelated product/UI behavior changed.
+- [x] Backend can initialize an empty database reproducibly and reports schema version explicitly.
+- [x] Existing relevant tests still pass.
+- [x] New behavior has focused automated coverage where feasible.
+- [x] No unrelated product/UI behavior changed.
 
 ## Verification
 
