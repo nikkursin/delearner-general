@@ -1,7 +1,7 @@
 # V2-10-01 — Implement consistent bootstrap state export
 
 **Parent epic:** V2-10 — New-Device Bootstrap  
-**Status:** Planned  
+**Status:** Done  
 **Workspace:** backend  
 **Size:** 2 story point(s)  
 **Dependencies:** V2-09-01,V2-04-03  
@@ -30,17 +30,17 @@ None. Do not call Figma for this task. If functional testing requires a visible 
 
 ## Acceptance Criteria
 
-- [ ] Export includes words, groups, review statistics, synced settings and required tombstones/state; excludes local-only data.
-- [ ] Existing relevant tests still pass.
-- [ ] New behavior has focused automated coverage where feasible.
-- [ ] No unrelated product/UI behavior changed.
+- [x] Export includes words, groups, review statistics, synced settings and required tombstones/state; excludes local-only data.
+- [x] Existing relevant tests still pass.
+- [x] New behavior has focused automated coverage where feasible.
+- [x] No unrelated product/UI behavior changed.
 
 ## Verification
 
-1. Run the affected child repository tests.
-2. Run relevant root contract/integration checks when the task crosses repository boundaries.
-3. Verify canonical contract fixtures if serialization/API/schema behavior is touched.
-4. For user-facing tasks, compare the implemented flow against the approved Figma nodes.
+- `cmake --build build-codex-arm64 --target test_event_characterization test_sync_transaction_repository test_domain_repository`
+- `ctest --test-dir build-codex-arm64 -R 'test_event_characterization|test_sync_transaction_repository|test_domain_repository' --output-on-failure`
+- `cmake --build build-codex-arm64`
+- `ctest --test-dir build-codex-arm64 --output-on-failure`
 
 ## Canonical References
 
