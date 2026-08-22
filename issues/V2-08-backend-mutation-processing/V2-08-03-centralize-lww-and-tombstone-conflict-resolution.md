@@ -1,7 +1,7 @@
 # V2-08-03 — Centralize LWW and tombstone conflict resolution
 
 **Parent epic:** V2-08 — Backend Mutation Processing  
-**Status:** Planned  
+**Status:** Done  
 **Workspace:** backend  
 **Size:** 2 story point(s)  
 **Dependencies:** V2-08-01,V2-02-03  
