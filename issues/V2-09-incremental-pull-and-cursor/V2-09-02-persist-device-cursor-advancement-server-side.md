@@ -1,7 +1,7 @@
 # V2-09-02 — Persist device cursor advancement server-side
 
 **Parent epic:** V2-09 — Incremental Pull and Cursor  
-**Status:** Planned  
+**Status:** Done  
 **Workspace:** backend  
 **Size:** 1 story point(s)  
 **Dependencies:** V2-09-01  
@@ -30,10 +30,10 @@ None. Do not call Figma for this task. If functional testing requires a visible 
 
 ## Acceptance Criteria
 
-- [ ] Device cursors survive restart and remain isolated per device/user.
-- [ ] Existing relevant tests still pass.
-- [ ] New behavior has focused automated coverage where feasible.
-- [ ] No unrelated product/UI behavior changed.
+- [x] Device cursors survive restart and remain isolated per device/user.
+- [x] Existing relevant tests still pass.
+- [x] New behavior has focused automated coverage where feasible.
+- [x] No unrelated product/UI behavior changed.
 
 ## Verification
 
@@ -41,6 +41,11 @@ None. Do not call Figma for this task. If functional testing requires a visible 
 2. Run relevant root contract/integration checks when the task crosses repository boundaries.
 3. Verify canonical contract fixtures if serialization/API/schema behavior is touched.
 4. For user-facing tasks, compare the implemented flow against the approved Figma nodes.
+
+Completed:
+
+- `cmake --build build-codex-arm64 --target test_registered_device_repository test_sync_transaction_repository test_event_characterization`
+- `ctest --test-dir build-codex-arm64 --output-on-failure`
 
 ## Canonical References
 
