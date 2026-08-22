@@ -1,6 +1,6 @@
 # V2-08 — Backend Mutation Processing
 
-**Status:** Planned  
+**Status:** Done  
 **Version:** 2  
 **Workspace:** backend + root  
 **Figma:** None  
@@ -25,10 +25,10 @@ Process pushed client mutations as authenticated, idempotent, conflict-resolved 
 
 ## Epic Acceptance Criteria
 
-- [ ] Duplicate event delivery is safe.
-- [ ] Revoked/unauthorized devices cannot mutate state.
-- [ ] Accepted current-state mutation and sync event/sequence cannot diverge transactionally.
-- [ ] Response contains canonical entity state or tombstone metadata.
+- [x] Duplicate event delivery is safe.
+- [x] Revoked/unauthorized devices cannot mutate state.
+- [x] Accepted current-state mutation and sync event/sequence cannot diverge transactionally.
+- [x] Response contains canonical entity state or tombstone metadata.
 
 ## Subtasks
 

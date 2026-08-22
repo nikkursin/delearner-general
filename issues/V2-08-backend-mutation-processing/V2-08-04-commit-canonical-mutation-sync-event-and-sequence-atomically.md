@@ -1,7 +1,7 @@
 # V2-08-04 — Commit canonical mutation, sync event and sequence atomically
 
 **Parent epic:** V2-08 — Backend Mutation Processing  
-**Status:** Planned  
+**Status:** Done  
 **Workspace:** backend + root  
 **Size:** 2 story point(s)  
 **Dependencies:** V2-08-02,V2-08-03,V2-04-04  
@@ -30,10 +30,10 @@ None. Do not call Figma for this task. If functional testing requires a visible 
 
 ## Acceptance Criteria
 
-- [ ] Rollback tests prove atomicity; contract test proves client can reconcile from the response.
-- [ ] Existing relevant tests still pass.
-- [ ] New behavior has focused automated coverage where feasible.
-- [ ] No unrelated product/UI behavior changed.
+- [x] Rollback tests prove atomicity; contract test proves client can reconcile from the response.
+- [x] Existing relevant tests still pass.
+- [x] New behavior has focused automated coverage where feasible.
+- [x] No unrelated product/UI behavior changed.
 
 ## Verification
 
