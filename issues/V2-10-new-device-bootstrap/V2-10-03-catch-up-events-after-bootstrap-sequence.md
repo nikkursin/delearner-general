@@ -1,7 +1,7 @@
 # V2-10-03 — Catch up events after bootstrap sequence
 
 **Parent epic:** V2-10 — New-Device Bootstrap  
-**Status:** Planned  
+**Status:** Done
 **Workspace:** frontend + backend  
 **Size:** 2 story point(s)  
 **Dependencies:** V2-10-01,V2-10-02,V2-09-04  
@@ -30,10 +30,10 @@ None. Do not call Figma for this task. If functional testing requires a visible 
 
 ## Acceptance Criteria
 
-- [ ] An integration race test that mutates another device during bootstrap proves no change is missed.
-- [ ] Existing relevant tests still pass.
-- [ ] New behavior has focused automated coverage where feasible.
-- [ ] No unrelated product/UI behavior changed.
+- [x] An integration race test that mutates another device during bootstrap proves no change is missed.
+- [x] Existing relevant tests still pass.
+- [x] New behavior has focused automated coverage where feasible.
+- [x] No unrelated product/UI behavior changed.
 
 ## Verification
 
