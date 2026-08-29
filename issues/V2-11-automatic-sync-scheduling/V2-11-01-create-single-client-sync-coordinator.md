@@ -1,7 +1,7 @@
 # V2-11-01 — Create single client sync coordinator
 
 **Parent epic:** V2-11 — Automatic Sync Scheduling  
-**Status:** Planned  
+**Status:** Done
 **Workspace:** frontend  
 **Size:** 2 story point(s)  
 **Dependencies:** V2-07-04,V2-09-04  
@@ -30,10 +30,10 @@ None. Do not call Figma for this task. If functional testing requires a visible 
 
 ## Acceptance Criteria
 
-- [ ] Only one logical sync cycle runs at a time and existing local CRUD remains independent from network availability.
-- [ ] Existing relevant tests still pass.
-- [ ] New behavior has focused automated coverage where feasible.
-- [ ] No unrelated product/UI behavior changed.
+- [x] Only one logical sync cycle runs at a time and existing local CRUD remains independent from network availability.
+- [x] Existing relevant tests still pass.
+- [x] New behavior has focused automated coverage where feasible.
+- [x] No unrelated product/UI behavior changed.
 
 ## Verification
 
