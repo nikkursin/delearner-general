@@ -1,6 +1,6 @@
 # V2-06 — Device Registration and Lifecycle
 
-**Status:** Planned  
+**Status:** Done
 **Version:** 2  
 **Workspace:** backend + frontend + root  
 **Figma:** None in this epic; no device-management UI is required  
@@ -25,10 +25,10 @@ Give every authenticated installation a stable backend-tracked device identity a
 
 ## Epic Acceptance Criteria
 
-- [ ] One account can register multiple devices.
-- [ ] Each device has stable UUID identity and persisted cursor state.
-- [ ] Revoked device authorization cannot continue uploading.
-- [ ] Exact device-count policy remains configurable/deferred.
+- [x] One account can register multiple devices.
+- [x] Each device has stable UUID identity and persisted cursor state.
+- [x] Revoked device authorization cannot continue uploading.
+- [x] Exact device-count policy remains configurable/deferred.
 
 ## Subtasks
 

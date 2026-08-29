@@ -1,7 +1,7 @@
 # V2-06-03 — Persist and attach client device identity
 
 **Parent epic:** V2-06 — Device Registration and Lifecycle  
-**Status:** Planned  
+**Status:** Done
 **Workspace:** frontend  
 **Size:** 1 story point(s)  
 **Dependencies:** V2-06-02,V2-05-04  
@@ -30,10 +30,10 @@ None. Do not call Figma for this task. If functional testing requires a visible 
 
 ## Acceptance Criteria
 
-- [ ] App restart preserves device identity and authenticated sync requests use the registered device context.
-- [ ] Existing relevant tests still pass.
-- [ ] New behavior has focused automated coverage where feasible.
-- [ ] No unrelated product/UI behavior changed.
+- [x] App restart preserves device identity and authenticated sync requests use the registered device context.
+- [x] Existing relevant tests still pass.
+- [x] New behavior has focused automated coverage where feasible.
+- [x] No unrelated product/UI behavior changed.
 
 ## Verification
 
@@ -41,6 +41,13 @@ None. Do not call Figma for this task. If functional testing requires a visible 
 2. Run relevant root contract/integration checks when the task crosses repository boundaries.
 3. Verify canonical contract fixtures if serialization/API/schema behavior is touched.
 4. For user-facing tasks, compare the implemented flow against the approved Figma nodes.
+
+Completed:
+
+- `cmake --build build-tests --target TestDeviceIdentityAndSyncContext`
+- `ctest --test-dir build-tests -R 'TestDeviceIdentityAndSyncContext' --output-on-failure`
+- `cmake --build build-tests`
+- `ctest --test-dir build-tests --output-on-failure`
 
 ## Canonical References
 
