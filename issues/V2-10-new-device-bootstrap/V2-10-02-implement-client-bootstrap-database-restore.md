@@ -1,7 +1,7 @@
 # V2-10-02 — Implement client bootstrap database restore
 
 **Parent epic:** V2-10 — New-Device Bootstrap  
-**Status:** Planned  
+**Status:** Done  
 **Workspace:** frontend  
 **Size:** 2 story point(s)  
 **Dependencies:** V2-10-01,V2-03-01  
@@ -30,10 +30,10 @@ None. Do not call Figma for this task. If functional testing requires a visible 
 
 ## Acceptance Criteria
 
-- [ ] Fresh device can populate its local DB and existing free-core screens read the restored data normally.
-- [ ] Existing relevant tests still pass.
-- [ ] New behavior has focused automated coverage where feasible.
-- [ ] No unrelated product/UI behavior changed.
+- [x] Fresh device can populate its local DB and existing free-core screens read the restored data normally.
+- [x] Existing relevant tests still pass.
+- [x] New behavior has focused automated coverage where feasible.
+- [x] No unrelated product/UI behavior changed.
 
 ## Verification
 
