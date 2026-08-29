@@ -1,7 +1,7 @@
 # V2-11-04 — Add manual diagnostic sync entry point and scheduling tests
 
 **Parent epic:** V2-11 — Automatic Sync Scheduling  
-**Status:** Planned  
+**Status:** Done
 **Workspace:** frontend  
 **Size:** 1 story point(s)  
 **Dependencies:** V2-11-02,V2-11-03  
@@ -30,10 +30,10 @@ None. Do not call Figma for this task. If functional testing requires a visible 
 
 ## Acceptance Criteria
 
-- [ ] Manual trigger uses the same coordinator; automatic behavior remains the normal path.
-- [ ] Existing relevant tests still pass.
-- [ ] New behavior has focused automated coverage where feasible.
-- [ ] No unrelated product/UI behavior changed.
+- [x] Manual trigger uses the same coordinator; automatic behavior remains the normal path.
+- [x] Existing relevant tests still pass.
+- [x] New behavior has focused automated coverage where feasible.
+- [x] No unrelated product/UI behavior changed.
 
 ## Verification
 

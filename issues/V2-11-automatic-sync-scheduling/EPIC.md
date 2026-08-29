@@ -1,6 +1,6 @@
 # V2-11 — Automatic Sync Scheduling
 
-**Status:** Planned  
+**Status:** Done
 **Version:** 2  
 **Workspace:** frontend  
 **Figma:** No Figma before V2-14; minimal functional status states only  
@@ -25,10 +25,10 @@ Run synchronization automatically and conservatively at the moments already appr
 
 ## Epic Acceptance Criteria
 
-- [ ] Ordinary users do not need to manually sync.
-- [ ] Offline changes remain immediate and queued.
-- [ ] Reconnect/resume eventually pushes pending work and pulls remote changes.
-- [ ] Concurrent triggers do not launch conflicting sync cycles.
+- [x] Ordinary users do not need to manually sync.
+- [x] Offline changes remain immediate and queued.
+- [x] Reconnect/resume eventually pushes pending work and pulls remote changes.
+- [x] Concurrent triggers do not launch conflicting sync cycles.
 
 ## Subtasks
 

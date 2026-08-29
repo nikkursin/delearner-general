@@ -17,7 +17,7 @@ Deliver an authenticated, account-based, offline-capable multi-device synchroniz
 | [V2-03](./V2-03-frontend-uuid-migration-baseline/EPIC.md) | Frontend UUID + Migration Baseline | Done |
 | [V2-04](./V2-04-backend-postgresql-domain-baseline/EPIC.md) | Backend PostgreSQL Domain Baseline | Done |
 
-Additionally completed: V2-07 is Done. These tasks stay Done and must not be reopened.
+Additionally completed: V2-07 and V2-11 are Done. These tasks stay Done and must not be reopened.
 
 ## Remaining Execution Strategy
 
