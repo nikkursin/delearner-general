@@ -1,7 +1,7 @@
 # V2-05-04 — Implement client auth bootstrap and offline session state
 
 **Parent epic:** V2-05 — Authentication and Account Foundation  
-**Status:** Planned  
+**Status:** Done  
 **Workspace:** frontend  
 **Size:** 2 story point(s)  
 **Dependencies:** V2-05-03  
@@ -30,10 +30,10 @@ None. Do not call Figma for this task. If functional testing requires a visible 
 
 ## Acceptance Criteria
 
-- [ ] Fresh unauthenticated install cannot enter the app offline; previously authenticated user can reopen free core offline without periodic re-auth lockout.
-- [ ] Existing relevant tests still pass.
-- [ ] New behavior has focused automated coverage where feasible.
-- [ ] No unrelated product/UI behavior changed.
+- [x] Fresh unauthenticated install cannot enter the app offline; previously authenticated user can reopen free core offline without periodic re-auth lockout.
+- [x] Existing relevant tests still pass.
+- [x] New behavior has focused automated coverage where feasible.
+- [x] No unrelated product/UI behavior changed.
 
 ## Verification
 

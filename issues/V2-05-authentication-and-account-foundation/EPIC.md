@@ -1,6 +1,6 @@
 # V2-05 — Authentication and Account Foundation
 
-**Status:** Planned  
+**Status:** Done  
 **Version:** 2  
 **Workspace:** root + backend + frontend  
 **Figma:** Deferred to V2-14; no MCP call required here  
@@ -27,11 +27,11 @@ Establish backend-owned account/session identity first, then add the smallest fu
 
 ## Epic Acceptance Criteria
 
-- [ ] Initial use requires successful online authentication.
-- [ ] Authenticated identity comes from session credentials rather than payload userId.
-- [ ] Previously authenticated client can reopen offline and use free core.
-- [ ] Backend account isolation tests prevent cross-user access.
-- [ ] Any temporary auth UI is intentionally minimal and left for V2-14 visual review.
+- [x] Initial use requires successful online authentication.
+- [x] Authenticated identity comes from session credentials rather than payload userId.
+- [x] Previously authenticated client can reopen offline and use free core.
+- [x] Backend account isolation tests prevent cross-user access.
+- [x] Any temporary auth UI is intentionally minimal and left for V2-14 visual review.
 
 ## Subtasks
 
