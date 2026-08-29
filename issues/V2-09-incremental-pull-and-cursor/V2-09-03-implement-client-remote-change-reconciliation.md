@@ -1,7 +1,7 @@
 # V2-09-03 — Implement client remote-change reconciliation
 
 **Parent epic:** V2-09 — Incremental Pull and Cursor  
-**Status:** Planned  
+**Status:** Done
 **Workspace:** frontend  
 **Size:** 2 story point(s)  
 **Dependencies:** V2-09-01,V2-08-04  
@@ -30,10 +30,10 @@ None. Do not call Figma for this task. If functional testing requires a visible 
 
 ## Acceptance Criteria
 
-- [ ] Remote updates/deletes reconcile UI/local state and do not create feedback-loop outbox events.
-- [ ] Existing relevant tests still pass.
-- [ ] New behavior has focused automated coverage where feasible.
-- [ ] No unrelated product/UI behavior changed.
+- [x] Remote updates/deletes reconcile UI/local state and do not create feedback-loop outbox events.
+- [x] Existing relevant tests still pass.
+- [x] New behavior has focused automated coverage where feasible.
+- [x] No unrelated product/UI behavior changed.
 
 ## Verification
 
