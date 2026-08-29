@@ -1,7 +1,7 @@
 # V2-11-03 — Trigger sync on resume and network restoration
 
 **Parent epic:** V2-11 — Automatic Sync Scheduling  
-**Status:** Planned  
+**Status:** Done  
 **Workspace:** frontend  
 **Size:** 1 story point(s)  
 **Dependencies:** V2-11-01  
