@@ -1,6 +1,6 @@
 # V2-09 — Incremental Pull and Cursor
 
-**Status:** Planned  
+**Status:** Done
 **Version:** 2  
 **Workspace:** backend + frontend + root  
 **Figma:** None  
@@ -25,10 +25,10 @@ Allow devices to retrieve and safely apply ordered changes after their last succ
 
 ## Epic Acceptance Criteria
 
-- [ ] Device B receives Device A changes after its cursor.
-- [ ] Repeating a pull from the same cursor is safe.
-- [ ] Failed local application does not advance past the failed event.
-- [ ] Normal convergence does not require full bootstrap.
+- [x] Device B receives Device A changes after its cursor.
+- [x] Repeating a pull from the same cursor is safe.
+- [x] Failed local application does not advance past the failed event.
+- [x] Normal convergence does not require full bootstrap.
 
 ## Subtasks
 

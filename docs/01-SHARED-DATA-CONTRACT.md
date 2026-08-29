@@ -38,16 +38,17 @@ work can depend on the same compatibility source.
 Current Version 2 values:
 
 ```text
-SQLite schema:     1.1
+SQLite schema:     1.2
 PostgreSQL schema: 1.1
 Sync/API contract: 1.0
 API route major:   /api/v1
 ```
 
 These values are independent version families. SQLite advanced to `1.1` for
-the additive local outbox schema. PostgreSQL advanced to `1.1` for the
-additive registered-device schema. Neither change requires the sync/API
-version to advance with it.
+the additive local outbox schema and `1.2` for the additive local pull-cursor
+state needed to persist successful remote consumption. PostgreSQL advanced to
+`1.1` for the additive registered-device schema. Neither change requires the
+sync/API version to advance with it.
 
 ## Database Schema Versioning
 
