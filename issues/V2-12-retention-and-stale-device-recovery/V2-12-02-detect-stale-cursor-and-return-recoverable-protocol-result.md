@@ -1,7 +1,7 @@
 # V2-12-02 — Detect stale cursor and return recoverable protocol result
 
 **Parent epic:** V2-12 — Retention and Stale-Device Recovery  
-**Status:** Planned  
+**Status:** Done  
 **Workspace:** backend + root  
 **Size:** 2 story point(s)  
 **Dependencies:** V2-12-01,V2-09-01
