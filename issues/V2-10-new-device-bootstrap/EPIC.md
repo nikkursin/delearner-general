@@ -1,6 +1,6 @@
 # V2-10 — New-Device Bootstrap
 
-**Status:** Planned  
+**Status:** Done  
 **Version:** 2  
 **Workspace:** backend + frontend + root  
 **Figma:** No Figma before V2-14; use minimal functional startup states only  

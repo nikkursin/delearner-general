@@ -1,7 +1,7 @@
 # V2-10-04 — Integrate sign-in-to-bootstrap startup transition
 
 **Parent epic:** V2-10 — New-Device Bootstrap  
-**Status:** Planned  
+**Status:** Done  
 **Workspace:** frontend + root  
 **Size:** 2 story point(s)  
 **Dependencies:** V2-05-04,V2-06-03,V2-10-03  
