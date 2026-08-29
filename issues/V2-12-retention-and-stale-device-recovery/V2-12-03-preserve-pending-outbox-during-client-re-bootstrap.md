@@ -1,7 +1,7 @@
 # V2-12-03 — Preserve pending outbox during client re-bootstrap
 
 **Parent epic:** V2-12 — Retention and Stale-Device Recovery  
-**Status:** Planned  
+**Status:** Done
 **Workspace:** frontend  
 **Size:** 2 story point(s)  
 **Dependencies:** V2-12-02,V2-10-02  
@@ -30,10 +30,10 @@ None. Do not call Figma for this task. If functional testing requires a visible 
 
 ## Acceptance Criteria
 
-- [ ] Fault/recovery test proves unsynced local events survive local-state replacement.
-- [ ] Existing relevant tests still pass.
-- [ ] New behavior has focused automated coverage where feasible.
-- [ ] No unrelated product/UI behavior changed.
+- [x] Fault/recovery test proves unsynced local events survive local-state replacement.
+- [x] Existing relevant tests still pass.
+- [x] New behavior has focused automated coverage where feasible.
+- [x] No unrelated product/UI behavior changed.
 
 ## Verification
 
