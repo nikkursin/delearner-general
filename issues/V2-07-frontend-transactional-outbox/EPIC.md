@@ -1,6 +1,6 @@
 # V2-07 — Frontend Transactional Outbox
 
-**Status:** Planned  
+**Status:** Done  
 **Version:** 2  
 **Workspace:** frontend  
 **Figma:** None  
@@ -25,10 +25,10 @@ Guarantee that every committed local syncable mutation has a durable retryable s
 
 ## Epic Acceptance Criteria
 
-- [ ] Local domain mutation and outbox event succeed/fail atomically.
-- [ ] Retry reuses the same eventId.
-- [ ] Active outbox removes/marks an event complete only after backend acknowledgement.
-- [ ] Acknowledged diagnostic history is bounded/configurable rather than permanent.
+- [x] Local domain mutation and outbox event succeed/fail atomically.
+- [x] Retry reuses the same eventId.
+- [x] Active outbox removes/marks an event complete only after backend acknowledgement.
+- [x] Acknowledged diagnostic history is bounded/configurable rather than permanent.
 
 ## Subtasks
 

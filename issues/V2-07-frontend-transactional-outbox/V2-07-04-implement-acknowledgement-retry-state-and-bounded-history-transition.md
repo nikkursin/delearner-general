@@ -1,7 +1,7 @@
 # V2-07-04 — Implement acknowledgement, retry state and bounded history transition
 
 **Parent epic:** V2-07 — Frontend Transactional Outbox  
-**Status:** Planned  
+**Status:** Done  
 **Workspace:** frontend  
 **Size:** 2 story point(s)  
 **Dependencies:** V2-07-01,V2-07-03  
@@ -30,10 +30,10 @@ None. Do not call Figma for this task. If functional testing requires a visible 
 
 ## Acceptance Criteria
 
-- [ ] Sending alone never removes an event; acknowledgement transition is tested and old diagnostic history can be purged by configurable policy.
-- [ ] Existing relevant tests still pass.
-- [ ] New behavior has focused automated coverage where feasible.
-- [ ] No unrelated product/UI behavior changed.
+- [x] Sending alone never removes an event; acknowledgement transition is tested and old diagnostic history can be purged by configurable policy.
+- [x] Existing relevant tests still pass.
+- [x] New behavior has focused automated coverage where feasible.
+- [x] No unrelated product/UI behavior changed.
 
 ## Verification
 

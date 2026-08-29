@@ -17,7 +17,7 @@ Deliver an authenticated, account-based, offline-capable multi-device synchroniz
 | [V2-03](./V2-03-frontend-uuid-migration-baseline/EPIC.md) | Frontend UUID + Migration Baseline | Done |
 | [V2-04](./V2-04-backend-postgresql-domain-baseline/EPIC.md) | Backend PostgreSQL Domain Baseline | Done |
 
-Additionally completed inside V2-07: `V2-07-01` and `V2-07-02`. These stay Done.
+Additionally completed: V2-07 is Done. These tasks stay Done and must not be reopened.
 
 ## Remaining Execution Strategy
 
@@ -45,7 +45,7 @@ This order is a priority strategy, not permission to bypass dependencies.
 | [V2-04](./V2-04-backend-postgresql-domain-baseline/EPIC.md) | Backend PostgreSQL Domain Baseline | backend | None | Done |
 | [V2-05](./V2-05-authentication-and-account-foundation/EPIC.md) | Authentication and Account Foundation | root + backend + frontend | Deferred; simple functional client state allowed | V2-04 |
 | [V2-06](./V2-06-device-registration-and-lifecycle/EPIC.md) | Device Registration and Lifecycle | backend + frontend + root | None unless explicitly added later | backend auth |
-| [V2-07](./V2-07-frontend-transactional-outbox/EPIC.md) | Frontend Transactional Outbox | frontend | None | client auth + device identity |
+| [V2-07](./V2-07-frontend-transactional-outbox/EPIC.md) | Frontend Transactional Outbox | frontend | None | Done |
 | [V2-08](./V2-08-backend-mutation-processing/EPIC.md) | Backend Mutation Processing | backend + root | None | backend auth + device enforcement + contract |
 | [V2-09](./V2-09-incremental-pull-and-cursor/EPIC.md) | Incremental Pull and Cursor | backend + frontend + root | None | backend mutation engine |
 | [V2-10](./V2-10-new-device-bootstrap/EPIC.md) | New-Device Bootstrap | backend + frontend + root | None; functional startup state only | backend pull + auth/device |
