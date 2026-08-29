@@ -1,7 +1,7 @@
 # V2-12-01 — Implement cursor-aware retention boundary and configurable max window
 
 **Parent epic:** V2-12 — Retention and Stale-Device Recovery  
-**Status:** Planned  
+**Status:** Done
 **Workspace:** backend  
 **Size:** 2 story point(s)  
 **Dependencies:** V2-09-02,V2-10-01
