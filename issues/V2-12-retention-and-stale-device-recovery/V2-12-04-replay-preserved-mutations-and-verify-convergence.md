@@ -1,7 +1,7 @@
 # V2-12-04 — Replay preserved mutations and verify convergence
 
 **Parent epic:** V2-12 — Retention and Stale-Device Recovery  
-**Status:** Planned  
+**Status:** Blocked
 **Workspace:** frontend + backend + root  
 **Size:** 2 story point(s)  
 **Dependencies:** V2-12-03,V2-08-04,V2-10-03  
@@ -58,3 +58,70 @@ None. Do not call Figma for this task. If functional testing requires a visible 
 - Shared schema/contract semantics are missing or contradictory.
 - A required behavior is missing from the canonical contract or issue acceptance criteria.
 - Completing the task would require future-version work.
+
+## Blocker — 2026-09-08
+
+Safe replay is blocked by the live backend mutation path bypassing the existing
+LWW resolver. The selected task requires preserved events to retain their original
+modification times and pass through normal backend conflict handling. On the pinned
+backend revision `83e935fb5b5c7f28599ff4ab7957f7e0ee91e9cb`, an older offline group
+update instead overwrites a newer canonical group after bootstrap.
+
+### Verified reproduction
+
+The adjacent `V2-12-04-older-replay-regression.patch` adds one backend handler test:
+
+1. Register two devices for one user.
+2. Upload Device A's group value `Newer server edit`, modified at
+   `2026-01-15T10:00:00Z`.
+3. Fetch bootstrap successfully.
+4. Replay Device B's original `Older offline edit`, modified at
+   `2026-01-15T09:00:00Z`, with its original event ID and timestamp.
+5. Assert the stored canonical group still contains Device A's newer value.
+
+Both uploads return HTTP 200. The assertion fails: canonical storage contains
+`Older offline edit`. This uses the real backend handlers, auth, registered-device
+repositories and transaction repository with their existing SQLite test adapter;
+it is not a PostgreSQL end-to-end test.
+
+Reproduce in an isolated backend checkout at the revision above (adjust the Qt
+prefix and architecture to the host):
+
+```sh
+git apply --unidiff-zero /path/to/V2-12-04-older-replay-regression.patch
+cmake -S . -B /tmp/v2-12-04-backend-build -DCMAKE_PREFIX_PATH=/opt/homebrew -DCMAKE_OSX_ARCHITECTURES=arm64 -DCMAKE_BUILD_TYPE=Debug
+cmake --build /tmp/v2-12-04-backend-build --target test_event_characterization --parallel 4
+/tmp/v2-12-04-backend-build/tests/test_event_characterization testOlderOfflineReplayPreservesNewerCanonicalState
+```
+
+### Verification performed
+
+- Configured and built `test_event_characterization` with Qt 6.9.0 and an explicit
+  `arm64` target (the default host architecture did not match the installed Qt).
+- Ran the focused regression: expected newer value, observed older value; failed.
+- Ran the complete characterization executable with the regression: 20 passed
+  (including initialization/cleanup), 1 failed, 0 skipped. The sole failure is
+  the new older-replay regression.
+- Ran the root fixture validator: all 12 canonical fixtures passed.
+- No frontend, PostgreSQL or full-system recovery acceptance run was claimed.
+
+### Required prerequisite repair
+
+`DLEventsCompatibilityHandler::applyCanonicalMutation` calls direct persistence
+without invoking `DLConflictResolver`. In addition,
+`DLSyncTransactionRepository::commitDomainMutationWithAcceptedEvent` persists the
+incoming event before the mutation callback, so repairing only the stored value
+would still require checking what other devices receive through incremental pull.
+Safe conflict handling must be verified across canonical storage, acknowledgement,
+incremental propagation, tombstones and idempotent replay before this task can
+rely on it. This is a mutation-engine prerequisite repair, beyond simply wiring
+preserved-outbox replay. V2-08 tasks remain Done and were not reopened.
+
+The client also still needs automatic handling of the backend's HTTP 409
+`stale_cursor` response and upload of preserved events after bootstrap. Those
+V2-12-04 changes have not been made or marked complete.
+
+No product code or child submodule pins changed. Pre-existing child commits and
+the backend's untracked `tests/test_http_server.cpp` were excluded by using
+isolated worktrees at the root-pinned revisions. The regression patch is evidence,
+not an enabled passing test or a claim that recovery acceptance criteria pass.

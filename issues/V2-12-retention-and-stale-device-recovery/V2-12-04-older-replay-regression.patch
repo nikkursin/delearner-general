@@ -1,0 +1,43 @@
+diff --git a/tests/test_event_characterization.cpp b/tests/test_event_characterization.cpp
+index 720869f..fbf92ab 100644
+--- a/tests/test_event_characterization.cpp
++++ b/tests/test_event_characterization.cpp
+@@ -22,0 +23 @@ private slots:
++    void testOlderOfflineReplayPreservesNewerCanonicalState();
+@@ -796,0 +798,36 @@ QTEST_MAIN(TestEventCharacterization)
++
++
++void TestEventCharacterization::testOlderOfflineReplayPreservesNewerCanonicalState()
++{
++    const RegisteredUser user = registerUser(QStringLiteral("replay@example.com"), QStringLiteral("device-a"));
++    createDevice(user.userId, QStringLiteral("device-b"));
++    DLEventsCompatibilityHandler handler(&m_database, &m_authDatabase, m_authService.get());
++    const auto mutation = [&](const QString& eventId, const QString& deviceId,
++                              const QString& name, const QString& timestamp) {
++        QJsonObject event = QJsonDocument::fromJson(eventBody(eventId, deviceId, user.userId))
++                                .object().value(QStringLiteral("events")).toArray().at(0).toObject();
++        QJsonObject payload = event.value(QStringLiteral("payload")).toObject();
++        payload.insert(QStringLiteral("name"), name);
++        payload.insert(QStringLiteral("updated_at"), timestamp);
++        event.insert(QStringLiteral("payload"), payload);
++        event.insert(QStringLiteral("operation"), QStringLiteral("update"));
++        event.insert(QStringLiteral("updatedAt"), timestamp);
++        event.insert(QStringLiteral("occurredAt"), QDateTime::fromString(timestamp, Qt::ISODate).toSecsSinceEpoch());
++        return QJsonDocument(QJsonObject{{QStringLiteral("events"), QJsonArray{event}}}).toJson();
++    };
++    const auto newer = handler.handleUpload(mutation(
++        QStringLiteral("50f60844-f507-4ccf-9a37-1db2fc9a6d92"), QStringLiteral("device-a"),
++        QStringLiteral("Newer server edit"), QStringLiteral("2026-01-15T10:00:00Z")), user.authorization);
++    QCOMPARE(newer.statusCode(), QHttpServerResponse::StatusCode::Ok);
++    const auto bootstrap = handler.handleBootstrap(user.authorization);
++    QCOMPARE(bootstrap.statusCode(), QHttpServerResponse::StatusCode::Ok);
++    const auto replay = handler.handleUpload(mutation(
++        QStringLiteral("76f8f363-4dd7-4e16-9383-32d81f0af152"), QStringLiteral("device-b"),
++        QStringLiteral("Older offline edit"), QStringLiteral("2026-01-15T09:00:00Z")), user.authorization);
++    QCOMPARE(replay.statusCode(), QHttpServerResponse::StatusCode::Ok);
++    DLDomainRepository repository(m_database);
++    const auto stored = repository.groupById(user.userId, QString::fromLatin1(groupId));
++    QVERIFY(stored.has_value());
++    QCOMPARE(stored->name, QStringLiteral("Newer server edit"));
++    QCOMPARE(stored->updatedAt, QStringLiteral("2026-01-15T10:00:00Z"));
++}
