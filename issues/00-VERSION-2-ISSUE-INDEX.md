@@ -2,7 +2,7 @@
 
 **Status:** In Progress  
 **Epics:** 15  
-**Loop-sized subtasks:** 60  
+**Loop-sized subtasks:** 61
 
 ## Version 2 Goal
 

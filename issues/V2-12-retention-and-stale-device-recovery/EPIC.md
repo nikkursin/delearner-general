@@ -37,7 +37,8 @@ Bound server event history while allowing stale devices to recover automatically
 | [V2-12-01](./V2-12-01-implement-cursor-aware-retention-boundary-and-configurable-max-window.md) | Implement cursor-aware retention boundary and configurable max window | backend | 2 | V2-09-02,V2-10-01 |
 | [V2-12-02](./V2-12-02-detect-stale-cursor-and-return-recoverable-protocol-result.md) | Detect stale cursor and return recoverable protocol result | backend + root | 2 | V2-12-01,V2-09-01 |
 | [V2-12-03](./V2-12-03-preserve-pending-outbox-during-client-re-bootstrap.md) | Preserve pending outbox during client re-bootstrap | frontend | 2 | V2-12-02,V2-10-02 |
-| [V2-12-04](./V2-12-04-replay-preserved-mutations-and-verify-convergence.md) | Replay preserved mutations and verify convergence | frontend + backend + root | 2 | V2-12-03,V2-08-04,V2-10-03 |
+| [V2-12-03A](./V2-12-03A%20%E2%80%94%20Route%20live%20mutations%20through%20canonical%20conflict%20resolution.md) | Route live mutations through canonical conflict resolution | backend + root | 2 | V2-08-04,V2-10-03 |
+| [V2-12-04](./V2-12-04-replay-preserved-mutations-and-verify-convergence.md) | Replay preserved mutations and verify convergence | frontend + backend + root | 2 | V2-12-03,V2-12-03A,V2-08-04,V2-10-03 |
 
 ## Canonical References
 

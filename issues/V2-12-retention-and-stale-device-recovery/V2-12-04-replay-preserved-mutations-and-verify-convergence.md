@@ -1,10 +1,10 @@
 # V2-12-04 — Replay preserved mutations and verify convergence
 
 **Parent epic:** V2-12 — Retention and Stale-Device Recovery  
-**Status:** Blocked
+**Status:** Planned
 **Workspace:** frontend + backend + root  
 **Size:** 2 story point(s)  
-**Dependencies:** V2-12-03,V2-08-04,V2-10-03  
+**Dependencies:** V2-12-03,V2-12-03A,V2-08-04,V2-10-03
 
 ## Objective
 
@@ -125,3 +125,11 @@ No product code or child submodule pins changed. Pre-existing child commits and
 the backend's untracked `tests/test_http_server.cpp` were excluded by using
 isolated worktrees at the root-pinned revisions. The regression patch is evidence,
 not an enabled passing test or a claim that recovery acceptance criteria pass.
+
+## Blocker Resolution — 2026-09-11
+
+V2-12-03A completed the backend prerequisite in backend commit `b7e894c`. The
+older replay now loses through canonical LWW resolution, and acknowledgements
+and incremental pull expose the resulting canonical state. This task is Planned
+again; its client stale-cursor recovery and preserved-outbox replay remain
+unimplemented.

@@ -2,7 +2,7 @@
 
 **Parent epic:** V2-12 — Retention and Stale-Device Recovery
 
-**Status:** Ready
+**Status:** Done
 
 **Workspace:** backend + root
 
@@ -82,21 +82,21 @@ Exact internal factoring may follow the current backend architecture. Do not int
 
 ## Acceptance Criteria
 
-- [ ] `DLEventsCompatibilityHandler::applyCanonicalMutation` no longer bypasses the existing backend conflict-resolution semantics.
-- [ ] An older update cannot overwrite a newer canonical update.
-- [ ] A newer valid update still replaces an older canonical update according to existing LWW semantics.
-- [ ] Delete tombstones participate in the same existing LWW rules.
-- [ ] A losing update/delete does not produce incremental-pull state that contradicts canonical storage.
-- [ ] Mutation acknowledgement contains the resulting canonical entity state or tombstone, not an assumed incoming result when the incoming mutation loses.
-- [ ] Duplicate delivery of the same `eventId` remains idempotent.
-- [ ] Canonical domain mutation and accepted synchronization output remain transactionally consistent.
-- [ ] The V2-12-04 regression case passes:
+- [x] `DLEventsCompatibilityHandler::applyCanonicalMutation` no longer bypasses the existing backend conflict-resolution semantics.
+- [x] An older update cannot overwrite a newer canonical update.
+- [x] A newer valid update still replaces an older canonical update according to existing LWW semantics.
+- [x] Delete tombstones participate in the same existing LWW rules.
+- [x] A losing update/delete does not produce incremental-pull state that contradicts canonical storage.
+- [x] Mutation acknowledgement contains the resulting canonical entity state or tombstone, not an assumed incoming result when the incoming mutation loses.
+- [x] Duplicate delivery of the same `eventId` remains idempotent.
+- [x] Canonical domain mutation and accepted synchronization output remain transactionally consistent.
+- [x] The V2-12-04 regression case passes:
   - Device A uploads `Newer server edit` at `2026-01-15T10:00:00Z`.
   - Device B later replays `Older offline edit` at `2026-01-15T09:00:00Z`.
   - Canonical storage remains `Newer server edit`.
-- [ ] Relevant existing backend characterization/unit tests still pass.
-- [ ] Relevant canonical root fixtures still pass.
-- [ ] No unrelated frontend, product or UI behavior changes.
+- [x] Relevant existing backend characterization/unit tests still pass.
+- [x] Relevant canonical root fixtures still pass.
+- [x] No unrelated frontend, product or UI behavior changes.
 
 ## Focused Regression Coverage
 
@@ -331,3 +331,17 @@ In addition to the existing V2-12-03A acceptance criteria, verify:
 
 With this decision recorded, the schema-change stop condition is resolved and
 V2-12-03A may proceed.
+
+## Completion — 2026-09-11
+
+Backend commit `b7e894c` routes live uploads through `DLConflictResolver`, stores
+durable per-entity winning-event identity, and records resolved canonical output
+for incremental pull and idempotent acknowledgements. PostgreSQL schema baseline
+`1.2` resets only unrecoverable pre-release canonical sync data while preserving
+account, authentication, and device identity.
+
+The promoted older-offline-replay regression and focused winner, loser,
+tombstone, pull, retry, retention, and migration coverage pass. The complete
+backend CTest suite passes (12/12), as do all 12 root canonical fixtures. Tests
+use the repository's SQLite persistence adapter; no PostgreSQL end-to-end run is
+claimed. V2-12-04 is unblocked but remains separate work.
