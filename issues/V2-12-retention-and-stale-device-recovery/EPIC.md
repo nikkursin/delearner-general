@@ -1,6 +1,6 @@
 # V2-12 — Retention and Stale-Device Recovery
 
-**Status:** Planned  
+**Status:** Done
 **Version:** 2  
 **Workspace:** backend + frontend + root  
 **Figma:** No Figma before V2-14; recovery behavior first, visual review later  
@@ -25,10 +25,10 @@ Bound server event history while allowing stale devices to recover automatically
 
 ## Epic Acceptance Criteria
 
-- [ ] Abandoned devices cannot force infinite event retention.
-- [ ] Stale device recovers automatically through re-bootstrap when needed.
-- [ ] Pending local outbox survives re-bootstrap.
-- [ ] Replayed local events are resolved by normal backend LWW/idempotency behavior.
+- [x] Abandoned devices cannot force infinite event retention.
+- [x] Stale device recovers automatically through re-bootstrap when needed.
+- [x] Pending local outbox survives re-bootstrap.
+- [x] Replayed local events are resolved by normal backend LWW/idempotency behavior.
 
 ## Subtasks
 
