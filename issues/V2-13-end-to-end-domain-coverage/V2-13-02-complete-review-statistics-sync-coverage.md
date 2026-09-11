@@ -1,7 +1,7 @@
 # V2-13-02 — Complete review-statistics sync coverage
 
 **Parent epic:** V2-13 — End-to-End Domain Coverage  
-**Status:** Planned  
+**Status:** Done
 **Workspace:** frontend + backend + root  
 **Size:** 2 story point(s)  
 **Dependencies:** V2-12-04,V2-02-03  
@@ -30,10 +30,10 @@ None. Do not call Figma for this task. If functional testing requires a visible 
 
 ## Acceptance Criteria
 
-- [ ] A quiz on one device changes review statistics that appear on another device; raw quiz session history is absent from transport/storage.
-- [ ] Existing relevant tests still pass.
-- [ ] New behavior has focused automated coverage where feasible.
-- [ ] No unrelated product/UI behavior changed.
+- [x] A quiz on one device changes review statistics that appear on another device; raw quiz session history is absent from transport/storage.
+- [x] Existing relevant tests still pass.
+- [x] New behavior has focused automated coverage where feasible.
+- [x] No unrelated product/UI behavior changed.
 
 ## Verification
 
