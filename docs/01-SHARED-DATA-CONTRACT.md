@@ -39,7 +39,7 @@ Current Version 2 values:
 
 ```text
 SQLite schema:     1.2
-PostgreSQL schema: 1.1
+PostgreSQL schema: 1.2
 Sync/API contract: 1.0
 API route major:   /api/v1
 ```
@@ -47,8 +47,11 @@ API route major:   /api/v1
 These values are independent version families. SQLite advanced to `1.1` for
 the additive local outbox schema and `1.2` for the additive local pull-cursor
 state needed to persist successful remote consumption. PostgreSQL advanced to
-`1.1` for the additive registered-device schema. Neither change requires the
-sync/API version to advance with it.
+`1.1` for the additive registered-device schema and `1.2` for backend-only
+durable winning-event metadata and resolved pull output (V2-12-03A). The
+pre-release `1.2` migration resets legacy canonical sync data and device cursors
+whose winning identities cannot be recovered after retention; account/auth/device
+identity remains intact. These changes do not advance the sync/API version.
 
 ## Database Schema Versioning
 

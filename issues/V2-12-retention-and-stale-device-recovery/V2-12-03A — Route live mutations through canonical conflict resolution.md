@@ -2,7 +2,7 @@
 
 **Parent epic:** V2-12 — Retention and Stale-Device Recovery
 
-**Status:** Blocked
+**Status:** Ready
 
 **Workspace:** backend + root
 
@@ -238,3 +238,96 @@ live-handler repair, and stale-device convergence were not verified.
 
 Only this task record is committed. Existing submodule checkouts/pins and the
 untracked backend test are excluded. The parent epic remains non-Done.
+
+## Authorized Backend Persistence Change — 2026-09-08
+
+The backend is authorized to persist durable winning-mutation identity for
+canonical syncable entities/tombstones.
+
+### Decision
+
+The current LWW resolver uses the originating `eventId` as the deterministic
+tie-breaker when modification timestamps are equal. Because accepted sync-event
+history is intentionally bounded and may be pruned, the winning event identity
+required by conflict resolution must survive independently of retained event
+history.
+
+Add backend-only durable synchronization metadata equivalent to:
+
+```text
+winningEventId = UUID
+```
+
+for canonical syncable entity/tombstone state where required by the existing
+persistence model.
+
+The exact table placement may follow the existing backend schema structure.
+Do not expose this as a new client-owned domain property and do not change the
+shared API payload unless implementation proves that unavoidable.
+
+### Semantics
+
+After processing a mutation:
+
+* if the incoming mutation wins, canonical `winningEventId` becomes the incoming
+  mutation's `eventId`;
+* if the incoming mutation loses, the existing canonical `winningEventId` remains
+  unchanged;
+* equal-timestamp decisions must continue using the existing
+  `DLConflictResolver` event-ID tie-break semantics;
+* pruning `accepted_sync_events` must not remove information required for future
+  conflict decisions;
+* canonical state, winning-event metadata and the synchronization result exposed
+  to incremental pull must remain transactionally consistent.
+
+### Existing Development Rows
+
+This project is still pre-release and the canonical shared contract does not
+require preservation of existing developer data across the UUID-based baseline.
+
+No attempt is required to reconstruct winning event IDs from already-pruned
+history.
+
+Migration/bootstrap/test data may be reset or regenerated where necessary rather
+than inventing conflict semantics for canonical rows whose originating winning
+event is unknowable.
+
+A nullable transitional database value is acceptable only where required to
+perform migration/reset safely. Normal post-migration canonical sync state must
+retain a valid winning event identity.
+
+Do not define empty-string or arrival-order behavior as a replacement for the
+existing resolver tie-break rule.
+
+### Scope
+
+This authorization covers only the backend persistence/schema change required to
+make the existing conflict resolver durable.
+
+It does not authorize:
+
+* changes to LWW conflict semantics;
+* permanent retention of accepted sync events;
+* client contract fields for winning-event identity;
+* V2-12-04 stale-cursor handling or preserved-outbox replay;
+* unrelated schema redesign.
+
+### Required Verification
+
+In addition to the existing V2-12-03A acceptance criteria, verify:
+
+1. Equal-timestamp conflict resolution remains deterministic after accepted-event
+   history relevant to the original winner has been pruned.
+2. Winning-event metadata survives canonical persistence/reload.
+3. A losing mutation does not replace winning-event metadata.
+4. A winning mutation updates canonical state and winning-event metadata
+   atomically.
+5. Tombstone winner identity follows the same rule.
+6. Existing retention tests continue to pass without retaining event history
+   indefinitely.
+7. Relevant PostgreSQL migration/schema tests are updated where available.
+8. Existing development fixtures may be rebuilt instead of preserving obsolete
+   pre-migration state.
+
+With this decision recorded, the schema-change stop condition is resolved and
+V2-12-03A may proceed.
