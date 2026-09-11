@@ -1,7 +1,7 @@
 # V2-13-01 — Complete words and groups two-device sync coverage
 
 **Parent epic:** V2-13 — End-to-End Domain Coverage  
-**Status:** Planned  
+**Status:** Done
 **Workspace:** frontend + backend + root  
 **Size:** 2 story point(s)  
 **Dependencies:** V2-12-04,V2-02-02  
@@ -30,10 +30,10 @@ None. Do not call Figma for this task. If functional testing requires a visible 
 
 ## Acceptance Criteria
 
-- [ ] Root scenario covers create/update/delete and group membership from Device A to Device B and reverse direction.
-- [ ] Existing relevant tests still pass.
-- [ ] New behavior has focused automated coverage where feasible.
-- [ ] No unrelated product/UI behavior changed.
+- [x] Root scenario covers create/update/delete and group membership from Device A to Device B and reverse direction.
+- [x] Existing relevant tests still pass.
+- [x] New behavior has focused automated coverage where feasible.
+- [x] No unrelated product/UI behavior changed.
 
 ## Verification
 

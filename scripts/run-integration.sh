@@ -8,8 +8,7 @@ usage() {
   cat <<'EOF'
 Usage: ./scripts/run-integration.sh
 
-Runs the currently available root integration smoke gate. The Version 2
-integration suite will grow as authenticated sync behavior lands.
+Runs the root environment smoke gate and compiled cross-repository scenarios.
 EOF
 }
 
@@ -32,5 +31,10 @@ if command -v docker >/dev/null 2>&1; then
 else
   log "Docker is unavailable; skipped Compose configuration validation."
 fi
+
+log "Building child repositories for compiled integration scenarios."
+"$ROOT_DIR/scripts/build-all.sh" all
+
+"$ROOT_DIR/tests/word_group_two_device_sync_scenario.sh" --run
 
 log "Integration smoke gate complete."
