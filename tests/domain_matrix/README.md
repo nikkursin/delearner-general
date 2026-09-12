@@ -40,3 +40,28 @@ Those boundaries remain the responsibility of backend and release integration
 tests. The matrix introduces no conflict policy: every domain must follow the
 canonical timestamp LWW/tombstone rules, including the established logical
 account/key identity for settings.
+
+## Authentication and device prerequisite (V2-15-02)
+
+The runner first executes `authentication_device_lifecycle` and stops on failure
+before accepting the domain matrix. Both root integration entry points run this
+gate before the remaining compiled domain scenarios. For just the prerequisite:
+
+```sh
+./tests/domain_relationship_tombstone_matrix.sh --auth-only
+```
+
+The scenario registers three devices through the production authenticated device
+handler and verifies repeat registration preserves their identities. It checks
+missing/invalid bearer denial for registration, upload, pull, bootstrap and cursor
+acknowledgement; rejects cross-account device claims, uploads and cursor changes;
+rejects spoofed payload ownership; and verifies another account cannot read the
+seeded account's pull/bootstrap state. Revocation rejects upload and cursor
+advancement without changing canonical state or event history, while a remaining
+active device can still upload. Revocation uses the existing backend repository
+lifecycle operation; this does not claim a user-facing revocation endpoint exists.
+
+The tests use the existing deterministic SQLite backend adapter and in-process
+production handlers, with no external credentials. HTTP transport and PostgreSQL
+concurrency are outside this focused scenario. The root orchestration smoke test
+injects an authorization test failure and verifies the domain matrix never runs.

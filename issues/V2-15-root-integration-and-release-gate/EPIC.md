@@ -1,6 +1,6 @@
 # V2-15 — Root Integration and Release Gate
 
-**Status:** Planned  
+**Status:** In Progress
 **Version:** 2  
 **Workspace:** root + frontend + backend  
 **Figma:** Verification only against approved Version 2 Figma flows  

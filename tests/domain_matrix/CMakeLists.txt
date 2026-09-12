@@ -20,6 +20,8 @@ add_executable(domain_matrix
     ${BACKEND}/auth/DLAuthSessionRepository.cpp
     ${BACKEND}/auth/DLPasswordHasher.cpp
     ${BACKEND}/common/DLJsonResponse.cpp
+    ${BACKEND}/devices/DLDeviceRegistrationService.cpp
+    ${BACKEND}/handlers/DLDeviceHandler.cpp
     ${BACKEND}/domain/DLEventBatch.cpp
     ${BACKEND}/domain/DLSyncEnums.cpp
     ${BACKEND}/domain/DLSyncEvent.cpp
@@ -37,4 +39,5 @@ target_include_directories(domain_matrix PRIVATE "${BACKEND}")
 target_compile_definitions(domain_matrix PRIVATE FIXTURE_DIR="${DELEARNER_ROOT}/contracts/fixtures/v1")
 target_link_libraries(domain_matrix PRIVATE delearner_core Qt6::HttpServer Qt6::Test)
 enable_testing()
-add_test(NAME domain_relationship_tombstone_matrix COMMAND domain_matrix)
+add_test(NAME authentication_device_lifecycle COMMAND domain_matrix authenticationAndDeviceLifecycle)
+add_test(NAME domain_relationship_tombstone_matrix COMMAND domain_matrix lwwTombstoneAndBootstrap)

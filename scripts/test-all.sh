@@ -37,6 +37,7 @@ run_root_tests() {
   "$ROOT_DIR/tests/root_contract_environment_gate_smoke.sh"
   "$ROOT_DIR/tests/contract_versions_smoke.sh"
   "$ROOT_DIR/tests/auth_behavior_contract_smoke.sh"
+  "$ROOT_DIR/tests/authentication_gate_orchestration_smoke.sh"
   "$ROOT_DIR/tests/backend_device_revocation_boundary_smoke.sh"
   "$ROOT_DIR/tests/backend_canonical_mutation_response_smoke.sh"
   "$ROOT_DIR/tests/backend_stale_cursor_rebootstrap_contract_smoke.sh"
@@ -68,10 +69,10 @@ case "$target" in
     run_root_tests
     run_child_tests frontend
     run_child_tests backend
+    "$ROOT_DIR/tests/domain_relationship_tombstone_matrix.sh"
     "$ROOT_DIR/tests/word_group_two_device_sync_scenario.sh" --run
     "$ROOT_DIR/tests/review_stats_quiz_sync_scenario.sh" --run
     "$ROOT_DIR/tests/learning_settings_sync_scenario.sh" --run
-    "$ROOT_DIR/tests/domain_relationship_tombstone_matrix.sh"
     ;;
   root)
     run_root_tests

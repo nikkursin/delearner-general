@@ -7,6 +7,7 @@
 
 #include "auth/DLAuthService.h"
 #include "handlers/DLEventsCompatibilityHandler.h"
+#include "handlers/DLDeviceHandler.h"
 #include "persistence/DLDatabaseMigrator.h"
 #include "persistence/DLRegisteredDeviceRepository.h"
 #include "Managers/DLDatabaseManager.h"
@@ -19,6 +20,7 @@ class DomainMatrix : public QObject
 private slots:
     void init();
     void cleanup();
+    void authenticationAndDeviceLifecycle();
     void lwwTombstoneAndBootstrap_data();
     void lwwTombstoneAndBootstrap();
 private:
@@ -60,10 +62,16 @@ void DomainMatrix::init()
     for (int i = 0; i < 3; ++i) {
         const auto id = QUuid::createUuid().toString(QUuid::WithoutBraces);
         devices.append(id);
-        DLRegisteredDeviceRepository repository(backend);
-        QVERIFY2(repository.createDevice({id, owner, "Matrix device", "active", 0,
-                                          timestamp(1), timestamp(1), timestamp(1), {}}),
-                 qPrintable(repository.lastError()));
+        DLDeviceRegistrationService service(backend);
+        DLDeviceHandler deviceHandler(auth.get(), &service);
+        const auto response = deviceHandler.handleRegister(QJsonDocument(QJsonObject{
+            {"deviceId", id}, {"displayName", "Matrix device"}}).toJson(), authorization);
+        QCOMPARE(response.statusCode(), QHttpServerResponse::StatusCode::Created);
+        const auto registered = QJsonDocument::fromJson(response.data()).object();
+        QCOMPARE(registered.value("deviceId").toString(), id);
+        QCOMPARE(registered.value("userId").toString(), owner);
+        QCOMPARE(registered.value("lifecycleState").toString(), "active");
+        QCOMPARE(registered.value("syncCursor").toInteger(), 0);
     }
     handler = std::make_unique<DLEventsCompatibilityHandler>(&backend, &backend, auth.get());
     fixtures.clear();
@@ -93,6 +101,89 @@ void DomainMatrix::cleanup()
     backend.close();
     backend = {};
     QSqlDatabase::removeDatabase("domain-matrix-backend");
+}
+
+void DomainMatrix::authenticationAndDeviceLifecycle()
+{
+    using Status = QHttpServerResponse::StatusCode;
+    const auto json = [](const QHttpServerResponse& response) {
+        return QJsonDocument::fromJson(response.data()).object();
+    };
+    const auto body = [](const QJsonObject& event) {
+        return QJsonDocument(QJsonObject{{"events", QJsonArray{event}}}).toJson();
+    };
+    DLDeviceRegistrationService service(backend);
+    DLDeviceHandler deviceHandler(auth.get(), &service);
+    DLRegisteredDeviceRepository repository(backend);
+    const auto registrationBody = QJsonDocument(QJsonObject{
+        {"deviceId", devices.first()}, {"displayName", "Same device"}}).toJson();
+    QCOMPARE(repository.devicesForUser(owner).size(), 3);
+    QCOMPARE(deviceHandler.handleRegister(registrationBody, authorization).statusCode(), Status::Ok);
+    QCOMPARE(repository.devicesForUser(owner).size(), 3); // Resolve does not duplicate.
+
+    const auto event = mutation("group", "create", 2, 0);
+    const auto cursorBody = QJsonDocument(QJsonObject{
+        {"deviceId", devices.first()}, {"consumedSequence", 0}}).toJson();
+    for (const auto& session : {QString(), QString("Bearer invalid-session")}) {
+        QCOMPARE(deviceHandler.handleRegister(registrationBody, session).statusCode(), Status::Unauthorized);
+        QCOMPARE(handler->handleUpload(body(event), session).statusCode(), Status::Unauthorized);
+        QCOMPARE(handler->handleDownload({{"after", "0"}}, session).statusCode(), Status::Unauthorized);
+        QCOMPARE(handler->handleBootstrap(session).statusCode(), Status::Unauthorized);
+        QCOMPARE(handler->handleCursorAdvance(cursorBody, session).statusCode(), Status::Unauthorized);
+    }
+    QCOMPARE(json(handler->handleDownload({{"after", "0"}}, authorization)).value("events").toArray().size(), 0);
+    QCOMPARE(json(handler->handleBootstrap(authorization)).value("state").toObject().value("groups").toArray().size(), 0);
+
+    const auto other = auth->registerEmailPassword("other@example.com", "other-password");
+    QVERIFY2(other.success, qPrintable(other.errorMessage));
+    const auto otherAuthorization = "Bearer " + other.sessionToken;
+    const auto claim = deviceHandler.handleRegister(registrationBody, otherAuthorization);
+    QCOMPARE(claim.statusCode(), Status::Conflict);
+    QCOMPARE(json(claim).value("error").toString(), "device_claim_conflict");
+    QCOMPARE(repository.devicesForUser(other.userId).size(), 0);
+    const auto otherDevice = QUuid::createUuid().toString(QUuid::WithoutBraces);
+    QCOMPARE(deviceHandler.handleRegister(QJsonDocument(QJsonObject{{"deviceId", otherDevice}}).toJson(),
+                                         otherAuthorization).statusCode(), Status::Created);
+
+    // A valid session cannot upload through another account's registered device.
+    auto foreignDeviceEvent = event;
+    auto payload = event.value("payload").toObject();
+    payload.insert("ownerUserId", other.userId);
+    foreignDeviceEvent.insert("payload", payload);
+    const auto foreignUpload = handler->handleUpload(body(foreignDeviceEvent), otherAuthorization);
+    QCOMPARE(foreignUpload.statusCode(), Status::Forbidden);
+    QCOMPARE(json(foreignUpload).value("error").toString(), "device_not_registered");
+    foreignDeviceEvent.insert("deviceId", otherDevice);
+    foreignDeviceEvent.insert("payload", event.value("payload")); // Spoof owner with valid own device.
+    const auto spoof = json(handler->handleUpload(body(foreignDeviceEvent), otherAuthorization));
+    QCOMPARE(spoof.value("accepted").toArray().size(), 0);
+    QCOMPARE(spoof.value("rejected").toArray().size(), 1);
+    QCOMPARE(spoof.value("rejected").toArray().first().toObject().value("reason").toString(), "unauthorized_owner_user");
+
+    push(event, "create", 2);
+    const auto ownerPage = json(handler->handleDownload({{"after", "0"}}, authorization));
+    QCOMPARE(ownerPage.value("events").toArray().size(), 1);
+    QCOMPARE(json(handler->handleDownload({{"after", "0"}}, otherAuthorization)).value("events").toArray().size(), 0);
+    QCOMPARE(json(handler->handleBootstrap(otherAuthorization)).value("state").toObject().value("groups").toArray().size(), 0);
+    QCOMPARE(handler->handleDownload({{"after", "0"}}, otherAuthorization).statusCode(), Status::Ok);
+    QCOMPARE(handler->handleBootstrap(otherAuthorization).statusCode(), Status::Ok);
+    const auto originalState = json(handler->handleBootstrap(authorization)).value("state");
+    QCOMPARE(originalState.toObject().value("groups").toArray().size(), 1);
+    QCOMPARE(handler->handleCursorAdvance(cursorBody, otherAuthorization).statusCode(), Status::Forbidden);
+    QCOMPARE(repository.deviceById(owner, devices.first())->syncCursor, 0);
+
+    QVERIFY(repository.updateLifecycleState(owner, devices.first(), "revoked", timestamp(3), timestamp(3)));
+    const auto revoked = handler->handleUpload(body(mutation("group", "update", 4, 0)), authorization);
+    QCOMPARE(revoked.statusCode(), Status::Forbidden);
+    QCOMPARE(json(revoked).value("error").toString(), "device_revoked");
+    const auto revokedCursor = handler->handleCursorAdvance(cursorBody, authorization);
+    QCOMPARE(revokedCursor.statusCode(), Status::Conflict);
+    QCOMPARE(json(revokedCursor).value("error").toString(), "device_revoked");
+    QCOMPARE(json(handler->handleBootstrap(authorization)).value("state"), originalState);
+    QCOMPARE(json(handler->handleDownload({{"after", "0"}}, authorization)).value("events").toArray().size(), 1);
+    push(mutation("group", "update", 5, 1), "update", 5);
+    QCOMPARE(json(handler->handleDownload({{"after", "0"}}, authorization)).value("events").toArray().size(), 2);
+    QCOMPARE(json(handler->handleDownload({{"after", "0"}}, otherAuthorization)).value("events").toArray().size(), 0);
 }
 
 QJsonObject DomainMatrix::fixture(const QString& type)

@@ -134,7 +134,8 @@ available:
 ./scripts/test-all.sh root
 ```
 
-Run the current root integration smoke gate:
+Run the current root integration smoke gate. Authentication/account isolation and
+device lifecycle checks must pass before the compiled domain-sync scenarios:
 
 ```sh
 ./scripts/run-integration.sh

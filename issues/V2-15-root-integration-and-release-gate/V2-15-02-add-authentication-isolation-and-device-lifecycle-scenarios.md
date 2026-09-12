@@ -1,7 +1,7 @@
 # V2-15-02 — Add authentication isolation and device lifecycle scenarios
 
 **Parent epic:** V2-15 — Root Integration and Release Gate  
-**Status:** Planned  
+**Status:** Done
 **Workspace:** root  
 **Size:** 2 story point(s)  
 **Dependencies:** V2-06-04,V2-13-04  
@@ -30,10 +30,10 @@ None.
 
 ## Acceptance Criteria
 
-- [ ] Tests prove account boundaries and device authorization before data-sync scenarios are accepted.
-- [ ] Existing relevant tests still pass.
-- [ ] New behavior has focused automated coverage where feasible.
-- [ ] No unrelated product/UI behavior changed.
+- [x] Tests prove account boundaries and device authorization before data-sync scenarios are accepted.
+- [x] Existing relevant tests still pass.
+- [x] New behavior has focused automated coverage where feasible.
+- [x] No unrelated product/UI behavior changed.
 
 ## Verification
 
@@ -58,3 +58,32 @@ None.
 - Shared schema/contract semantics are missing or contradictory.
 - A required behavior is missing from the canonical contract or selected issue. Missing Figma alone is not a blocker unless this task explicitly marks Figma as Required.
 - Completing the task would require future-version work.
+
+## Completion Evidence
+
+Implemented root-owned `authentication_device_lifecycle` in the existing compiled
+integration harness. It exercises production registration/auth/sync handlers with
+three registered devices and a second account: missing/invalid sessions, repeat
+registration, cross-account claims/uploads/cursor changes, spoofed ownership,
+pull/bootstrap isolation, revoked upload/cursor rejection, unchanged state after
+denial, and continued upload from an active device. The canonical group fixture
+provides the mutation payload. Child implementation and submodule pins are unchanged.
+
+Both root integration entry points run the authorization prerequisite before the
+domain scenarios. The runner fails on failed or missing tests and supports
+`--auth-only`. A root smoke test injects failure to verify later scenarios do not
+run. V2-15 remains In Progress; no other subtask is completed by this change.
+
+Verification:
+
+- `./scripts/test-all.sh all`: passed root checks, frontend CTest 16/16, backend
+  CTest 12/12, auth/device scenario, domain matrix and existing compiled word/group,
+  quiz-review and learning-setting scenarios.
+- `./tests/domain_relationship_tombstone_matrix.sh`: passed both compiled scenarios.
+- `./scripts/test-all.sh root`: passed, including the new failure-injection test.
+- `bash -n` on changed shell scripts and `git diff --check`: passed.
+
+These deterministic scenarios use the backend's existing QSQLITE test adapter
+and in-process production handlers. HTTP transport/PostgreSQL concurrency and
+Felgo application execution are not claimed by this task; the available frontend
+core/test build passed. No new external human check is required for this subtask.
