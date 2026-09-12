@@ -1,6 +1,6 @@
 # V2-13 — End-to-End Domain Coverage
 
-**Status:** In Progress
+**Status:** Done
 **Version:** 2  
 **Workspace:** frontend + backend + root  
 **Figma:** No redesign; preserve existing MVP1 behavior  
@@ -25,10 +25,10 @@ Prove every domain type approved for Version 2 behaves correctly through the com
 
 ## Epic Acceptance Criteria
 
-- [ ] Create/update/delete converges across two devices for all Version 2 entities.
-- [ ] Word/group relationships remain valid.
-- [ ] Local quiz results propagate only through review statistics.
-- [ ] Theme/navigation/transient filters and other device-local settings do not sync.
+- [x] Create/update/delete converges across two devices for all Version 2 entities.
+- [x] Word/group relationships remain valid.
+- [x] Local quiz results propagate only through review statistics.
+- [x] Theme/navigation/transient filters and other device-local settings do not sync.
 
 ## Subtasks
 
@@ -55,3 +55,10 @@ Prove every domain type approved for Version 2 behaves correctly through the com
 - The work requires changing shared contract/schema semantics beyond this epic.
 - A Figma/code discrepancy would require a large structural change.
 - The task begins pulling Version 3+ scope into Version 2.
+
+## Completion Evidence
+
+All four subtasks are Done. V2-13-04 verifies the domain relationship/tombstone
+matrix against the pinned children and passes both child suites, root contract
+checks, and all V2-13 domain scenarios. See its completion evidence and
+`tests/domain_matrix/README.md` for coverage and test boundaries.

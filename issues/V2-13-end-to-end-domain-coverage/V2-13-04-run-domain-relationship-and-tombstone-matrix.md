@@ -1,7 +1,7 @@
 # V2-13-04 — Run domain relationship and tombstone matrix
 
 **Parent epic:** V2-13 — End-to-End Domain Coverage  
-**Status:** Planned  
+**Status:** Done
 **Workspace:** root  
 **Size:** 2 story point(s)  
 **Dependencies:** V2-13-01,V2-13-02,V2-13-03  
@@ -30,10 +30,10 @@ None. Do not call Figma for this task. If functional testing requires a visible 
 
 ## Acceptance Criteria
 
-- [ ] Matrix passes normal LWW/tombstone rules and identifies no domain-specific conflict policy outside the canonical protocol.
-- [ ] Existing relevant tests still pass.
-- [ ] New behavior has focused automated coverage where feasible.
-- [ ] No unrelated product/UI behavior changed.
+- [x] Matrix passes normal LWW/tombstone rules and identifies no domain-specific conflict policy outside the canonical protocol.
+- [x] Existing relevant tests still pass.
+- [x] New behavior has focused automated coverage where feasible.
+- [x] No unrelated product/UI behavior changed.
 
 ## Verification
 
@@ -58,3 +58,24 @@ None. Do not call Figma for this task. If functional testing requires a visible 
 - Shared schema/contract semantics are missing or contradictory.
 - A required behavior is missing from the canonical contract or selected issue. Missing Figma alone is not a blocker unless this task explicitly marks Figma as Required.
 - Completing the task would require future-version work.
+
+## Completion Evidence — 2026-09-12
+
+- Added the root-owned executable matrix in `tests/domain_matrix/`, invoked by
+  `tests/domain_relationship_tombstone_matrix.sh`, `scripts/test-all.sh all`,
+  and `scripts/run-integration.sh`.
+- Four domain rows connect production backend handlers to two independent
+  frontend SQLite stores and a fresh third-client bootstrap at every checkpoint.
+  They verify stale update/delete rejection by canonical LWW, winning deletes,
+  duplicate delivery, later resurrection, group unlink/reattach, cursor progress,
+  no feedback outbox, and bootstrap/pull convergence.
+- Uses canonical fixture payloads and the backend's existing deterministic
+  QSQLITE adapter. HTTP transport and PostgreSQL concurrency are outside this
+  in-process matrix; no implementation or shared contract changes were needed.
+- `CMAKE_OSX_ARCHITECTURES=arm64 CMAKE_BUILD_PARALLEL_LEVEL=4 scripts/test-all.sh all`
+  passed: root smoke/contract checks, frontend 15/15 CTest entries, backend 12/12
+  entries, existing three domain scenarios, and the new matrix (all four rows).
+- Compared UUID-based state rather than local integer keys. The review row
+  compares published review state; unsynced default review scaffolding created
+  by word application is not treated as canonical review data in other rows.
+- Both child worktrees and their root submodule pins remain unchanged.
