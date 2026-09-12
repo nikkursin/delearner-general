@@ -1,7 +1,7 @@
 # V2-13-03 — Complete synchronized learning-settings coverage
 
 **Parent epic:** V2-13 — End-to-End Domain Coverage  
-**Status:** Planned  
+**Status:** Blocked
 **Workspace:** frontend + backend + root  
 **Size:** 2 story point(s)  
 **Dependencies:** V2-12-04,V2-02-03  
@@ -58,3 +58,25 @@ None. Do not call Figma for this task. If functional testing requires a visible 
 - Shared schema/contract semantics are missing or contradictory.
 - A required behavior is missing from the canonical contract or selected issue. Missing Figma alone is not a blocker unless this task explicitly marks Figma as Required.
 - Completing the task would require future-version work.
+
+## Blocker — 2026-09-12
+
+Account learning-setting identity for concurrent first writes is undefined.
+Two devices can independently create `learning.native_language` while offline,
+with different UUIDs. The partial frontend implementation at `77e7bf5` generates
+random UUIDs for new keys. PostgreSQL enforces `UNIQUE(owner_user_id, setting_key)`,
+but `DLEventsCompatibilityHandler` reads canonical state and chooses create/update
+by entity UUID. Consequently, a second UUID for the same account/key takes the
+insert path and conflicts with that uniqueness constraint rather than converging
+through the existing per-entity LWW path.
+
+The canonical contract and fixtures specify UUID identities and setting keys but
+provide no identity rule for this case. A root decision is required before choosing
+between a shared deterministic account/key UUID rule and backend-owned identity
+reconciliation (including retries, tombstones and pending outbox references).
+This is shared identity/sync semantics, covered by this task's stop conditions.
+
+Inspection only: no implementation or runtime tests were performed in this run.
+The pre-existing frontend commit remains untouched and unpinned; it also includes
+an unrelated iOS export edit that must be isolated from eventual task completion.
+Resume this task after the identity rule is approved and recorded in the contract.
