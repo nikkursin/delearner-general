@@ -1,7 +1,7 @@
 # V2-14-03 — Hide production import/export synchronization UI
 
 **Parent epic:** V2-14 — Production UX Cleanup for Stable Sync  
-**Status:** Planned  
+**Status:** Done
 **Workspace:** frontend  
 **Size:** 1 story point(s)  
 **Dependencies:** V2-13-04  
@@ -30,10 +30,10 @@ Design/review required for meaningful new auth/sync/recovery states. If this sub
 
 ## Acceptance Criteria
 
-- [ ] Production build no longer presents file transfer as sync; unrelated settings behavior remains unchanged.
-- [ ] Existing relevant tests still pass.
-- [ ] New behavior has focused automated coverage where feasible.
-- [ ] No unrelated product/UI behavior changed.
+- [x] Production build no longer presents file transfer as sync; unrelated settings behavior remains unchanged.
+- [x] Existing relevant tests still pass.
+- [x] New behavior has focused automated coverage where feasible.
+- [x] No unrelated product/UI behavior changed.
 
 ## Verification
 
