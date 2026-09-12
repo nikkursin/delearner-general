@@ -34,6 +34,7 @@ run_root_tests() {
   log "Running root smoke checks."
   "$ROOT_DIR/tests/root_entrypoints_smoke.sh"
   "$ROOT_DIR/tests/root_environment_smoke.sh"
+  "$ROOT_DIR/tests/root_contract_environment_gate_smoke.sh"
   "$ROOT_DIR/tests/contract_versions_smoke.sh"
   "$ROOT_DIR/tests/auth_behavior_contract_smoke.sh"
   "$ROOT_DIR/tests/backend_device_revocation_boundary_smoke.sh"

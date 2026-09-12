@@ -140,6 +140,21 @@ Run the current root integration smoke gate:
 ./scripts/run-integration.sh
 ```
 
+Run the fail-fast contract and fresh-environment smoke gate. This validates the
+root fixtures and pinned child schema/contract versions, starts PostgreSQL and
+the backend through Docker Compose, checks the live backend schema reported by
+`/health`, and invokes both child CTest entry points:
+
+```sh
+./scripts/smoke-gate.sh
+```
+
+The gate leaves the Compose services running for subsequent integration work.
+Use `docker compose down` when they are no longer needed. Set
+`DELEARNER_BACKEND_HEALTH_URL` for an externally exposed backend or
+`DELEARNER_SMOKE_SKIP_COMPOSE_START=true` when the compatible backend is already
+managed outside this Compose project.
+
 Print the root-owned Version 2 schema and sync/API compatibility baselines:
 
 ```sh

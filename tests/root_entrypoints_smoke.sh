@@ -11,8 +11,11 @@ required_files=(
   "scripts/bootstrap.sh"
   "scripts/build-all.sh"
   "scripts/contract-diagnostics.sh"
+  "scripts/smoke-gate.sh"
   "scripts/test-all.sh"
   "scripts/run-integration.sh"
+  "scripts/verify-backend-health.py"
+  "scripts/verify-version-compatibility.py"
   "contracts/version-baseline.env"
   "contracts/fixtures/v1/word-and-group-events.json"
   "issues/00-VERSION-2-ISSUE-INDEX.md"
@@ -36,6 +39,7 @@ for path in \
   "scripts/bootstrap.sh" \
   "scripts/build-all.sh" \
   "scripts/contract-diagnostics.sh" \
+  "scripts/smoke-gate.sh" \
   "scripts/test-all.sh" \
   "scripts/run-integration.sh"; do
   test -x "$root_dir/$path"
@@ -45,5 +49,6 @@ done
 grep -q "git .*submodule update --init --recursive" "$root_dir/scripts/bootstrap.sh"
 grep -q "cmake --build" "$root_dir/scripts/build-all.sh"
 grep -q "ctest --test-dir" "$root_dir/scripts/test-all.sh"
+grep -q "verify-backend-health.py" "$root_dir/scripts/smoke-gate.sh"
 grep -q "root_environment_smoke.sh" "$root_dir/scripts/run-integration.sh"
 grep -q "DELEARNER_SYNC_API_CONTRACT_VERSION" "$root_dir/contracts/version-baseline.env"

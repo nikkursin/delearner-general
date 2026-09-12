@@ -1,7 +1,7 @@
 # V2-15-01 — Create root contract and environment smoke gate
 
 **Parent epic:** V2-15 — Root Integration and Release Gate  
-**Status:** Planned  
+**Status:** Done
 **Workspace:** root  
 **Size:** 2 story point(s)  
 **Dependencies:** V2-02-04,V2-01-04  
@@ -30,10 +30,10 @@ None.
 
 ## Acceptance Criteria
 
-- [ ] Fresh integration environment fails fast on incompatible contract/schema/setup and reports actionable diagnostics.
-- [ ] Existing relevant tests still pass.
-- [ ] New behavior has focused automated coverage where feasible.
-- [ ] No unrelated product/UI behavior changed.
+- [x] Fresh integration environment fails fast on incompatible contract/schema/setup and reports actionable diagnostics.
+- [x] Existing relevant tests still pass.
+- [x] New behavior has focused automated coverage where feasible.
+- [x] No unrelated product/UI behavior changed.
 
 ## Verification
 
@@ -58,3 +58,23 @@ None.
 - Shared schema/contract semantics are missing or contradictory.
 - A required behavior is missing from the canonical contract or selected issue. Missing Figma alone is not a blocker unless this task explicitly marks Figma as Required.
 - Completing the task would require future-version work.
+
+## Completion Evidence — 2026-09-12
+
+- Added `scripts/smoke-gate.sh` as the single root entry point for pinned
+  schema/contract diagnostics, all shared fixture validation, deterministic
+  Compose setup, live backend health/PostgreSQL schema verification, and both
+  child CTest entry points.
+- Added focused compatibility and health diagnostics with actionable mismatch
+  output. Root coverage proves both success and deliberate SQLite/PostgreSQL
+  mismatch failures, and `scripts/test-all.sh root` passed.
+- `CMAKE_OSX_ARCHITECTURES=arm64 CMAKE_BUILD_PARALLEL_LEVEL=4
+  ./scripts/smoke-gate.sh` passed: 3 fixture-set versions and 12 sync events
+  validated, the backend container build passed 11/11 available tests, live
+  `/health` reported PostgreSQL `1.2`, frontend passed 15/15 CTest entries, and
+  backend passed 12/12 CTest entries.
+- `CMAKE_OSX_ARCHITECTURES=arm64 CMAKE_BUILD_PARALLEL_LEVEL=4
+  ./scripts/run-integration.sh` passed the existing word/group, review-statistics,
+  learning-settings, and domain relationship/tombstone scenarios.
+- The child worktrees and root submodule pins remain unchanged; no shared
+  contract, schema, product, or UI behavior changed.
