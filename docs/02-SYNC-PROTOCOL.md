@@ -91,6 +91,15 @@ Canonical domain mutation and accepted server sync-event persistence must be par
 
 If the transaction fails, the mutation is not acknowledged as committed.
 
+### Learning-setting reconciliation
+
+For `app_setting`, resolve `(authenticated ownerUserId, setting_key)` before
+conflict comparison, including deletes and tombstones. Return the canonical UUID
+and state/tombstone even when the submitted UUID differs. Retries retain the
+original event ID and payload; pending events may still carry an older UUID and
+resolve by the same logical key. Clients adopt the canonical UUID for subsequent
+local edits and preserve pending local work across acknowledgement and bootstrap.
+
 ## Outbox Acknowledgement
 
 The client does not remove an event merely because it was sent.

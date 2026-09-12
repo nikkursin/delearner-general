@@ -1,6 +1,6 @@
 # V2-13 — End-to-End Domain Coverage
 
-**Status:** Planned  
+**Status:** In Progress
 **Version:** 2  
 **Workspace:** frontend + backend + root  
 **Figma:** No redesign; preserve existing MVP1 behavior  

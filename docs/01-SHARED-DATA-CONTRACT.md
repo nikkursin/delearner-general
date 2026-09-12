@@ -38,7 +38,7 @@ work can depend on the same compatibility source.
 Current Version 2 values:
 
 ```text
-SQLite schema:     1.2
+SQLite schema:     1.3
 PostgreSQL schema: 1.2
 Sync/API contract: 1.0
 API route major:   /api/v1
@@ -46,7 +46,8 @@ API route major:   /api/v1
 
 These values are independent version families. SQLite advanced to `1.1` for
 the additive local outbox schema and `1.2` for the additive local pull-cursor
-state needed to persist successful remote consumption. PostgreSQL advanced to
+state needed to persist successful remote consumption. SQLite `1.3` adds
+account learning settings with local tombstones (V2-13-03). PostgreSQL advanced to
 `1.1` for the additive registered-device schema and `1.2` for backend-only
 durable winning-event metadata and resolved pull output (V2-12-03A). The
 pre-release `1.2` migration resets legacy canonical sync data and device cursors
@@ -88,6 +89,17 @@ group.id = UUID
 Legacy integer IDs are not part of the target model and do not need preservation because there are no production users/data requiring compatibility.
 
 Client devices may generate canonical UUIDs before contacting the backend. This allows offline creation without server-assigned identity.
+
+### Keyed learning-setting identity
+
+Synchronized learning settings have logical identity `(ownerUserId, setting_key)`.
+Their UUID is a technical entity identifier; random offline UUIDs are permitted.
+PostgreSQL retains `UNIQUE(owner_user_id, setting_key)`. The backend resolves
+create/update/delete mutations against the existing account/key, including its
+tombstone, before applying the existing `updatedAt` last-modification-wins rule.
+Responses, pull events and bootstrap state carry the canonical UUID. Clients
+reconcile the local row by key without creating duplicate logical settings.
+Words, groups and review statistics retain their existing UUID identity semantics.
 
 ## Ownership
 
