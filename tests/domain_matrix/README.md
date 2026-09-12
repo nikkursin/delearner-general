@@ -65,3 +65,31 @@ The tests use the existing deterministic SQLite backend adapter and in-process
 production handlers, with no external credentials. HTTP transport and PostgreSQL
 concurrency are outside this focused scenario. The root orchestration smoke test
 injects an authorization test failure and verifies the domain matrix never runs.
+
+## Automatic two-device reconnect (V2-15-03)
+
+The same runner also requires `automatic_two_device_reconnect` after the auth
+prerequisite. This scenario connects the production `DLAppStateManager` and
+`DLSyncCoordinator` over loopback HTTP to the production backend handlers.
+Two persisted client databases take turns opening through the app state manager
+because the frontend database manager is a process singleton.
+
+It checks immediate offline group creation, durable outbox survival across client
+restart, and automatic upload/pull/cursor acknowledgement on network restoration.
+A test transport returns HTTP 503 after the first successful backend commit:
+the next automatic attempt must resend the identical event and payload, clear
+the outbox only after acknowledgement, and leave server history/sequence unchanged.
+Device B then persists an older offline edit while A commits a newer edit;
+reconnecting B must silently adopt A's canonical state. B's later deletion must
+propagate its tombstone back to A on reconnect. No manual sync is invoked.
+The existing four-domain matrix supplies the broader update/delete/resurrection
+conflict coverage; the preceding child scenarios supply word relationships,
+quiz-derived reviews and account settings coverage.
+
+Conflict timestamps are fixed in the test's queued envelopes, and the retry is
+made due through test database setup, so the test neither sleeps through backoff
+nor fixes a production retry cadence. The app retains its existing scheduling
+logic. This harness still uses the deterministic backend SQLite adapter; deployed
+routing, PostgreSQL concurrency, and platform connectivity notification delivery
+are outside this scenario. The root test build renames only the backend session
+DTO to avoid colliding with the unrelated frontend DTO in one executable.

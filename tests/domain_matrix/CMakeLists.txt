@@ -16,6 +16,9 @@ add_subdirectory("${DELEARNER_ROOT}/delearner-frontend" frontend EXCLUDE_FROM_AL
 set(BACKEND "${DELEARNER_ROOT}/delearner-backend/src")
 add_executable(domain_matrix
     domain_matrix.cpp
+    client_session.cpp
+    ${DELEARNER_ROOT}/delearner-frontend/src/Managers/DLAppStateManager.cpp
+    ${DELEARNER_ROOT}/delearner-frontend/src/Services/DLDatabaseExportService.cpp
     ${BACKEND}/auth/DLAuthService.cpp
     ${BACKEND}/auth/DLAuthSessionRepository.cpp
     ${BACKEND}/auth/DLPasswordHasher.cpp
@@ -41,3 +44,15 @@ target_link_libraries(domain_matrix PRIVATE delearner_core Qt6::HttpServer Qt6::
 enable_testing()
 add_test(NAME authentication_device_lifecycle COMMAND domain_matrix authenticationAndDeviceLifecycle)
 add_test(NAME domain_relationship_tombstone_matrix COMMAND domain_matrix lwwTombstoneAndBootstrap)
+add_test(NAME automatic_two_device_reconnect COMMAND domain_matrix automaticTwoDeviceReconnect)
+
+# Child executables have different global DLAuthSession DTOs. Give the backend
+# DTO a test-only name throughout its dependency closure to avoid an ODR clash
+# when both production implementations share this integration executable.
+get_target_property(matrix_sources domain_matrix SOURCES)
+foreach(source IN LISTS matrix_sources)
+    if(source MATCHES "^${BACKEND}/")
+        set_source_files_properties(${source} PROPERTIES
+            COMPILE_DEFINITIONS "DLAuthSession=DLBackendMatrixAuthSession")
+    endif()
+endforeach()

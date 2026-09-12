@@ -1,18 +1,29 @@
 #include <QtTest>
 #include <QFile>
+#include <QHttpServer>
+#include <QHttpServerRequest>
+#include <QTcpServer>
+#include <QScopeGuard>
+#include <functional>
+#include "Managers/DLAppStateManager.h"
 #include <QJsonArray>
 #include <QSqlDatabase>
 #include <QTemporaryDir>
 #include <QUuid>
 
+#define DLAuthSession DLBackendMatrixAuthSession
 #include "auth/DLAuthService.h"
 #include "handlers/DLEventsCompatibilityHandler.h"
 #include "handlers/DLDeviceHandler.h"
 #include "persistence/DLDatabaseMigrator.h"
 #include "persistence/DLRegisteredDeviceRepository.h"
+#undef DLAuthSession
 #include "Managers/DLDatabaseManager.h"
 #include "Sync/DLBootstrapStateRestorer.h"
 #include "Sync/DLRemoteChangeReconciler.h"
+
+bool saveClientSession(const QString&, const QString&, const QString&, const QString&);
+QObject* clientCoordinator(DLAppStateManager&);
 
 class DomainMatrix : public QObject
 {
@@ -21,6 +32,7 @@ private slots:
     void init();
     void cleanup();
     void authenticationAndDeviceLifecycle();
+    void automaticTwoDeviceReconnect();
     void lwwTombstoneAndBootstrap_data();
     void lwwTombstoneAndBootstrap();
 private:
@@ -363,6 +375,150 @@ void DomainMatrix::lwwTombstoneAndBootstrap()
     if (type == "group") push(mutation("word", "update", 8, 0), "update", 8); // explicit reattach
     push(mutation(type, "delete", 7, 1), "update", 8); // late-arriving older delete loses
     converge(type, false, 8);
+}
+
+void DomainMatrix::automaticTwoDeviceReconnect()
+{
+    QHttpServer server;
+    QTcpServer listener;
+    QVERIFY(listener.listen(QHostAddress::LocalHost));
+    server.bind(&listener);
+    bool failAcknowledgement = true;
+    QList<QJsonObject> uploads;
+    server.route("/events", QHttpServerRequest::Method::Post,
+                 [&](const QHttpServerRequest& request) {
+        uploads.append(QJsonDocument::fromJson(request.body()).object());
+        auto response = handler->handleUpload(request.body(), request.value("Authorization"));
+        if (failAcknowledgement) {
+            failAcknowledgement = false;
+            // The commit succeeded, but the client receives no usable acknowledgement.
+            return QHttpServerResponse(QHttpServerResponse::StatusCode::ServiceUnavailable);
+        }
+        return response;
+    });
+    server.route("/events", QHttpServerRequest::Method::Get,
+                 [&](const QHttpServerRequest& request) {
+        return handler->handleDownload(request.query().queryItems(), request.value("Authorization"));
+    });
+    server.route("/events/cursor", QHttpServerRequest::Method::Post,
+                 [&](const QHttpServerRequest& request) {
+        return handler->handleCursorAdvance(request.body(), request.value("Authorization"));
+    });
+    const auto previousUrl = qgetenv("DELEARNER_API_BASE_URL");
+    const bool hadUrl = qEnvironmentVariableIsSet("DELEARNER_API_BASE_URL");
+    const auto restoreEnvironment = qScopeGuard([&] {
+        if (hadUrl) qputenv("DELEARNER_API_BASE_URL", previousUrl);
+        else qunsetenv("DELEARNER_API_BASE_URL");
+    });
+    qputenv("DELEARNER_API_BASE_URL",
+            QString("http://127.0.0.1:%1").arg(listener.serverPort()).toUtf8());
+    for (int device = 0; device < 2; ++device) {
+        openClient(device);
+        DLDatabaseManager::instance().closeDatabase();
+        QVERIFY(saveClientSession(temporary.filePath(QString::number(device) + ".sqlite.auth.json"),
+                                  owner, authorization.mid(7), devices.at(device)));
+    }
+    auto& client = DLDatabaseManager::instance();
+    QString groupId;
+    QVariantMap expected;
+    // Fixed test timestamps keep conflict order independent of wall-clock speed.
+    const auto datePending = [&](int day) {
+        const auto pending = client.selectRows("SELECT event_id, envelope_json FROM sync_outbox_events");
+        QCOMPARE(pending.size(), 1);
+        auto row = pending.first().toMap();
+        auto event = QJsonDocument::fromJson(row.value("envelope_json").toString().toUtf8()).object();
+        const bool deleted = event.value("operation") == "delete";
+        const QString key = deleted ? "tombstone" : "payload";
+        auto payload = event.value(key).toObject();
+        payload.insert(deleted ? "updatedAt" : "updated_at", timestamp(day));
+        if (deleted) payload.insert("deletedAt", timestamp(day));
+        event.insert(key, payload);
+        event.insert("updatedAt", timestamp(day));
+        const auto seconds = QDateTime::fromString(timestamp(day), Qt::ISODate).toSecsSinceEpoch();
+        event.insert("occurredAt", seconds);
+        QVERIFY(client.executeSql("UPDATE sync_outbox_events SET updated_at=:time, envelope_json=:event, "
+                                  "payload_json=:payload, next_attempt_after=NULL",
+            {{":time", seconds}, {":event", QString::fromUtf8(QJsonDocument(event).toJson(QJsonDocument::Compact))},
+             {":payload", QString::fromUtf8(QJsonDocument(payload).toJson(QJsonDocument::Compact))}}));
+        QVERIFY(client.executeSql("UPDATE groups SET updated_at=:time WHERE sync_id=:id",
+                                  {{":time", seconds}, {":id", groupId}}));
+    };
+    const auto visit = [&](int device, const std::function<void(DLAppStateManager&)>& edit,
+                           bool reconnect, bool success = true) {
+        DLAppStateManager manager;
+        manager.setNetworkAvailable(false);
+        manager.init(temporary.filePath(QString::number(device) + ".sqlite"));
+        QVERIFY(manager.currentScreen() != DLAppStateManager::AuthPage);
+        QVERIFY(manager.currentScreen() != DLAppStateManager::StartupLoadingPage);
+        auto* coordinator = clientCoordinator(manager);
+        QVERIFY(coordinator);
+        QSignalSpy finished(coordinator, SIGNAL(syncFinished(bool)));
+        QVERIFY(finished.isValid());
+        const auto uploadCount = uploads.size();
+        edit(manager);
+        QCoreApplication::processEvents();
+        QCOMPARE(uploads.size(), uploadCount);
+        QCOMPARE(finished.size(), 0); // Offline edits never initiate network sync.
+        if (reconnect) {
+            manager.setNetworkAvailable(true); // No manual sync or direct coordinator call.
+            QTRY_COMPARE(finished.size(), 1);
+            QCOMPARE(finished.first().first().toBool(), success);
+            QVERIFY(!coordinator->property("syncInProgress").toBool());
+            if (success) {
+                QCOMPARE(client.selectInt("SELECT COUNT(*) FROM sync_outbox_events"), 0);
+                DLRegisteredDeviceRepository repository(backend);
+                QCOMPARE(repository.deviceById(owner, devices.at(device))->syncCursor, client.remoteCursor());
+                QCOMPARE(client.selectRows("PRAGMA foreign_key_check").size(), 0);
+            }
+        }
+        expected = client.fetchGroupById(groupId);
+    };
+    visit(0, [&](DLAppStateManager& manager) {
+        groupId = manager.createGroup("Offline A");
+        QVERIFY(!groupId.isEmpty());
+        QCOMPARE(manager.groupCount(), 1);
+        QCOMPARE(client.selectInt("SELECT COUNT(*) FROM sync_outbox_events"), 1);
+        datePending(2);
+    }, true, false);
+    QCOMPARE(uploads.size(), 1);
+    const auto committed = QJsonDocument::fromJson(handler->handleDownload({{"after", "0"}}, authorization).data()).object();
+    QCOMPARE(committed.value("events").toArray().size(), 1);
+    visit(0, [&](DLAppStateManager&) {
+        QCOMPARE(client.selectInt("SELECT COUNT(*) FROM sync_outbox_events"), 1);
+        // Make the persisted retry due without depending on a production backoff duration.
+        QVERIFY(client.executeSql("UPDATE sync_outbox_events SET next_attempt_after=NULL"));
+    }, true);
+    QCOMPARE(uploads.size(), 2);
+    QCOMPARE(uploads.at(0), uploads.at(1)); // Stable event ID and full payload across restart/retry.
+    const auto retried = QJsonDocument::fromJson(handler->handleDownload({{"after", "0"}}, authorization).data()).object();
+    QCOMPARE(retried.value("events"), committed.value("events"));
+    QCOMPARE(retried.value("nextSequence"), committed.value("nextSequence"));
+    visit(1, [](DLAppStateManager&) {}, true);
+    QCOMPARE(expected.value("name").toString(), "Offline A");
+    visit(1, [&](DLAppStateManager& manager) {
+        QVERIFY(manager.updateGroup(groupId, "Older offline B"));
+        datePending(4);
+    }, false); // Persist offline work while A makes a newer edit.
+    QCOMPARE(expected.value("name").toString(), "Older offline B");
+    visit(0, [&](DLAppStateManager& manager) {
+        QVERIFY(manager.updateGroup(groupId, "Newer A"));
+        datePending(6);
+    }, true);
+    const auto newer = expected;
+    visit(1, [](DLAppStateManager&) {}, true);
+    QCOMPARE(expected, newer); // Canonical acknowledgement silently replaces optimistic B.
+    visit(1, [&](DLAppStateManager& manager) {
+        QVERIFY(manager.deleteGroup(groupId));
+        QCOMPARE(manager.groupCount(), 0);
+        datePending(8);
+    }, true);
+    QVERIFY(expected.isEmpty());
+    visit(0, [](DLAppStateManager&) {}, true);
+    QVERIFY(expected.isEmpty()); // B's tombstone reaches A automatically on reconnect.
+    openClient(0);
+    QCOMPARE(client.selectInt("SELECT COUNT(*) FROM groups WHERE deleted_at IS NOT NULL"), 1);
+    openClient(1);
+    QCOMPARE(client.selectInt("SELECT COUNT(*) FROM groups WHERE deleted_at IS NOT NULL"), 1);
 }
 
 QTEST_GUILESS_MAIN(DomainMatrix)

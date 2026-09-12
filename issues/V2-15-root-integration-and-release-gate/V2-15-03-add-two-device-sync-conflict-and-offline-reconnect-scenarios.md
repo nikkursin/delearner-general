@@ -1,7 +1,7 @@
 # V2-15-03 — Add two-device sync, conflict and offline/reconnect scenarios
 
 **Parent epic:** V2-15 — Root Integration and Release Gate  
-**Status:** Planned  
+**Status:** Done
 **Workspace:** root  
 **Size:** 2 story point(s)  
 **Dependencies:** V2-13-04,V2-11-04  
@@ -30,10 +30,10 @@ None.
 
 ## Acceptance Criteria
 
-- [ ] Pinned frontend/backend revisions converge deterministically and no manual sync is required in normal scenarios.
-- [ ] Existing relevant tests still pass.
-- [ ] New behavior has focused automated coverage where feasible.
-- [ ] No unrelated product/UI behavior changed.
+- [x] Pinned frontend/backend revisions converge deterministically and no manual sync is required in normal scenarios.
+- [x] Existing relevant tests still pass.
+- [x] New behavior has focused automated coverage where feasible.
+- [x] No unrelated product/UI behavior changed.
 
 ## Verification
 
@@ -58,3 +58,26 @@ None.
 - Shared schema/contract semantics are missing or contradictory.
 - A required behavior is missing from the canonical contract or selected issue. Missing Figma alone is not a blocker unless this task explicitly marks Figma as Required.
 - Completing the task would require future-version work.
+
+## Completion Evidence
+
+- Added `automatic_two_device_reconnect` to the root domain harness and required
+  it after the authentication prerequisite in the shared integration runner.
+- Production app state manager/coordinator connects to backend handlers over
+  loopback HTTP, with two durable client SQLite databases. Covers offline local
+  edits, reconnect-triggered push/pull, acknowledgement failure after server
+  commit, identical retry across restart without duplicate server history,
+  newer canonical update reconciliation, reverse-direction tombstone propagation,
+  empty acknowledged outboxes and matching persisted device cursors.
+- Existing four-domain LWW/tombstone matrix and compiled word/group, review and
+  learning-setting scenarios continue to pass. No manual sync is used by the
+  new scenario; no child implementation, contract or submodule pin changed.
+- Verified with `./tests/domain_relationship_tombstone_matrix.sh`,
+  `./scripts/test-all.sh root`, and `./scripts/test-all.sh all`: root smoke and
+  contract checks, frontend CTest 16/16, backend CTest 12/12, all three root matrix
+  scenarios and the existing compiled domain scenarios passed.
+- Verified pins: frontend `e1b1e4b140a1ec578b081421c518b429f7aa9e47`, backend
+  `f20e9bba077a9aff7090bc386431fec8b369e0f7`.
+- Test boundary: deterministic backend SQLite adapter and loopback routes;
+  deployed routing, PostgreSQL concurrency and platform connectivity notification
+  delivery are not asserted by this focused scenario.
