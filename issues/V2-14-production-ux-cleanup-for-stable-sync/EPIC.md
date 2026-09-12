@@ -1,6 +1,6 @@
 # V2-14 — Production UX Cleanup for Stable Sync
 
-**Status:** Planned  
+**Status:** In Progress
 **Version:** 2  
 **Workspace:** Figma + frontend + root  
 **Figma:** Design/review required for meaningful new auth/sync/recovery states  

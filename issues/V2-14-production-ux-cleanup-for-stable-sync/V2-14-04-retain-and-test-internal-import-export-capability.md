@@ -1,7 +1,7 @@
 # V2-14-04 — Retain and test internal import/export capability
 
 **Parent epic:** V2-14 — Production UX Cleanup for Stable Sync  
-**Status:** Planned  
+**Status:** Done
 **Workspace:** frontend + root  
 **Size:** 1 story point(s)  
 **Dependencies:** V2-14-03  
@@ -30,10 +30,10 @@ Design/review required for meaningful new auth/sync/recovery states. If this sub
 
 ## Acceptance Criteria
 
-- [ ] Automated/internal test can still exercise import/export and confirms it is not required for normal multi-device sync.
-- [ ] Existing relevant tests still pass.
-- [ ] New behavior has focused automated coverage where feasible.
-- [ ] No unrelated product/UI behavior changed.
+- [x] Automated/internal test can still exercise import/export and confirms it is not required for normal multi-device sync.
+- [x] Existing relevant tests still pass.
+- [x] New behavior has focused automated coverage where feasible.
+- [x] No unrelated product/UI behavior changed.
 
 ## Verification
 
@@ -58,3 +58,24 @@ Design/review required for meaningful new auth/sync/recovery states. If this sub
 - Shared schema/contract semantics are missing or contradictory.
 - A meaningful user-facing flow lacks a Figma definition.
 - Completing the task would require future-version work.
+
+## Completion Evidence
+
+- Added three frontend `TestAppStateAuthBootstrap` cases exercising the callable
+  export, replace-import and merge-import paths using temporary SQLite files:
+  full table round trip/reopen (including pending outbox), vocabulary membership,
+  forms/review counts, and rejected imports preserving existing state.
+- Documented internal entry points and current-schema/local-diagnostic limits in
+  `delearner-frontend/tests/INTERNAL-IMPORT-EXPORT.md`. No production behavior or
+  UI changed; no Figma inspection was required.
+- Verification on 2026-09-12:
+  - `cmake --build delearner-frontend/build-tests -j 4` — passed.
+  - Focused `TestAppStateAuthBootstrap` invocation of the three new cases — passed.
+  - `ctest --test-dir delearner-frontend/build-tests --output-on-failure` —
+    all 16 tests passed, including production-settings isolation and fixtures.
+  - `scripts/test-all.sh root` — all root smoke/contract checks passed.
+  - `tests/domain_relationship_tombstone_matrix.sh` — passed; production
+    frontend/backend handlers converge two device databases and restore a fresh
+    device through protocol bootstrap without manual file import/export.
+    This existing matrix uses the backend SQLite test adapter.
+  - Frontend/root `git diff --check` — passed.
