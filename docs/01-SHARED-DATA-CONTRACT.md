@@ -44,6 +44,11 @@ Sync/API contract: 1.0
 API route major:   /api/v1
 ```
 
+V2-17 defines the next Word/Group contract as sync/API `2.0` on `/api/v2`.
+It is intentionally a separate target fixture set until both clients and the
+backend implement it. The active compatibility baseline above remains `1.0`;
+contract definition alone does not claim runtime support.
+
 These values are independent version families. SQLite advanced to `1.1` for
 the additive local outbox schema and `1.2` for the additive local pull-cursor
 state needed to persist successful remote consumption. SQLite `1.3` adds
@@ -164,6 +169,75 @@ are in `contracts/fixtures/v1/review-settings-and-tombstone-events.json`.
 Review-statistics fixtures use the reviewed word UUID as the sync entity ID.
 Learning-setting fixtures cover account-level learning preferences only. Delete
 fixtures carry tombstone identity and timestamps instead of dead full payloads.
+
+The approved multi-group Word/Group target fixtures are in
+`contracts/fixtures/v2/word-and-group-events.json`. Frontend and backend tests
+validate this same root-owned target before their persistence implementations
+adopt it. Moving from `group_id` to authoritative `group_ids` full state, and
+removing legacy `Andere` as a phrase alias, are breaking semantics; therefore
+this shape is contract `2.0`, not a compatible `1.x` addition.
+
+## Contract 2.0 Word and Group Payloads
+
+Wire payload names continue the existing snake-case convention except for the
+established `ownerUserId` ownership field. Database table or join-table shapes
+are not part of this contract.
+
+### Word
+
+Every Word create/update payload is full current state and contains:
+
+```text
+id, ownerUserId
+german_word, normalized_german_word
+part_of_speech, article
+native_translation, normalized_native_translation
+example_phrase_de, example_phrase_native
+group_ids
+notes, literal_translation
+plural_form
+praesens_third_person_form, praeteritum_form, partizip_ii_form
+positive_form, comparative_form, superlative_form
+created_at, updated_at
+```
+
+Rules:
+
+- `group_ids` is the authoritative, semantically unordered membership set. It
+  contains zero through four unique UUIDs owned by the authenticated user.
+  Array order has no persistence or conflict meaning.
+- `part_of_speech` is exactly one of `noun`, `verb`, `adjective`, `adverb`, or
+  `phrase`. These stable wire values are independent of translated UI labels.
+  Legacy `Andere` is not accepted as `phrase` in contract 2.
+- `article` is `der`, `die`, `das`, or `plural_only` for a noun and is `null`
+  for every other part of speech.
+- `plural_form` is nullable for an ordinary noun, must be `null` for a
+  `plural_only` noun, and is `null` for non-nouns. The word text itself holds
+  the plural-only lexical form.
+- `praesens_third_person_form`, `praeteritum_form`, and `partizip_ii_form` are
+  nullable verb fields and are `null` for non-verbs.
+- `positive_form`, `comparative_form`, and `superlative_form` are nullable
+  adjective fields and are `null` for non-adjectives.
+- `literal_translation` is nullable for a phrase and is `null` otherwise.
+- `notes` is the synchronized memo value. It remains nullable.
+- `example_phrase_de` and `example_phrase_native` retain their existing
+  nullable example/example-translation meanings for every word type.
+
+### Group
+
+Every Group create/update payload contains the existing identity, ownership,
+name, `color_hex`, and timestamps plus `icon_key`. `icon_key` is a non-empty,
+lowercase portable catalog key made from letters, digits, `.`, `_`, or `-`
+(for example `travel` or `train`). It is not an iOS symbol name, Android
+resource ID, filesystem path, or other platform-specific asset identifier.
+Clients map known keys to bundled cross-platform visuals and render a generic
+fallback for an unknown key, allowing later compatible catalog additions.
+
+Deleting a Group preserves every Word. The backend removes the deleted UUID
+from affected membership sets and makes those resulting full Word states
+available through normal mutation/pull reconciliation; the Group delete remains
+a normal tombstone. Removing one membership likewise updates the Word's full
+`group_ids` state and never implies Word deletion.
 
 ## Delete Representation
 

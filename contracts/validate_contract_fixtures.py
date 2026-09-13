@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import copy
 import json
+import re
 import sys
 import uuid
 from datetime import datetime, timezone
@@ -13,9 +14,11 @@ from pathlib import Path
 from typing import Any
 
 
-CONTRACT_MAJOR = 1
-CONTRACT_VERSION = "1.0"
-API_ROUTE_MAJOR = "/api/v1"
+CONTRACT_PROFILES = {
+    "1.0": "/api/v1",
+    "2.0": "/api/v2",
+}
+SUPPORTED_CONTRACT_MAJORS = {int(version.split(".")[0]) for version in CONTRACT_PROFILES}
 
 KNOWN_REQUIRED_SEMANTICS: set[str] = set()
 
@@ -98,6 +101,16 @@ PAYLOAD_REQUIRED_FIELDS = {
     },
 }
 
+V2_WORD_REQUIRED_FIELDS = (
+    PAYLOAD_REQUIRED_FIELDS["word"]
+    .difference({"group_id"})
+    .union({"group_ids", "literal_translation", "praesens_third_person_form"})
+)
+V2_GROUP_REQUIRED_FIELDS = PAYLOAD_REQUIRED_FIELDS["group"].union({"icon_key"})
+
+V2_PARTS_OF_SPEECH = {"noun", "verb", "adjective", "adverb", "phrase"}
+V2_NOUN_ARTICLES = {"der", "die", "das", "plural_only"}
+
 TOMBSTONE_REQUIRED_FIELDS = {
     "entity_type",
     "entity_id",
@@ -177,9 +190,14 @@ def validate_required_semantics(event: dict[str, Any]) -> None:
     assert_condition(not unknown, f"unknown required semantics: {', '.join(unknown)}")
 
 
-def validate_payload(event: dict[str, Any], payload: dict[str, Any]) -> None:
+def validate_payload(event: dict[str, Any], payload: dict[str, Any], fixture_version: str) -> None:
     entity_type = event["entityType"]
-    required_fields = PAYLOAD_REQUIRED_FIELDS[entity_type]
+    if major(fixture_version) == 2 and entity_type == "word":
+        required_fields = V2_WORD_REQUIRED_FIELDS
+    elif major(fixture_version) == 2 and entity_type == "group":
+        required_fields = V2_GROUP_REQUIRED_FIELDS
+    else:
+        required_fields = PAYLOAD_REQUIRED_FIELDS[entity_type]
     missing = sorted(required_fields.difference(payload.keys()))
     assert_condition(not missing, f"{event['name']} payload missing: {', '.join(missing)}")
 
@@ -195,14 +213,57 @@ def validate_payload(event: dict[str, Any], payload: dict[str, Any]) -> None:
         assert_condition(payload["id"] == event["entityId"], "payload.id must match entityId")
 
     if entity_type == "word":
-        assert_condition(isinstance(payload["group_id"], str) or payload["group_id"] is None, "word.group_id must be UUID string or null")
-        if payload["group_id"] is not None:
-            assert_uuid(payload["group_id"], "word.payload.group_id")
+        if major(fixture_version) == 2:
+            group_ids = payload["group_ids"]
+            assert_condition(isinstance(group_ids, list), "word.group_ids must be a list")
+            assert_condition(len(group_ids) <= 4, "word.group_ids must contain at most four memberships")
+            for group_id in group_ids:
+                assert_uuid(group_id, "word.payload.group_ids[]")
+            assert_condition(len(group_ids) == len(set(group_ids)), "word.group_ids must contain unique UUIDs")
+
+            part_of_speech = payload["part_of_speech"]
+            assert_condition(part_of_speech in V2_PARTS_OF_SPEECH, "word.part_of_speech is unsupported")
+            article = payload["article"]
+            if part_of_speech == "noun":
+                assert_condition(article in V2_NOUN_ARTICLES, "noun.article is unsupported")
+                if article == "plural_only":
+                    assert_condition(payload["plural_form"] is None, "plural-only noun.plural_form must be null")
+            else:
+                assert_condition(article is None, "article must be null for non-nouns")
+                assert_condition(payload["plural_form"] is None, "plural_form is only applicable to nouns")
+
+            assert_condition(
+                part_of_speech == "phrase" or payload["literal_translation"] is None,
+                "literal_translation is only applicable to phrases",
+            )
+            verb_fields = ("praesens_third_person_form", "praeteritum_form", "partizip_ii_form")
+            adjective_fields = ("positive_form", "comparative_form", "superlative_form")
+            if part_of_speech != "verb":
+                assert_condition(
+                    all(payload[field] is None for field in verb_fields),
+                    "verb forms are only applicable to verbs",
+                )
+            if part_of_speech != "adjective":
+                assert_condition(
+                    all(payload[field] is None for field in adjective_fields),
+                    "comparison forms are only applicable to adjectives",
+                )
+        else:
+            assert_condition(isinstance(payload["group_id"], str) or payload["group_id"] is None, "word.group_id must be UUID string or null")
+            if payload["group_id"] is not None:
+                assert_uuid(payload["group_id"], "word.payload.group_id")
         assert_condition(bool(payload["german_word"]), "word.german_word must not be empty")
         assert_condition(bool(payload["native_translation"]), "word.native_translation must not be empty")
     elif entity_type == "group":
         assert_condition(bool(payload["name"]), "group.name must not be empty")
         assert_condition(isinstance(payload["color_hex"], str) and payload["color_hex"].startswith("#"), "group.color_hex must be hex-like")
+        if major(fixture_version) == 2:
+            icon_key = payload["icon_key"]
+            assert_condition(isinstance(icon_key, str) and bool(icon_key.strip()), "group.icon_key must be a non-empty stable key")
+            assert_condition(
+                re.fullmatch(r"[a-z0-9][a-z0-9._-]*", icon_key) is not None,
+                "group.icon_key must be a portable lowercase catalog key",
+            )
     elif entity_type == "word_review_stats":
         assert_uuid(payload["word_id"], "word_review_stats.word_id")
         assert_condition(payload["word_id"] == event["entityId"], "review stats word_id must match entityId")
@@ -238,7 +299,7 @@ def validate_tombstone(event: dict[str, Any], tombstone: dict[str, Any]) -> None
 
 
 def validate_event(event: dict[str, Any], fixture_version: str) -> None:
-    assert_condition(major(fixture_version) == CONTRACT_MAJOR, "fixture major version is incompatible")
+    assert_condition(major(fixture_version) in SUPPORTED_CONTRACT_MAJORS, "fixture contract major is unsupported")
     validate_required_semantics(event)
 
     for field_name in ("name", "operation", "eventId", "deviceId", "entityType", "entityId", "updatedAt", "context"):
@@ -260,7 +321,7 @@ def validate_event(event: dict[str, Any], fixture_version: str) -> None:
         assert_condition("tombstone" not in event, "create/update events must not include tombstone")
         payload = event["payload"]
         assert_condition(isinstance(payload, dict), "payload must be object")
-        validate_payload(event, payload)
+        validate_payload(event, payload, fixture_version)
     else:
         assert_condition("tombstone" in event, "delete events must include tombstone")
         assert_condition("payload" not in event, "delete events must not include payload")
@@ -271,8 +332,12 @@ def validate_event(event: dict[str, Any], fixture_version: str) -> None:
 
 def validate_fixture_set(path: Path) -> list[dict[str, Any]]:
     data = json.loads(path.read_text(encoding="utf-8"))
-    assert_condition(data["contractVersion"] == CONTRACT_VERSION, f"{path.name} contractVersion must be {CONTRACT_VERSION}")
-    assert_condition(data["apiRouteMajor"] == API_ROUTE_MAJOR, f"{path.name} apiRouteMajor must be {API_ROUTE_MAJOR}")
+    fixture_version = data["contractVersion"]
+    assert_condition(fixture_version in CONTRACT_PROFILES, f"{path.name} contractVersion is unsupported")
+    assert_condition(
+        data["apiRouteMajor"] == CONTRACT_PROFILES[fixture_version],
+        f"{path.name} apiRouteMajor does not match contractVersion {fixture_version}",
+    )
 
     fixtures = data["fixtures"]
     assert_condition(isinstance(fixtures, list) and fixtures, f"{path.name} must contain fixtures")
@@ -287,26 +352,32 @@ def validate_fixture_set(path: Path) -> list[dict[str, Any]]:
     return fixtures
 
 
-def run_compatibility_probes(fixtures: list[dict[str, Any]]) -> None:
-    create_or_update = next(event for event in fixtures if event["operation"] in {"create", "update"})
+def run_compatibility_probes(fixtures: list[dict[str, Any]], fixture_version: str) -> None:
+    create_or_update = next(
+        event
+        for event in fixtures
+        if event["entityType"] == "word" and event["operation"] in {"create", "update"}
+    )
 
     optional_probe = copy.deepcopy(create_or_update)
     optional_probe["optionalClientMetadata"] = {"debugSource": "compatibility-probe"}
     optional_probe["payload"]["optionalExampleSource"] = "manual-entry"
-    validate_event(optional_probe, "1.1")
+    compatible_minor = f"{major(fixture_version)}.1"
+    validate_event(optional_probe, compatible_minor)
 
     required_probe = copy.deepcopy(create_or_update)
     required_probe["requiredSemantics"] = ["server_assigned_entity_ids"]
     try:
-        validate_event(required_probe, "1.1")
+        validate_event(required_probe, compatible_minor)
     except ContractError:
         pass
     else:
         raise ContractError("unknown required semantics must be rejected")
 
     major_probe = copy.deepcopy(create_or_update)
+    incompatible_version = "2.0" if major(fixture_version) == 1 else "1.0"
     try:
-        validate_event(major_probe, "2.0")
+        validate_event(major_probe, incompatible_version)
     except ContractError:
         pass
     else:
@@ -321,6 +392,13 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
         default=Path(__file__).resolve().parent / "fixtures" / "v1",
         help="Directory containing Version 1 contract fixture JSON files.",
     )
+    parser.add_argument(
+        "--fixture-files",
+        nargs="+",
+        choices=FIXTURE_FILES,
+        default=list(FIXTURE_FILES),
+        help="Fixture files to validate. Defaults to every canonical fixture file.",
+    )
     return parser.parse_args(argv)
 
 
@@ -330,11 +408,14 @@ def main(argv: list[str]) -> int:
 
     try:
         all_fixtures: list[dict[str, Any]] = []
-        for file_name in FIXTURE_FILES:
+        fixture_versions: set[str] = set()
+        for file_name in args.fixture_files:
             path = fixture_dir / file_name
             assert_condition(path.is_file(), f"missing fixture file: {path}")
             all_fixtures.extend(validate_fixture_set(path))
-        run_compatibility_probes(all_fixtures)
+            fixture_versions.add(json.loads(path.read_text(encoding="utf-8"))["contractVersion"])
+        assert_condition(len(fixture_versions) == 1, "fixture files must use one contract version")
+        run_compatibility_probes(all_fixtures, fixture_versions.pop())
     except (ContractError, KeyError, json.JSONDecodeError) as exc:
         print(f"contract fixture validation failed: {exc}", file=sys.stderr)
         return 1

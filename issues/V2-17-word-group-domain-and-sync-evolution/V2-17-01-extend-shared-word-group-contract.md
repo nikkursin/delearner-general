@@ -1,7 +1,7 @@
 # V2-17-01 — Extend shared Word/Group contract
 
 **Parent epic:** V2-17 — Word/Group Domain and Sync Evolution  
-**Status:** Ready  
+**Status:** Done
 **Workspace:** root + frontend + backend  
 **Size:** 3 story points  
 **Dependencies:** existing V2 shared-contract baseline

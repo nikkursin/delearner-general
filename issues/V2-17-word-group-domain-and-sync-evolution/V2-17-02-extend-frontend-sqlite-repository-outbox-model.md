@@ -1,7 +1,7 @@
 # V2-17-02 — Extend frontend SQLite/repository/outbox model
 
 **Parent epic:** V2-17 — Word/Group Domain and Sync Evolution  
-**Status:** Blocked  
+**Status:** Ready
 **Workspace:** frontend  
 **Size:** 5 story points  
 **Dependencies:** V2-17-01
