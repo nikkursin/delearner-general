@@ -34,11 +34,11 @@ grep -q "pin a compatible child revision" "$temporary_dir/version-error"
 
 healthy_payload="$temporary_dir/healthy.json"
 printf '%s\n' \
-  '{"status":"ok","timestamp":1,"postgresSchemaVersion":{"major":1,"minor":2,"version":"1.2"}}' \
+  '{"status":"ok","timestamp":1,"postgresSchemaVersion":{"major":1,"minor":3,"version":"1.3"}}' \
   >"$healthy_payload"
 python3 "$root_dir/scripts/verify-backend-health.py" \
   --url "file://$healthy_payload" \
-  --expected-postgres-schema 1.2 \
+  --expected-postgres-schema 1.3 \
   --timeout-seconds 1 >/dev/null
 
 incompatible_payload="$temporary_dir/incompatible.json"
@@ -47,7 +47,7 @@ printf '%s\n' \
   >"$incompatible_payload"
 if python3 "$root_dir/scripts/verify-backend-health.py" \
   --url "file://$incompatible_payload" \
-  --expected-postgres-schema 1.2 \
+  --expected-postgres-schema 1.3 \
   --timeout-seconds 0.1 \
   >"$temporary_dir/health-output" 2>"$temporary_dir/health-error"; then
   echo "expected incompatible live schema to fail" >&2

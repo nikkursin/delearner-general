@@ -39,7 +39,7 @@ Current Version 2 values:
 
 ```text
 SQLite schema:     1.3
-PostgreSQL schema: 1.2
+PostgreSQL schema: 1.3
 Sync/API contract: 1.0
 API route major:   /api/v1
 ```
@@ -57,7 +57,10 @@ account learning settings with local tombstones (V2-13-03). PostgreSQL advanced 
 durable winning-event metadata and resolved pull output (V2-12-03A). The
 pre-release `1.2` migration resets legacy canonical sync data and device cursors
 whose winning identities cannot be recovered after retention; account/auth/device
-identity remains intact. These changes do not advance the sync/API version.
+identity remains intact. PostgreSQL `1.3` adds portable Group icon metadata,
+Word morphology/literal-translation fields, and relational multi-Group Word
+membership while migrating the former single membership without data loss.
+These changes do not advance the active sync/API version.
 
 ## Database Schema Versioning
 

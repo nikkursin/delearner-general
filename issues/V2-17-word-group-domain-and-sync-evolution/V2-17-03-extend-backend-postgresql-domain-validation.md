@@ -1,7 +1,7 @@
 # V2-17-03 — Extend backend PostgreSQL/domain validation
 
 **Parent epic:** V2-17 — Word/Group Domain and Sync Evolution  
-**Status:** Ready
+**Status:** Done
 **Workspace:** backend  
 **Size:** 5 story points  
 **Dependencies:** V2-17-01
