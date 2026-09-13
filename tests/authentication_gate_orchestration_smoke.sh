@@ -35,6 +35,7 @@ test "$(wc -l < "$SCENARIO_CALL_LOG" | tr -d ' ')" = 2
 sed -n '1p' "$SCENARIO_CALL_LOG" | grep -q authentication_device_lifecycle
 sed -n '2p' "$SCENARIO_CALL_LOG" | grep -q domain_relationship_tombstone_matrix
 sed -n '2p' "$SCENARIO_CALL_LOG" | grep -q automatic_two_device_reconnect
+sed -n '2p' "$SCENARIO_CALL_LOG" | grep -q bootstrap_race_catch_up
 
 : > "$SCENARIO_CALL_LOG"
 "$runner" --auth-only

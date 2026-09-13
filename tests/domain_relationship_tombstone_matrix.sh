@@ -10,5 +10,5 @@ cmake -S "$ROOT_DIR/tests/domain_matrix" -B "$build_dir" -DCMAKE_BUILD_TYPE="${B
 cmake --build "$build_dir" --target domain_matrix --parallel "${CMAKE_BUILD_PARALLEL_LEVEL:-4}"
 ctest --test-dir "$build_dir" --output-on-failure --no-tests=error -R '^authentication_device_lifecycle$'
 if [[ "${1:-}" != "--auth-only" ]]; then
-  ctest --test-dir "$build_dir" --output-on-failure --no-tests=error -R '^(domain_relationship_tombstone_matrix|automatic_two_device_reconnect)$'
+  ctest --test-dir "$build_dir" --output-on-failure --no-tests=error -R '^(domain_relationship_tombstone_matrix|automatic_two_device_reconnect|bootstrap_race_catch_up)$'
 fi

@@ -1,6 +1,6 @@
 # V2-15 — Root Integration and Release Gate
 
-**Status:** In Progress
+**Status:** Done
 **Version:** 2  
 **Workspace:** root + frontend + backend  
 **Figma:** Verification only against approved Version 2 Figma flows  
@@ -55,3 +55,12 @@ Make Version 2 completion objectively testable against pinned frontend/backend r
 - The work requires changing shared contract/schema semantics beyond this epic.
 - A Figma/code discrepancy would require a large structural change.
 - The task begins pulling Version 3+ scope into Version 2.
+
+## Gate Delivery Status
+
+All four gate implementation subtasks are Done. Automated verification and pinned
+revision evidence are recorded in the
+[release checklist](../../docs/08-VERSION-2-RELEASE-CHECKLIST.md).
+This epic status denotes gate delivery, not Version 2 release approval: V2-14
+and the checklist's explicit platform/design/deployed-concurrency checks remain
+outstanding. Version 2 must stay non-Done until those checks pass.

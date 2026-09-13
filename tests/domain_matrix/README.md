@@ -93,3 +93,16 @@ logic. This harness still uses the deterministic backend SQLite adapter; deploye
 routing, PostgreSQL concurrency, and platform connectivity notification delivery
 are outside this scenario. The root test build renames only the backend session
 DTO to avoid colliding with the unrelated frontend DTO in one executable.
+
+## Bootstrap and release gate (V2-15-04)
+
+`bootstrap_race_catch_up` uses a real backend export of all four domains, inserts
+an update and tombstone before installation, then verifies SQLite catch-up,
+replay safety, cursor acknowledgement and equality with a third fresh client.
+The runner requires this scenario alongside the existing matrix/reconnect tests.
+Both root integration entry points also run
+`tests/bootstrap_recovery_regression_gate.sh`, which requires the existing
+bootstrap restore, automatic stale recovery, startup and backend protocol suites
+individually with `--no-tests=error`. See
+[the release checklist](../../docs/08-VERSION-2-RELEASE-CHECKLIST.md) for the full
+coverage mapping, recorded pins and outstanding Figma/platform/deployment checks.

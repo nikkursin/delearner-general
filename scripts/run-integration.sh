@@ -35,6 +35,7 @@ fi
 log "Building child repositories for compiled integration scenarios."
 "$ROOT_DIR/scripts/build-all.sh" all
 
+"$ROOT_DIR/tests/bootstrap_recovery_regression_gate.sh"
 "$ROOT_DIR/tests/domain_relationship_tombstone_matrix.sh"
 "$ROOT_DIR/tests/word_group_two_device_sync_scenario.sh" --run
 "$ROOT_DIR/tests/review_stats_quiz_sync_scenario.sh" --run

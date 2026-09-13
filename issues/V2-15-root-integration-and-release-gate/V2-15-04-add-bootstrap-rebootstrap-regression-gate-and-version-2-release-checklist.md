@@ -1,7 +1,7 @@
 # V2-15-04 — Add bootstrap/rebootstrap regression gate and Version 2 release checklist
 
 **Parent epic:** V2-15 — Root Integration and Release Gate  
-**Status:** Planned  
+**Status:** Done
 **Workspace:** root  
 **Size:** 2 story point(s)  
 **Dependencies:** V2-12-04,V2-14-04,V2-15-01,V2-15-02,V2-15-03  
@@ -30,10 +30,10 @@ None.
 
 ## Acceptance Criteria
 
-- [ ] All Version 2 completion criteria are machine-tested where feasible; remaining manual Figma/platform checks are explicit; root pins the compatible child commits.
-- [ ] Existing relevant tests still pass.
-- [ ] New behavior has focused automated coverage where feasible.
-- [ ] No unrelated product/UI behavior changed.
+- [x] All Version 2 completion criteria are machine-tested where feasible; remaining manual Figma/platform checks are explicit; root pins the compatible child commits.
+- [x] Existing relevant tests still pass.
+- [x] New behavior has focused automated coverage where feasible.
+- [x] No unrelated product/UI behavior changed.
 
 ## Verification
 
@@ -58,3 +58,19 @@ None.
 - Shared schema/contract semantics are missing or contradictory.
 - A required behavior is missing from the canonical contract or selected issue. Missing Figma alone is not a blocker unless this task explicitly marks Figma as Required.
 - Completing the task would require future-version work.
+
+## Completion Evidence
+
+- Added a production-handler bootstrap race/catch-up scenario and a mandatory
+  bootstrap/rebootstrap regression suite gate to both root integration paths.
+- Failure-injection checks verify required recovery suite failures stop the gate.
+- `./scripts/test-all.sh all`: passed (16 frontend and 12 backend CTest
+  registrations, root checks, four matrix scenarios and compiled domain scenarios).
+- `./scripts/test-all.sh root`: passed after adding gate failure-injection checks.
+- `./scripts/run-integration.sh`: passed.
+- `./scripts/smoke-gate.sh`: passed, including Docker backend build/start and live
+  PostgreSQL health/schema 1.2 validation.
+- `git diff --check`: passed. Child worktrees and exact root pins remain unchanged.
+- [Release checklist](../../docs/08-VERSION-2-RELEASE-CHECKLIST.md) records coverage,
+  compatible revisions and outstanding Figma/platform/deployed-concurrency checks.
+  Version 2 release remains pending; V2-14-01 and V2-14-02 remain Planned.

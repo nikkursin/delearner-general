@@ -33,6 +33,7 @@ private slots:
     void cleanup();
     void authenticationAndDeviceLifecycle();
     void automaticTwoDeviceReconnect();
+    void bootstrapRaceCatchUp();
     void lwwTombstoneAndBootstrap_data();
     void lwwTombstoneAndBootstrap();
 private:
@@ -375,6 +376,53 @@ void DomainMatrix::lwwTombstoneAndBootstrap()
     if (type == "group") push(mutation("word", "update", 8, 0), "update", 8); // explicit reattach
     push(mutation(type, "delete", 7, 1), "update", 8); // late-arriving older delete loses
     converge(type, false, 8);
+}
+
+void DomainMatrix::bootstrapRaceCatchUp()
+{
+    matrixType = "word_review_stats";
+    for (const auto& type : {"group", "word", "word_review_stats", "app_setting"})
+        push(mutation(type, "create", 2, 0), "create", 2);
+    const auto snapshot = handler->handleBootstrap(authorization);
+    QCOMPARE(snapshot.statusCode(), QHttpServerResponse::StatusCode::Ok);
+    const auto sequence = QJsonDocument::fromJson(snapshot.data()).object().value("serverSequence").toInteger();
+    QVERIFY(sequence > 0);
+
+    // Another device commits after export but before the new client installs it.
+    push(mutation("word", "update", 4, 0), "update", 4);
+    push(mutation("app_setting", "delete", 5, 0), "delete", 5);
+    openClient(1);
+    auto& client = DLDatabaseManager::instance();
+    DLBootstrapStateRestorer restorer(client);
+    QString error;
+    QVERIFY2(restorer.restoreFromJson(snapshot.data(), &error), qPrintable(error));
+    QCOMPARE(client.remoteCursor(), sequence);
+    QCOMPARE(client.selectOneRow("SELECT notes FROM words WHERE sync_id=:id", {{":id", fixture("word").value("entityId").toString()}}).value("notes").toString(), "2");
+    const auto page = handler->handleDownload({{"after", QString::number(sequence)}}, authorization);
+    QCOMPARE(page.statusCode(), QHttpServerResponse::StatusCode::Ok);
+    const auto response = QJsonDocument::fromJson(page.data()).object();
+    QCOMPARE(response.value("events").toArray().size(), 2);
+    DLRemoteChangeReconciler reconciler(client);
+    QVERIFY2(reconciler.applyDownloadedEventsAndAdvanceCursor(response.toVariantMap(), &error), qPrintable(error));
+    QVERIFY(client.remoteCursor() > sequence);
+    QCOMPARE(client.selectOneRow("SELECT notes FROM words WHERE sync_id=:id", {{":id", fixture("word").value("entityId").toString()}}).value("notes").toString(), "4");
+    QCOMPARE(client.selectInt("SELECT COUNT(*) FROM account_learning_settings WHERE deleted_at IS NOT NULL"), 1);
+    const auto expected = visibleState();
+    QVERIFY2(reconciler.applyDownloadedEventsAndAdvanceCursor(response.toVariantMap(), &error), qPrintable(error));
+    QCOMPARE(visibleState(), expected);
+    QCOMPARE(client.selectInt("SELECT COUNT(*) FROM sync_outbox_events"), 0);
+    QCOMPARE(client.selectRows("PRAGMA foreign_key_check").size(), 0);
+    const auto ack = handler->handleCursorAdvance(QJsonDocument(QJsonObject{
+        {"deviceId", devices.at(1)}, {"consumedSequence", client.remoteCursor()}}).toJson(), authorization);
+    QCOMPARE(ack.statusCode(), QHttpServerResponse::StatusCode::Ok);
+    DLRegisteredDeviceRepository repository(backend);
+    QCOMPARE(repository.deviceById(owner, devices.at(1))->syncCursor, client.remoteCursor());
+
+    openClient(2);
+    DLBootstrapStateRestorer fresh(client);
+    QVERIFY2(fresh.restoreFromJson(handler->handleBootstrap(authorization).data(), &error), qPrintable(error));
+    QCOMPARE(visibleState(), expected);
+    QCOMPARE(client.selectRows("PRAGMA foreign_key_check").size(), 0);
 }
 
 void DomainMatrix::automaticTwoDeviceReconnect()
