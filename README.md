@@ -41,6 +41,9 @@ state.
 
 ## Shared Integration Environment
 
+For Android app builds, APK installation, and Android Studio native debugging,
+see the [frontend build guide](delearner-frontend/README.md).
+
 The root owns shared integration scaffolding only. Child repositories keep their
 own build and test logic.
 
