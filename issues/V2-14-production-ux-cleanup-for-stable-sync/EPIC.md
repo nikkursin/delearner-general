@@ -1,6 +1,6 @@
 # V2-14 — Production UX Cleanup for Stable Sync
 
-**Status:** In Progress
+**Status:** Done
 **Version:** 2  
 **Workspace:** Figma + frontend + root  
 **Figma:** Design/review required for meaningful new auth/sync/recovery states  
@@ -26,10 +26,10 @@ Expose only the minimal user-facing authentication and synchronization states ne
 
 ## Epic Acceptance Criteria
 
-- [ ] User can understand required sign-in and meaningful sync failures without managing normal sync manually.
-- [ ] Stale re-bootstrap is normally automatic and does not present a manual reset workflow.
-- [ ] File import/export is no longer presented as normal production synchronization.
-- [ ] Internal import/export code remains covered for test/debug uses.
+- [x] User can understand required sign-in and meaningful sync failures without managing normal sync manually.
+- [x] Stale re-bootstrap is normally automatic and does not present a manual reset workflow.
+- [x] File import/export is no longer presented as normal production synchronization.
+- [x] Internal import/export code remains covered for test/debug uses.
 
 ## Subtasks
 
