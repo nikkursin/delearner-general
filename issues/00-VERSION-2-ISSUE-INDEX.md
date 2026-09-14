@@ -77,7 +77,7 @@ This order is a priority strategy, not permission to bypass dependencies.
 | Task | Status | Dependencies |
 |---|---|---|
 | [V2-16-01](./V2-16-frontend-design-alignment/V2-16-01-responsive-shell-and-modern-bottom-navigation.md) — Responsive shell and modern bottom navigation | Done | Existing navigation baseline |
-| [V2-16-02](./V2-16-frontend-design-alignment/V2-16-02-first-run-onboarding-flow.md) — First-run onboarding flow | Ready | Existing authentication entry point |
+| [V2-16-02](./V2-16-frontend-design-alignment/V2-16-02-first-run-onboarding-flow.md) — First-run onboarding flow | Done | Existing authentication entry point |
 | [V2-16-03](./V2-16-frontend-design-alignment/V2-16-03-add-edit-word-redesign-and-group-selector.md) — Add/Edit Word redesign and group selector | Blocked | V2-17-04 |
 | [V2-16-04](./V2-16-frontend-design-alignment/V2-16-04-groups-list-create-and-edit-redesign.md) — Groups list, create and edit redesign | Blocked | V2-17-04 |
 | [V2-16-05](./V2-16-frontend-design-alignment/V2-16-05-group-details-and-word-actions-redesign.md) — Group Details and word actions redesign | Blocked | V2-17-04 |

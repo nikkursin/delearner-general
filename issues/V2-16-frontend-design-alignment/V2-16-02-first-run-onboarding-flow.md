@@ -1,7 +1,7 @@
 # V2-16-02 — First-run onboarding flow
 
 **Parent epic:** V2-16 — Frontend Design Alignment  
-**Status:** Ready  
+**Status:** Done
 **Workspace:** frontend  
 **Size:** 3 story points  
 **Dependencies:** existing authentication entry point
@@ -42,3 +42,16 @@ See `references/V2-16-02/`:
 - Skip and completion both suppress onboarding on later ordinary launches.
 - Final action reaches the existing auth flow.
 - Layout adapts to supported phone/tablet widths without fixed-frame clipping.
+
+## Completion evidence — 2026-09-14
+
+- Added the reference-based splash and three-stage responsive onboarding page, with replaceable logo/illustration placeholders, progress indicators, Skip on stages one/two and Get started on stage three.
+- Both exit actions use the app-state manager to persist `onboarding/completed` in the installation-local `<databasePath>.ui.ini` before opening the existing authentication page. This neither opens SQLite nor creates auth credentials/outbox events. A failed settings write stays recoverable on onboarding.
+- Unfinished onboarding appears again; completed/skipped onboarding stays dismissed on ordinary launches. Previously authenticated installations retain their existing startup path.
+- `cmake --build delearner-frontend/build-tests --parallel 4` passed.
+- Configured the working QML runner with `cmake -S delearner-frontend -B delearner-frontend/build-tests -DDELEARNER_QMLTESTRUNNER=/Users/nkursin/Felgo/Felgo/macos/bin/qmltestrunner`. The initially discovered Homebrew runner was killed at startup; the installed Felgo Qt 6.8.3 runner executed successfully.
+- `ctest --test-dir delearner-frontend/build-tests --output-on-failure` passed all 19 checks, including auth/bootstrap regressions, both canonical fixture checks and the new onboarding QML tests.
+- `/Users/nkursin/Felgo/Felgo/macos/bin/qmltestrunner -input delearner-frontend/tests/qml -platform offscreen` passed all 9 checks, covering splash, stage progression, both skip actions and 320×568, 393×852, 852×393 and 1024×1100 layouts with safe-area insets and reachable scroll actions.
+- Inspected offscreen phone and landscape renders against the supplied reference.
+- `cmake --build delearner-frontend/build-android --target delearner --parallel 4` passed, including QML compilation and Android native linking. APK packaging and physical iOS/Android launch were not exercised in this task.
+- Final diffs and whitespace checks passed. V2-16 remains In Progress / partially blocked; no other task was advanced.
