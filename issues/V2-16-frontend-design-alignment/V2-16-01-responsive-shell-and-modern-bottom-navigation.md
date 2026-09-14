@@ -1,7 +1,7 @@
 # V2-16-01 — Responsive shell and modern bottom navigation
 
 **Parent epic:** V2-16 — Frontend Design Alignment  
-**Status:** Ready  
+**Status:** Done
 **Workspace:** frontend  
 **Size:** 3 story points  
 **Dependencies:** existing navigation baseline
