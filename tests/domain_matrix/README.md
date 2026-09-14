@@ -106,3 +106,30 @@ bootstrap restore, automatic stale recovery, startup and backend protocol suites
 individually with `--no-tests=error`. See
 [the release checklist](../../docs/08-VERSION-2-RELEASE-CHECKLIST.md) for the full
 coverage mapping, recorded pins and outstanding Figma/platform/deployment checks.
+
+## Word/Group regression gate (V2-17-06)
+
+After `./scripts/build-all.sh all`, run
+`./tests/word_group_domain_regression_gate.sh`. Both root integration entry points
+require this gate. It requires every named child suite individually, including
+both repositories' contract-2 fixtures, repository membership validation,
+serialization, transactional outbox and remote reconciliation. It then runs the
+bootstrap/recovery gate (including existing-local-vocabulary sign-in tests in
+`TestAppStateAuthBootstrap`) and the compiled cross-repository matrix.
+
+`word_group_contract2_convergence` covers:
+
+- zero, one and four memberships; removal retaining other UUIDs; moving membership;
+- a fifth owned group rejected with `too_many_groups`, without changing the
+  backend snapshot or either client's memberships;
+- group deletion preserving words, idempotent event retries and no outbox feedback;
+- singular noun/plural form, plural-only noun, all three verb forms, adjective
+  comparisons, separate adverbs, phrase literal translation, memo/examples and icons;
+- propagation to two independent client databases and backend bootstrap restore.
+
+Membership transitions compare exact UUID sets on both incremental clients and
+the bootstrap client. Child `TestWordRepository` checks the corresponding local
+fifth-membership rejection and atomicity. Existing matrix, coordinator, outbox,
+reconciliation and bootstrap suites retain retry, cursor and stale-recovery
+coverage. The orchestration smoke test injects failure into each prerequisite to
+verify the gate stops; missing CTest registrations also fail explicitly.

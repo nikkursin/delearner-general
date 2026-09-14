@@ -521,6 +521,43 @@ void DomainMatrix::wordGroupContract2Convergence()
     QCOMPARE(membershipCount(nounId), 4);
     QCOMPARE(groupState(groupIds.at(1).toString()).value("icon_key").toString(), "train");
 
+    // Every membership transition must agree on both incremental clients and a
+    // newly bootstrapped client, including the exact surviving UUIDs.
+    const auto verifyMemberships = [&](const QJsonArray& expected) {
+        QStringList expectedIds;
+        for (const auto& id : expected) expectedIds.append(id.toString());
+        expectedIds.sort();
+        for (int device = 0; device < 3; ++device) {
+            openClient(device);
+            if (device < 2) {
+                pullIntoClient(device, client.remoteCursor());
+            } else {
+                DLBootstrapStateRestorer restorer(client);
+                QVERIFY2(restorer.restoreFromJson(handler->handleBootstrap(authorization).data(), &error),
+                         qPrintable(error));
+            }
+            QStringList actualIds;
+            for (const auto& row : client.selectRows(R"(
+                SELECT g.sync_id FROM word_group_memberships m
+                JOIN words w ON w.id=m.word_id JOIN groups g ON g.id=m.group_id
+                WHERE w.sync_id=:id ORDER BY g.sync_id
+            )", {{":id", nounId}})) actualIds.append(row.toMap().value("sync_id").toString());
+            QCOMPARE(actualIds, expectedIds);
+            QVERIFY(!wordState(nounId).isEmpty());
+            QCOMPARE(client.selectInt("SELECT COUNT(*) FROM sync_outbox_events"), 0);
+            QCOMPARE(client.selectRows("PRAGMA foreign_key_check").size(), 0);
+        }
+    };
+    QCOMPARE(membershipCount(verbId), 1);
+    QCOMPARE(membershipCount(adjectiveId), 0);
+    QCOMPARE(wordState(adjectiveId).value("positive_form").toString(), "schnell");
+    QCOMPARE(wordState(adjectiveId).value("superlative_form").toString(), "am schnellsten");
+    QCOMPARE(wordState(nounId).value("example_phrase_de").toString(),
+             "Ich kaufe eine Fahrkarte nach Berlin.");
+    QCOMPARE(wordState(nounId).value("example_phrase_native").toString(),
+             "I am buying a ticket to Berlin.");
+    verifyMemberships(groupIds);
+
     QJsonObject update = runtimeEvent(nounFixture, 10, 1);
     update.insert("operation", "update");
     QJsonObject updatePayload = update.value("payload").toObject();
@@ -542,6 +579,30 @@ void DomainMatrix::wordGroupContract2Convergence()
     pullIntoClient(1, 0);
     QCOMPARE(membershipCount(nounId), 4);
     QCOMPARE(wordState(nounId).value("notes").toString(), "Edited on device B");
+
+    // A real fifth owned group ensures rejection is about cardinality.
+    const QString fifthId = QUuid::createUuid().toString(QUuid::WithoutBraces);
+    auto fifthGroup = runtimeEvent(contract2Fixtures.value("group_create_full_state_with_portable_icon"), 11, 0);
+    fifthGroup.insert("entityId", fifthId);
+    auto fifthPayload = fifthGroup.value("payload").toObject();
+    fifthPayload.insert("id", fifthId);
+    fifthGroup.insert("payload", fifthPayload);
+    QCOMPARE(upload(fifthGroup).second.value("accepted").toArray().size(), 1);
+    auto invalid = runtimeEvent(update, 11, 1);
+    auto invalidPayload = invalid.value("payload").toObject();
+    auto fiveIds = groupIds;
+    fiveIds.append(fifthId);
+    invalidPayload.insert("group_ids", fiveIds);
+    invalid.insert("payload", invalidPayload);
+    const auto beforeRejection = handler->handleBootstrap(authorization).data();
+    const auto rejected = upload(invalid);
+    QCOMPARE(rejected.first, QHttpServerResponse::StatusCode::Ok);
+    QCOMPARE(rejected.second.value("accepted").toArray().size(), 0);
+    QCOMPARE(rejected.second.value("rejected").toArray().size(), 1);
+    QCOMPARE(rejected.second.value("rejected").toArray().first().toObject().value("reason").toString(),
+             "too_many_groups");
+    QCOMPARE(handler->handleBootstrap(authorization).data(), beforeRejection);
+    verifyMemberships(groupIds);
 
     QJsonObject deletion = mutation("group", "delete", 12, 1);
     deletion.insert("entityId", groupIds.first().toString());
@@ -573,6 +634,30 @@ void DomainMatrix::wordGroupContract2Convergence()
     QCOMPARE(membershipCount(nounId), 3);
     QCOMPARE(wordState(nounId).value("notes").toString(), "Edited on device B");
     QCOMPARE(client.selectRows("PRAGMA foreign_key_check").size(), 0);
+    int day = 13;
+    const QList<QJsonArray> transitions{
+        {groupIds.at(1), groupIds.at(2)}, // remove one, retain the others
+        {groupIds.at(2)},                // one group
+        {groupIds.at(3)},                // move to a different group
+        {},                             // no groups, word remains
+    };
+    for (const auto& ids : transitions) {
+        auto change = runtimeEvent(update, day++, 1);
+        auto payload = change.value("payload").toObject();
+        payload.insert("group_ids", ids);
+        change.insert("payload", payload);
+        QCOMPARE(upload(change).second.value("accepted").toArray().size(), 1);
+        verifyMemberships(ids);
+    }
+    const auto plural = runtimeEvent(contract2Fixtures.value("plural_only_noun_update_without_groups"), day, 0);
+    QCOMPARE(upload(plural).second.value("accepted").toArray().size(), 1);
+    verifyMemberships({});
+    for (int device = 0; device < 3; ++device) {
+        openClient(device);
+        QCOMPARE(wordState(nounId).value("article").toString(), "plural_only");
+        QVERIFY(wordState(nounId).value("plural_form").toString().isEmpty());
+    }
+
 }
 
 void DomainMatrix::bootstrapRaceCatchUp()

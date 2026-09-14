@@ -1,6 +1,6 @@
 # V2-17 — Word/Group Domain and Sync Evolution
 
-**Status:** In Progress
+**Status:** Done
 **Workspace:** frontend + backend + root  
 **Dependencies:** existing shared contract, UUID baseline, outbox, mutation processing, pull/bootstrap and domain coverage
 
