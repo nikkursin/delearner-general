@@ -1,7 +1,7 @@
 # V2-16-04 — Groups list, create and edit redesign
 
 **Parent epic:** V2-16 — Frontend Design Alignment  
-**Status:** Blocked  
+**Status:** Ready  
 **Workspace:** frontend  
 **Size:** 5 story points  
 **Dependencies:** V2-17-04

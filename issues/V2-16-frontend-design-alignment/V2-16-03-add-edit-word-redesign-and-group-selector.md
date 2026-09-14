@@ -1,7 +1,7 @@
 # V2-16-03 — Add/Edit Word redesign and group selector
 
 **Parent epic:** V2-16 — Frontend Design Alignment  
-**Status:** Blocked  
+**Status:** Ready  
 **Workspace:** frontend  
 **Size:** 5 story points  
 **Dependencies:** V2-17-04

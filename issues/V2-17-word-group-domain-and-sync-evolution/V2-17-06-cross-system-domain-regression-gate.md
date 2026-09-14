@@ -1,7 +1,7 @@
 # V2-17-06 — Cross-system domain regression gate
 
 **Parent epic:** V2-17 — Word/Group Domain and Sync Evolution  
-**Status:** Blocked  
+**Status:** Ready  
 **Workspace:** frontend + backend + root  
 **Size:** 3 story points  
 **Dependencies:** V2-17-04, V2-17-05
