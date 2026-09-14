@@ -100,7 +100,7 @@ This order is a priority strategy, not permission to bypass dependencies.
 | [V2-17-02](./V2-17-word-group-domain-and-sync-evolution/V2-17-02-extend-frontend-sqlite-repository-outbox-model.md) — Extend frontend SQLite/repository/outbox model | Done | V2-17-01 |
 | [V2-17-03](./V2-17-word-group-domain-and-sync-evolution/V2-17-03-extend-backend-postgresql-domain-validation.md) — Extend backend PostgreSQL/domain validation | Done | V2-17-01 |
 | [V2-17-04](./V2-17-word-group-domain-and-sync-evolution/V2-17-04-complete-sync-bootstrap-reconciliation-coverage.md) — Complete sync/bootstrap/reconciliation coverage | Done | V2-17-02, V2-17-03 |
-| [V2-17-05](./V2-17-word-group-domain-and-sync-evolution/V2-17-05-fix-sign-in-sync-with-existing-local-vocabulary.md) — Fix sign-in sync with pre-existing local vocabulary | Ready | Existing authentication + sync baseline |
+| [V2-17-05](./V2-17-word-group-domain-and-sync-evolution/V2-17-05-fix-sign-in-sync-with-existing-local-vocabulary.md) — Fix sign-in sync with pre-existing local vocabulary | Done | Existing authentication + sync baseline |
 | [V2-17-06](./V2-17-word-group-domain-and-sync-evolution/V2-17-06-cross-system-domain-regression-gate.md) — Cross-system domain regression gate | Blocked | V2-17-04, V2-17-05 |
 
 ### V2-17 approved product semantics

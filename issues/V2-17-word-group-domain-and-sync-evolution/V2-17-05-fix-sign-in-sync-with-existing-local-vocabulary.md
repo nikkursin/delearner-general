@@ -1,7 +1,7 @@
 # V2-17-05 — Fix sign-in sync with pre-existing local vocabulary
 
 **Parent epic:** V2-17 — Word/Group Domain and Sync Evolution  
-**Status:** Ready  
+**Status:** Done
 **Workspace:** frontend + backend + root  
 **Size:** 3 story points  
 **Dependencies:** existing authentication + sync baseline
