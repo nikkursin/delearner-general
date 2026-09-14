@@ -38,7 +38,7 @@ work can depend on the same compatibility source.
 Current Version 2 values:
 
 ```text
-SQLite schema:     1.3
+SQLite schema:     1.4
 PostgreSQL schema: 1.3
 Sync/API contract: 1.0
 API route major:   /api/v1
@@ -60,7 +60,10 @@ whose winning identities cannot be recovered after retention; account/auth/devic
 identity remains intact. PostgreSQL `1.3` adds portable Group icon metadata,
 Word morphology/literal-translation fields, and relational multi-Group Word
 membership while migrating the former single membership without data loss.
-These changes do not advance the active sync/API version.
+These changes do not advance the active sync/API version. SQLite `1.4` adds
+portable Group icon metadata, Word morphology/literal-translation fields, and
+relational multi-Group Word membership while migrating the former single
+membership without data loss.
 
 ## Database Schema Versioning
 

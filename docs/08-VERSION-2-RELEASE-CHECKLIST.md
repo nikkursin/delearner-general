@@ -11,7 +11,7 @@ and evidence does not approve the product release or mark Version 2 complete.
 
 - Frontend: `e1b1e4b140a1ec578b081421c518b429f7aa9e47`
 - Backend: `f20e9bba077a9aff7090bc386431fec8b369e0f7`
-- SQLite `1.3`, PostgreSQL `1.2`, sync/API `1.0` (`/api/v1`).
+- SQLite `1.4`, PostgreSQL `1.3`, sync/API `1.0` (`/api/v1`).
 
 These are the unchanged root Git submodule pins. Re-run the gate if either pin
 changes. No child implementation, schema, protocol or UI changed for this task.
