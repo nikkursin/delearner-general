@@ -1,7 +1,7 @@
 # V2-17-04 — Complete sync/bootstrap/reconciliation coverage
 
 **Parent epic:** V2-17 — Word/Group Domain and Sync Evolution  
-**Status:** Ready
+**Status:** Done
 **Workspace:** frontend + backend + root  
 **Size:** 5 story points  
 **Dependencies:** V2-17-02, V2-17-03

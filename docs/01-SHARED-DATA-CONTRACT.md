@@ -40,14 +40,13 @@ Current Version 2 values:
 ```text
 SQLite schema:     1.4
 PostgreSQL schema: 1.3
-Sync/API contract: 1.0
-API route major:   /api/v1
+Sync/API contract: 2.0
+API route major:   /api/v2
 ```
 
-V2-17 defines the next Word/Group contract as sync/API `2.0` on `/api/v2`.
-It is intentionally a separate target fixture set until both clients and the
-backend implement it. The active compatibility baseline above remains `1.0`;
-contract definition alone does not claim runtime support.
+V2-17 defines and implements the current Word/Group contract as sync/API `2.0`
+on `/api/v2`. The prior `1.0` fixture sets remain available as compatibility
+references; the active runtime compatibility baseline is `2.0`.
 
 These values are independent version families. SQLite advanced to `1.1` for
 the additive local outbox schema and `1.2` for the additive local pull-cursor

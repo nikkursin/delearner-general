@@ -34,6 +34,7 @@ private slots:
     void authenticationAndDeviceLifecycle();
     void automaticTwoDeviceReconnect();
     void bootstrapRaceCatchUp();
+    void wordGroupContract2Convergence();
     void lwwTombstoneAndBootstrap_data();
     void lwwTombstoneAndBootstrap();
 private:
@@ -51,6 +52,7 @@ private:
     QString owner, authorization, matrixType;
     QStringList devices;
     QMap<QString, QJsonObject> fixtures;
+    QMap<QString, QJsonObject> contract2Fixtures;
 };
 
 static QString timestamp(int day)
@@ -88,14 +90,21 @@ void DomainMatrix::init()
     }
     handler = std::make_unique<DLEventsCompatibilityHandler>(&backend, &backend, auth.get());
     fixtures.clear();
+    contract2Fixtures.clear();
     for (const auto& name : {"word-and-group-events.json", "review-settings-and-tombstone-events.json"}) {
-        QFile file(QStringLiteral(FIXTURE_DIR) + '/' + name);
+        const bool wordGroupFixture = QString::fromLatin1(name) == QStringLiteral("word-and-group-events.json");
+        QFile file(QString::fromLatin1(wordGroupFixture ? V2_FIXTURE_DIR : V1_FIXTURE_DIR) + '/' + name);
         QVERIFY(file.open(QIODevice::ReadOnly));
         const auto document = QJsonDocument::fromJson(file.readAll());
         QVERIFY(document.isObject());
         for (const auto& value : document.object().value("fixtures").toArray()) {
             const auto event = value.toObject();
-            if (event.value("operation").toString() == "create")
+            if (wordGroupFixture)
+                contract2Fixtures.insert(event.value("name").toString(), event);
+            if (event.value("operation").toString() != "create")
+                continue;
+            if (!wordGroupFixture || event.value("name").toString() == "group_create_full_state_with_portable_icon"
+                || event.value("name").toString() == "noun_create_with_four_groups")
                 fixtures.insert(event.value("entityType").toString(), event);
         }
     }
@@ -221,6 +230,8 @@ QJsonObject DomainMatrix::mutation(const QString& type, const QString& operation
         if (type == "word") body.insert("notes", QString::number(day));
         if (type == "word_review_stats") body.insert("correct_answers", day);
         if (type == "app_setting") body.insert("setting_value", QString::number(day));
+        if (type == "word")
+            body.insert("group_ids", QJsonArray{fixture("group").value("entityId").toString()});
     }
     body.insert("ownerUserId", owner);
     return {{"eventId", QUuid::createUuid().toString(QUuid::WithoutBraces)},
@@ -362,7 +373,7 @@ void DomainMatrix::lwwTombstoneAndBootstrap()
         // Existing group-delete outbox behavior sends the related word unlink.
         auto unlink = mutation("word", "update", 5, 1);
         auto payload = unlink.value("payload").toObject();
-        payload.insert("group_id", QJsonValue::Null);
+        payload.insert("group_ids", QJsonArray{});
         unlink.insert("payload", payload);
         push(unlink, "update", 5);
     }
@@ -376,6 +387,192 @@ void DomainMatrix::lwwTombstoneAndBootstrap()
     if (type == "group") push(mutation("word", "update", 8, 0), "update", 8); // explicit reattach
     push(mutation(type, "delete", 7, 1), "update", 8); // late-arriving older delete loses
     converge(type, false, 8);
+}
+
+void DomainMatrix::wordGroupContract2Convergence()
+{
+    matrixType = "word";
+    const auto runtimeEvent = [&](const QJsonObject& source, int day, int device) {
+        QJsonObject event = source;
+        event.insert("eventId", QUuid::createUuid().toString(QUuid::WithoutBraces));
+        event.insert("deviceId", devices.at(device));
+        event.insert("updatedAt", timestamp(day));
+        event.insert("baseVersion", 0);
+        event.insert("occurredAt", QDateTime::fromString(timestamp(day), Qt::ISODate).toSecsSinceEpoch());
+        QJsonObject payload = event.value("payload").toObject();
+        payload.insert("ownerUserId", owner);
+        payload.insert("updated_at", timestamp(day));
+        event.insert("payload", payload);
+        return event;
+    };
+    const auto upload = [&](const QJsonObject& event) {
+        const auto response = handler->handleUpload(
+            QJsonDocument(QJsonObject{{"events", QJsonArray{event}}}).toJson(), authorization);
+        return qMakePair(response.statusCode(), QJsonDocument::fromJson(response.data()).object());
+    };
+    const auto pullIntoClient = [&](int device, qint64 after) {
+        openClient(device);
+        auto& client = DLDatabaseManager::instance();
+        const auto response = handler->handleDownload({{"after", QString::number(after)}}, authorization);
+        QCOMPARE(response.statusCode(), QHttpServerResponse::StatusCode::Ok);
+        QString error;
+        DLRemoteChangeReconciler reconciler(client);
+        QVERIFY2(reconciler.applyDownloadedEventsAndAdvanceCursor(
+                     QJsonDocument::fromJson(response.data()).object().toVariantMap(), &error),
+                 qPrintable(error));
+    };
+    const auto membershipCount = [&](const QString& wordId) {
+        return DLDatabaseManager::instance().selectInt(QStringLiteral(
+            "SELECT COUNT(*) FROM word_group_memberships m JOIN words w ON w.id=m.word_id WHERE w.sync_id=:id"),
+            {{":id", wordId}});
+    };
+    const auto wordState = [&](const QString& wordId) {
+        return DLDatabaseManager::instance().selectOneRow(QStringLiteral(R"(
+            SELECT w.*, nf.plural_form, vf.praesens_third_person_form, vf.praeteritum_form,
+                   vf.partizip_ii_form, af.positive_form, af.comparative_form, af.superlative_form
+            FROM words w
+            LEFT JOIN noun_forms nf ON nf.word_id=w.id
+            LEFT JOIN verb_forms vf ON vf.word_id=w.id
+            LEFT JOIN adjective_forms af ON af.word_id=w.id
+            WHERE w.sync_id=:id AND w.deleted_at IS NULL
+        )"), {{":id", wordId}});
+    };
+    const auto groupState = [&](const QString& groupId) {
+        return DLDatabaseManager::instance().selectOneRow(
+            "SELECT * FROM groups WHERE sync_id=:id AND deleted_at IS NULL", {{":id", groupId}});
+    };
+
+    const QJsonObject nounFixture = contract2Fixtures.value("noun_create_with_four_groups");
+    const QJsonArray groupIds = nounFixture.value("payload").toObject().value("group_ids").toArray();
+    QCOMPARE(groupIds.size(), 4);
+    const QStringList iconKeys{"travel", "train", "book", "star"};
+    for (int index = 0; index < groupIds.size(); ++index) {
+        QJsonObject group = runtimeEvent(
+            contract2Fixtures.value("group_create_full_state_with_portable_icon"), 2, 0);
+        const QString groupId = groupIds.at(index).toString();
+        group.insert("entityId", groupId);
+        QJsonObject payload = group.value("payload").toObject();
+        payload.insert("id", groupId);
+        payload.insert("name", QStringLiteral("Group %1").arg(index + 1));
+        payload.insert("icon_key", iconKeys.at(index));
+        group.insert("payload", payload);
+        const auto result = upload(group);
+        QCOMPARE(result.first, QHttpServerResponse::StatusCode::Ok);
+        QCOMPARE(result.second.value("rejected").toArray().size(), 0);
+        QCOMPARE(result.second.value("accepted").toArray().size(), 1);
+        QCOMPARE(result.second.value("accepted").toArray().first().toObject()
+                     .value("canonical").toObject().value("state").toObject().value("icon_key").toString(),
+                 iconKeys.at(index));
+    }
+
+    QStringList wordFixtureNames{
+        "noun_create_with_four_groups",
+        "verb_create_with_all_forms",
+        "adjective_create_with_comparison",
+        "adverb_create",
+        "phrase_create_with_literal_translation",
+    };
+    QJsonObject nounEvent;
+    qint64 nounSequence = 0;
+    for (int index = 0; index < wordFixtureNames.size(); ++index) {
+        QJsonObject event = runtimeEvent(contract2Fixtures.value(wordFixtureNames.at(index)), 3 + index, 0);
+        const auto result = upload(event);
+        QCOMPARE(result.first, QHttpServerResponse::StatusCode::Ok);
+        QCOMPARE(result.second.value("rejected").toArray().size(), 0);
+        QCOMPARE(result.second.value("accepted").toArray().size(), 1);
+        const QJsonObject accepted = result.second.value("accepted").toArray().first().toObject();
+        const QJsonObject canonical = accepted.value("canonical").toObject().value("state").toObject();
+        QCOMPARE(canonical.value("id").toString(), event.value("entityId").toString());
+        if (index == 0) {
+            nounEvent = event;
+            nounSequence = accepted.value("serverSequence").toInteger();
+            QCOMPARE(canonical.value("group_ids").toArray().size(), 4);
+            QCOMPARE(canonical.value("notes").toString(), "Common travel vocabulary.");
+            QCOMPARE(canonical.value("plural_form").toString(), "Fahrkarten");
+        }
+    }
+
+    const auto duplicate = upload(nounEvent);
+    QCOMPARE(duplicate.first, QHttpServerResponse::StatusCode::Ok);
+    QCOMPARE(duplicate.second.value("accepted").toArray().size(), 1);
+    QCOMPARE(duplicate.second.value("accepted").toArray().first().toObject()
+                 .value("serverSequence").toInteger(), nounSequence);
+    QCOMPARE(QJsonDocument::fromJson(handler->handleDownload({{"after", "0"}}, authorization).data())
+                 .object().value("events").toArray().size(), 9);
+
+    pullIntoClient(0, 0);
+    auto& client = DLDatabaseManager::instance();
+    const QString nounId = nounEvent.value("entityId").toString();
+    QCOMPARE(membershipCount(nounId), 4);
+    QCOMPARE(wordState(nounId).value("plural_form").toString(), "Fahrkarten");
+    const QString verbId = contract2Fixtures.value("verb_create_with_all_forms").value("entityId").toString();
+    QCOMPARE(wordState(verbId).value("praesens_third_person_form").toString(), QString::fromUtf8("fährt"));
+    QCOMPARE(wordState(verbId).value("praeteritum_form").toString(), "fuhr");
+    QCOMPARE(wordState(verbId).value("partizip_ii_form").toString(), "gefahren");
+    const QString adjectiveId = contract2Fixtures.value("adjective_create_with_comparison").value("entityId").toString();
+    QCOMPARE(wordState(adjectiveId).value("comparative_form").toString(), "schneller");
+    const QString phraseId = contract2Fixtures.value("phrase_create_with_literal_translation").value("entityId").toString();
+    QCOMPARE(wordState(phraseId).value("literal_translation").toString(), "That is sausage to me.");
+
+    openClient(2);
+    QString error;
+    DLBootstrapStateRestorer initialBootstrap(client);
+    QVERIFY2(initialBootstrap.restoreFromJson(handler->handleBootstrap(authorization).data(), &error), qPrintable(error));
+    QCOMPARE(membershipCount(nounId), 4);
+    QCOMPARE(groupState(groupIds.at(1).toString()).value("icon_key").toString(), "train");
+
+    QJsonObject update = runtimeEvent(nounFixture, 10, 1);
+    update.insert("operation", "update");
+    QJsonObject updatePayload = update.value("payload").toObject();
+    QJsonArray reversedGroups;
+    for (qsizetype index = groupIds.size(); index > 0; --index)
+        reversedGroups.append(groupIds.at(index - 1));
+    updatePayload.insert("group_ids", reversedGroups);
+    updatePayload.insert("notes", "Edited on device B");
+    update.insert("payload", updatePayload);
+    const auto updateResult = upload(update);
+    QCOMPARE(updateResult.first, QHttpServerResponse::StatusCode::Ok);
+    QCOMPARE(updateResult.second.value("accepted").toArray().size(), 1);
+    QCOMPARE(updateResult.second.value("accepted").toArray().first().toObject()
+                 .value("canonical").toObject().value("state").toObject().value("group_ids").toArray().size(), 4);
+
+    pullIntoClient(0, client.remoteCursor());
+    QCOMPARE(membershipCount(nounId), 4);
+    QCOMPARE(wordState(nounId).value("notes").toString(), "Edited on device B");
+    pullIntoClient(1, 0);
+    QCOMPARE(membershipCount(nounId), 4);
+    QCOMPARE(wordState(nounId).value("notes").toString(), "Edited on device B");
+
+    QJsonObject deletion = mutation("group", "delete", 12, 1);
+    deletion.insert("entityId", groupIds.first().toString());
+    QJsonObject tombstone = deletion.value("tombstone").toObject();
+    tombstone.insert("entity_id", groupIds.first().toString());
+    deletion.insert("tombstone", tombstone);
+    const auto deleteResult = upload(deletion);
+    QCOMPARE(deleteResult.first, QHttpServerResponse::StatusCode::Ok);
+    QCOMPARE(deleteResult.second.value("accepted").toArray().size(), 1);
+    const qint64 deleteSequence = deleteResult.second.value("accepted").toArray().first().toObject()
+                                      .value("serverSequence").toInteger();
+    const auto duplicateDelete = upload(deletion);
+    QCOMPARE(duplicateDelete.second.value("accepted").toArray().first().toObject()
+                 .value("serverSequence").toInteger(), deleteSequence);
+
+    for (int device = 0; device < 2; ++device) {
+        openClient(device);
+        const qint64 cursor = client.remoteCursor();
+        pullIntoClient(device, cursor);
+        QVERIFY(!wordState(nounId).isEmpty());
+        QCOMPARE(membershipCount(nounId), 3);
+    }
+    client.closeDatabase();
+    QFile::remove(temporary.filePath("2.sqlite"));
+    openClient(2);
+    DLBootstrapStateRestorer finalBootstrap(client);
+    QVERIFY2(finalBootstrap.restoreFromJson(handler->handleBootstrap(authorization).data(), &error), qPrintable(error));
+    QVERIFY(!wordState(nounId).isEmpty());
+    QCOMPARE(membershipCount(nounId), 3);
+    QCOMPARE(wordState(nounId).value("notes").toString(), "Edited on device B");
+    QCOMPARE(client.selectRows("PRAGMA foreign_key_check").size(), 0);
 }
 
 void DomainMatrix::bootstrapRaceCatchUp()

@@ -64,13 +64,12 @@ def verify(root: Path) -> None:
     frontend_schema_path = root / "delearner-frontend" / "src" / "Managers" / "DLDatabaseManager.cpp"
     frontend_contract_path = root / "delearner-frontend" / "src" / "Sync" / "DLSyncEventSerializer.cpp"
     backend_schema_path = root / "delearner-backend" / "src" / "persistence" / "DLDatabaseSchemaVersion.cpp"
-    fixture_dir = root / "contracts" / "fixtures" / "v1"
-
     baseline = parse_baseline(baseline_path)
     sqlite_version = require_value(baseline, "DELEARNER_SQLITE_SCHEMA_VERSION", baseline_path)
     postgres_version = require_value(baseline, "DELEARNER_POSTGRESQL_SCHEMA_VERSION", baseline_path)
     contract_version = require_value(baseline, "DELEARNER_SYNC_API_CONTRACT_VERSION", baseline_path)
     route_major = require_value(baseline, "DELEARNER_SYNC_API_ROUTE_MAJOR", baseline_path)
+    fixture_dir = root / "contracts" / "fixtures" / f"v{require_value(baseline, 'DELEARNER_SYNC_API_CONTRACT_MAJOR', baseline_path)}"
 
     sqlite_expected = "{}.{}".format(
         require_value(baseline, "DELEARNER_SQLITE_SCHEMA_MAJOR", baseline_path),

@@ -39,13 +39,16 @@ add_executable(domain_matrix
     ${BACKEND}/persistence/DLSyncTransactionRepository.cpp
 )
 target_include_directories(domain_matrix PRIVATE "${BACKEND}")
-target_compile_definitions(domain_matrix PRIVATE FIXTURE_DIR="${DELEARNER_ROOT}/contracts/fixtures/v1")
+target_compile_definitions(domain_matrix PRIVATE
+    V1_FIXTURE_DIR="${DELEARNER_ROOT}/contracts/fixtures/v1"
+    V2_FIXTURE_DIR="${DELEARNER_ROOT}/contracts/fixtures/v2")
 target_link_libraries(domain_matrix PRIVATE delearner_core Qt6::HttpServer Qt6::Test)
 enable_testing()
 add_test(NAME bootstrap_race_catch_up COMMAND domain_matrix bootstrapRaceCatchUp)
 add_test(NAME authentication_device_lifecycle COMMAND domain_matrix authenticationAndDeviceLifecycle)
 add_test(NAME domain_relationship_tombstone_matrix COMMAND domain_matrix lwwTombstoneAndBootstrap)
 add_test(NAME automatic_two_device_reconnect COMMAND domain_matrix automaticTwoDeviceReconnect)
+add_test(NAME word_group_contract2_convergence COMMAND domain_matrix wordGroupContract2Convergence)
 
 # Child executables have different global DLAuthSession DTOs. Give the backend
 # DTO a test-only name throughout its dependency closure to avoid an ODR clash
