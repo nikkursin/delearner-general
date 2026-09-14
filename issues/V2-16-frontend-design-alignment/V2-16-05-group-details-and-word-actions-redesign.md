@@ -1,7 +1,7 @@
 # V2-16-05 — Group Details and word actions redesign
 
 **Parent epic:** V2-16 — Frontend Design Alignment  
-**Status:** Blocked  
+**Status:** Done
 **Workspace:** frontend  
 **Size:** 5 story points  
 **Dependencies:** V2-17-04, V2-16-04
