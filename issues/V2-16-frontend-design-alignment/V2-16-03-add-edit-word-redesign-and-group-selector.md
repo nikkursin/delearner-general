@@ -1,7 +1,7 @@
 # V2-16-03 — Add/Edit Word redesign and group selector
 
 **Parent epic:** V2-16 — Frontend Design Alignment  
-**Status:** Ready  
+**Status:** Done
 **Workspace:** frontend  
 **Size:** 5 story points  
 **Dependencies:** V2-17-04
@@ -76,3 +76,14 @@ See `references/V2-16-03/` for current and target states, including Noun, Verb, 
 - Tests for conditional field visibility by part of speech.
 - Repository/view-model integration tests for load/save of new fields.
 - Regression test for editing an existing word without data loss.
+
+## Completion — 2026-09-14
+
+- Replaced the editor presentation with responsive, neutral fields, article colors, conditional forms, group chips and Save/Save Changes state using the supplied screenshots.
+- Kept the existing navigation, safe-area and scrolling shell; extracted the standard Qt Quick form for component testing.
+- Added a reusable bottom-sheet selector with draft selection, cancellation, Apply and a maximum of four groups.
+- Load/save now carries canonical group memberships, Memo, Präsens and Phrase literal translation. Canonical English part-of-speech values and `plural_only` load into their corresponding UI controls. Existing hidden form data survives ordinary editing; plural-only selection clears the contradictory plural form.
+- Verification: `cmake --build delearner-frontend/build-tests -j 4`; full frontend CTest suite, with the corrected service payload test rerun successfully; focused `TestWordEditorUi` rerun after final UI changes. All 22 registered tests passed across these runs, including both root contract fixture validators.
+- Component coverage includes conditional fields, canonical noun/Phrase loading, edit preservation, group draft/Apply/cancel behavior, the four-group limit, required fields and scrolling at phone/tablet widths. Repository/service coverage verifies full-field round-trip and clearing memberships.
+- Rendered the form offscreen for visual inspection. Physical iOS/Android keyboard and safe-area checks were not run.
+- The pre-existing `CMakeLists.txt.user` modification is excluded from the task commit. V2-16 remains In Progress / partially blocked; no other task status changed.
