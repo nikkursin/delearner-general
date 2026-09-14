@@ -79,7 +79,7 @@ This order is a priority strategy, not permission to bypass dependencies.
 | [V2-16-01](./V2-16-frontend-design-alignment/V2-16-01-responsive-shell-and-modern-bottom-navigation.md) — Responsive shell and modern bottom navigation | Done | Existing navigation baseline |
 | [V2-16-02](./V2-16-frontend-design-alignment/V2-16-02-first-run-onboarding-flow.md) — First-run onboarding flow | Done | Existing authentication entry point |
 | [V2-16-03](./V2-16-frontend-design-alignment/V2-16-03-add-edit-word-redesign-and-group-selector.md) — Add/Edit Word redesign and group selector | Done | V2-17-04 |
-| [V2-16-04](./V2-16-frontend-design-alignment/V2-16-04-groups-list-create-and-edit-redesign.md) — Groups list, create and edit redesign | Blocked | V2-17-04 |
+| [V2-16-04](./V2-16-frontend-design-alignment/V2-16-04-groups-list-create-and-edit-redesign.md) — Groups list, create and edit redesign | Done | V2-17-04 |
 | [V2-16-05](./V2-16-frontend-design-alignment/V2-16-05-group-details-and-word-actions-redesign.md) — Group Details and word actions redesign | Blocked | V2-17-04 |
 | [V2-16-06](./V2-16-frontend-design-alignment/V2-16-06-words-list-search-filters-and-swipe-actions.md) — Words list, search, filters and swipe actions | Blocked | V2-17-04 |
 | [V2-16-07](./V2-16-frontend-design-alignment/V2-16-07-word-details-and-edit-word-redesign.md) — Word Details and Edit Word redesign | Blocked | V2-17-04 |
