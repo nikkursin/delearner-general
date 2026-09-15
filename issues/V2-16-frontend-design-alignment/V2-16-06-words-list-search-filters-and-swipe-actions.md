@@ -1,7 +1,7 @@
 # V2-16-06 — Words list, search, filters and swipe actions
 
 **Parent epic:** V2-16 — Frontend Design Alignment  
-**Status:** Ready  
+**Status:** Done
 **Workspace:** frontend  
 **Size:** 5 story points  
 **Dependencies:** V2-17-04, V2-16-01
