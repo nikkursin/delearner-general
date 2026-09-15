@@ -1,6 +1,6 @@
 # V2-16 — Frontend Design Alignment
 
-**Status:** In Progress / partially blocked
+**Status:** Done
 **Workspace:** frontend + root  
 **Dependencies:** existing V2 sync/authentication baseline; V2-17 for new synchronized Word/Group semantics
 
