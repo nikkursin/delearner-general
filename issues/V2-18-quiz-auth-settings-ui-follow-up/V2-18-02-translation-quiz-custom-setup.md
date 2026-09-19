@@ -1,7 +1,7 @@
 # V2-18-02 — Translation Quiz custom setup
 
 **Parent epic:** V2-18 — Quiz, Authentication and Settings UI Follow-up  
-**Status:** Ready
+**Status:** Done
 **Workspace:** frontend  
 **Size:** 5 story points  
 **Dependencies:** V2-18-01
