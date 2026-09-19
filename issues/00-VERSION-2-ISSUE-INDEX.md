@@ -1,16 +1,16 @@
 # DE Vocab Learner — Version 2 Issue Index
 
 **Status:** In Progress  
-**Epics:** 18  
-**Loop-sized subtasks:** 74
+**Epics:** 19  
+**Loop-sized subtasks:** 85
 
 ## Version 2 Goal
 
 Deliver an authenticated, account-based, offline-capable multi-device synchronization layer for the existing free product while preserving current learning behavior.
 
-After the functional synchronization baseline is stable, align the approved vocabulary/group/onboarding/navigation frontend surfaces with the supplied design references and evolve the synchronized Word/Group domain only where those approved designs require it.
+After the functional synchronization baseline is stable, align the approved vocabulary/group/onboarding/navigation frontend surfaces with the supplied design references, evolve the synchronized Word/Group domain only where those approved designs require it, stabilize post-redesign regressions, and align the currently implemented Quiz flows with the approved Quiz references.
 
-Quiz, authentication/login and Settings/Profile redesign remain deferred until their target references are supplied.
+Authentication/login visual redesign and Settings/Profile redesign remain deferred until their target references are supplied. Functional authentication regressions are not deferred and are handled by V2-19.
 
 ## Completed Foundation — Do Not Reopen
 
@@ -23,6 +23,8 @@ Quiz, authentication/login and Settings/Profile redesign remain deferred until t
 
 Additionally completed: V2-07 and V2-11 are Done. These tasks stay Done and must not be reopened.
 
+V2-16 and V2-17 are also completed implementation baselines. Regressions discovered after their execution must be fixed through V2-19 rather than reopening historical tasks.
+
 ## Remaining Execution Strategy
 
 The remaining work stays dependency-driven and backend-first where cross-system behavior is involved. Ralph selects globally from dependency-ready tasks using the workspace priority below instead of mechanically finishing every earlier epic before considering later ready work.
@@ -34,20 +36,22 @@ The remaining work stays dependency-driven and backend-first where cross-system 
 5. **Client identity + outbox completion** — V2-05-04 → V2-06-03 → V2-07-03 → V2-07-04.
 6. **Client pull/bootstrap/scheduling/recovery wiring** — remaining V2-09, V2-10, V2-11 and V2-12 tasks.
 7. **End-to-end domain convergence** — V2-13.
-8. **Stable-sync production UX cleanup** — V2-14. Keep its existing scope; do not duplicate the newly approved screenshot-driven redesign owned by V2-16.
-9. **Word/Group domain and sync evolution** — V2-17. Complete the shared-contract/frontend/backend changes required by the approved new Word/Group behavior.
-10. **Frontend design alignment** — V2-16. V2-16-01 and V2-16-02 may proceed independently where ready; V2-16-03 through V2-16-07 wait for the required V2-17 synchronized domain support.
-11. **Release gate** — V2-15 after the functional sync system plus active V2-16/V2-17 scope is integrated and verified.
-12. **Deferred UI follow-up** — V2-18 remains non-blocking and undecomposed until Quiz, authentication/login and Settings/Profile target references are supplied.
+8. **Stable-sync production UX cleanup** — V2-14. Keep its existing scope; do not duplicate the screenshot-driven redesign already completed in V2-16.
+9. **Post-redesign stabilization** — V2-19. Fix current UI regressions and authentication/account-creation failures before layering further UI work on top.
+10. **Quiz UI follow-up** — active Quiz scope in V2-18 after the blocking V2-19 regressions are stabilized. Translation and Article remain the only implemented quiz families; additional quiz-family cards stay placeholders.
+11. **Release gate** — V2-15 after the functional sync system, completed V2-16/V2-17 baseline, active V2-18 Quiz scope, and V2-19 stabilization are integrated and verified.
+12. **Deferred visual follow-up** — Authentication/login visual redesign and Settings/Profile redesign remain reserved under V2-18 until target references are supplied.
 
 This order is a priority strategy, not permission to bypass dependencies.
 
 ## Ownership Clarification
 
 - **V2-14** retains its existing production UX cleanup responsibilities around stable synchronization.
-- **V2-16** owns the newly approved screenshot-driven redesign for onboarding, bottom navigation, Add/Edit Word, Groups, Group Details, Words and Word Details/Edit.
-- **V2-17** owns the cross-system data/contract changes required by that redesign. These changes must not be implemented as frontend-only shortcuts.
-- **V2-18** reserves future Quiz, authentication/login and Settings/Profile design work. Existing behavior stays unchanged until that epic is explicitly activated and decomposed.
+- **V2-16** owns the completed screenshot-driven redesign for onboarding, bottom navigation, Add/Edit Word, Groups, Group Details, Words and Word Details/Edit.
+- **V2-17** owns the completed cross-system data/contract changes required by that redesign.
+- **V2-18** is now partially activated for the approved Quiz redesign. Authentication/login visual redesign and Settings/Profile redesign remain deferred within the same epic.
+- **V2-19** owns regressions discovered after V2-16/V2-17 execution, including broken UI alignment/gesture behavior and authentication/account-creation failures.
+- Functional authentication bugs belong to V2-19 even though future authentication visual redesign remains deferred in V2-18.
 
 ## Epic Catalog
 
@@ -67,10 +71,11 @@ This order is a priority strategy, not permission to bypass dependencies.
 | [V2-12](./V2-12-retention-and-stale-device-recovery/EPIC.md) | Retention and Stale-Device Recovery | backend + frontend + root | No Figma before V2-14 | pull/bootstrap; client recovery later |
 | [V2-13](./V2-13-end-to-end-domain-coverage/EPIC.md) | End-to-End Domain Coverage | frontend + backend + root | None | sync paths complete |
 | [V2-14](./V2-14-production-ux-cleanup-for-stable-sync/EPIC.md) | Production UX Cleanup for Stable Sync | Figma + frontend + root | Existing late stable-sync UX scope | functional V2 sync complete |
-| [V2-15](./V2-15-root-integration-and-release-gate/EPIC.md) | Root Integration and Release Gate | root + frontend + backend | Verify approved references only | V2-14 + active V2-16/V2-17 scope + functional system |
-| [V2-16](./V2-16-frontend-design-alignment/EPIC.md) | Frontend Design Alignment | frontend + root | Use supplied screenshots; avoid MCP unless material information is missing | functional frontend baseline; V2-17 for new Word/Group semantics |
-| [V2-17](./V2-17-word-group-domain-and-sync-evolution/EPIC.md) | Word/Group Domain and Sync Evolution | frontend + backend + root | None | existing contract + UUID + outbox + mutation/pull/bootstrap baseline |
-| [V2-18](./V2-18-quiz-auth-settings-ui-follow-up/EPIC.md) | Quiz, Authentication and Settings UI Follow-up | frontend + backend + root as later decomposed | Deferred until target references are supplied | V2-16/V2-17 completion; non-blocking until activated |
+| [V2-15](./V2-15-root-integration-and-release-gate/EPIC.md) | Root Integration and Release Gate | root + frontend + backend | Verify approved references only | V2-14 + V2-16/V2-17 + active V2-18 + V2-19 + functional system |
+| [V2-16](./V2-16-frontend-design-alignment/EPIC.md) | Frontend Design Alignment | frontend + root | Use supplied screenshots; avoid MCP unless material information is missing | Done |
+| [V2-17](./V2-17-word-group-domain-and-sync-evolution/EPIC.md) | Word/Group Domain and Sync Evolution | frontend + backend + root | None | Done |
+| [V2-18](./V2-18-quiz-auth-settings-ui-follow-up/EPIC.md) | Quiz, Authentication and Settings UI Follow-up | frontend + root; backend only where existing synchronized review statistics must be verified | Use supplied Quiz screenshots; avoid MCP unless material information is missing | completed V2-16/V2-17 baseline; Quiz scope active |
+| [V2-19](./V2-19-post-redesign-stabilization/EPIC.md) | Post-Redesign Stabilization | frontend + backend + root | Use current regression screenshots plus approved V2-16 references | completed V2-16/V2-17 baseline |
 
 ## V2-16 — Frontend Design Alignment Tasks
 
@@ -90,7 +95,7 @@ This order is a priority strategy, not permission to bypass dependencies.
 - Onboarding logo/illustration areas remain placeholders until final assets are supplied.
 - A word may display/select up to four groups only after V2-17 establishes the synchronized domain behavior.
 - Adjective and Adverb remain separate for now. Their potential future merge is not part of V2-16.
-- The Group Details overflow action for **Add Word** is acknowledged, but its final target reference remains pending and must not be invented.
+- The originally disabled Group Details **Add Word** action is superseded by V2-19-04: it must route to the canonical Add Word page with the originating group preselected.
 
 ## V2-17 — Word/Group Domain and Sync Evolution Tasks
 
@@ -118,29 +123,83 @@ This order is a priority strategy, not permission to bypass dependencies.
 - Removing a Word from one Group does not delete the Word entity.
 - The max-four-group rule must be enforced coherently across UI/domain validation, local persistence, contract/backend processing and synchronization.
 
-## V2-18 — Deferred UI Follow-up
+## V2-18 — Quiz, Authentication and Settings UI Follow-up Tasks
 
-**Status:** Deferred / not decomposed.
+**Status:** Quiz scope active. Authentication/login visual redesign and Settings/Profile redesign remain deferred.
 
-Reserved for future target references covering:
+| Task | Status | Dependencies |
+|---|---|---|
+| [V2-18-01](./V2-18-quiz-auth-settings-ui-follow-up/V2-18-01-quiz-home-learning-states-and-mode-actions.md) — Quiz home, learning states and mode actions | Ready | completed V2-16/V2-17 baseline |
+| [V2-18-02](./V2-18-quiz-auth-settings-ui-follow-up/V2-18-02-translation-quiz-custom-setup.md) — Translation Quiz custom setup | Blocked | V2-18-01 |
+| [V2-18-03](./V2-18-quiz-auth-settings-ui-follow-up/V2-18-03-translation-quiz-session-redesign.md) — Translation Quiz session redesign | Blocked | V2-18-02 |
+| [V2-18-04](./V2-18-quiz-auth-settings-ui-follow-up/V2-18-04-article-quiz-custom-setup.md) — Article Quiz custom setup | Blocked | V2-18-01 |
+| [V2-18-05](./V2-18-quiz-auth-settings-ui-follow-up/V2-18-05-article-quiz-session-redesign.md) — Article Quiz session redesign | Blocked | V2-18-04 |
+| [V2-18-06](./V2-18-quiz-auth-settings-ui-follow-up/V2-18-06-shared-quiz-results-redesign.md) — Shared Quiz results redesign | Blocked | V2-18-03, V2-18-05 |
 
-- Quiz redesign;
-- authentication/login redesign;
-- Settings/Profile redesign;
-- logout/profile UX;
-- email validation/verification UX;
-- password-strength UX;
-- manual-sync control/icon treatment;
-- any later dedicated Home-screen redesign.
+### V2-18 approved Quiz semantics
 
-Do not create detailed implementation tasks for V2-18 until those references and product decisions are supplied. Existing behavior remains unchanged unless a separate bug-fix issue explicitly requires otherwise.
+- Existing Quiz execution remains local; do not move current quiz generation/execution to the backend.
+- Translation Quiz and Article Quiz are the only functional quiz families in this scope.
+- The two additional quiz-family cards shown in the approved Quiz Home reference are placeholders only.
+- Quiz Home learning states use existing review statistics:
+  - **Mastered:** success rate `>= 90%` and more than 5 recorded attempts.
+  - **Hard:** success rate `< 40%` after at least one recorded attempt.
+  - **Learning:** all other words, including words without enough history to qualify as Hard or Mastered.
+- Multi-group words are deduplicated before counting or generating quiz questions.
+- Clearing a word score resets only that word's review/learning statistics; it does not delete the Word entity or any Group membership.
+- Translation custom setup supports translation direction, part-of-speech filters, group filters, learning-state filters and question-count selection.
+- Article custom setup uses eligible noun/article data and remains compatible with `der`, `die`, `das`, and plural-only `Plural`.
+- `Report a problem` remains a placeholder.
+- Preset persistence/application remains deferred until a preset-consumption flow is explicitly defined.
+- Result presentation uses three non-overlapping score states:
+  - `0–40%` — Keep Practicing.
+  - `41–80%` — Good Job!
+  - `81–100%` — Excellent!
+- All Quiz transitions, bottom sheets, answer feedback, progress changes and swipe interactions should be smooth, responsive and non-blocking.
+
+### V2-18 still deferred
+
+- Authentication/login visual redesign.
+- Settings/Profile visual redesign.
+- Logout/profile UX redesign.
+- Email validation/verification UX redesign.
+- Password-strength UX redesign.
+- Manual-sync control/icon treatment.
+- Any later dedicated Home-screen redesign.
+
+## V2-19 — Post-Redesign Stabilization Tasks
+
+**Status:** Active stabilization scope.
+
+| Task | Status | Dependencies |
+|---|---|---|
+| [V2-19-01](./V2-19-post-redesign-stabilization/V2-19-01-fix-add-word-alignment-and-bottom-navigation-position.md) — Fix Add Word alignment and bottom-navigation position | Ready | completed V2-16-01, V2-16-03 |
+| [V2-19-02](./V2-19-post-redesign-stabilization/V2-19-02-fix-words-filter-alignment-and-swipe-delete.md) — Fix Words filter alignment and swipe delete | Ready | completed V2-16-06 |
+| [V2-19-03](./V2-19-post-redesign-stabilization/V2-19-03-align-group-details-and-fix-swipe-actions.md) — Align Group Details and fix swipe actions | Ready | completed V2-16-05 |
+| [V2-19-04](./V2-19-post-redesign-stabilization/V2-19-04-enable-group-add-word-with-preselected-group.md) — Enable Group → Add Word with preselected group | Blocked | V2-19-03, completed V2-16-03 |
+| [V2-19-05](./V2-19-post-redesign-stabilization/V2-19-05-debug-auth-sign-in-and-account-creation-regressions.md) — Debug sign-in and account-creation regressions | Ready | completed authentication/sync baseline, completed V2-17-05 |
+
+### V2-19 stabilization rules
+
+- Use the existing V2-16 references as the design baseline where applicable; fix regressions instead of redesigning those screens again.
+- Add Word group-selector alignment and shared bottom-navigation placement must be corrected responsively, not with device-specific offsets.
+- Words and Group Details swipe gestures must reveal the intended actions while coexisting with normal vertical scrolling.
+- Group Details must restore missing visual/decorative treatment from the approved reference.
+- Group → Add Word now routes to the canonical Add Word page with the originating group preselected; this supersedes the earlier disabled-action decision.
+- Authentication investigation begins from code/tests and reproducible behavior.
+- If runtime logs are still required, the task must ask for exact frontend/backend capture steps and never request passwords, session tokens or authorization headers.
+- Existing-account sign-in, account creation, bootstrap and sign-in-with-existing-local-vocabulary behavior must be covered by focused regression tests.
+- All UI fixes should preserve smooth, responsive animations and interactions without adding unrelated decorative motion.
 
 ## Version 2 Non-Goals / Deferred Scope
 
 - Payments/subscriptions/entitlements.
-- Sharing, AI features, advanced spaced repetition or new quiz families.
+- Sharing, AI features or advanced spaced repetition.
+- Implementing the two placeholder Quiz families introduced visually in V2-18.
 - Permanent event sourcing.
 - Preserving disposable pre-release integer-ID data.
 - Merging Adjective and Adverb in the current redesign.
 - Inventing final onboarding illustrations/logo assets before approved assets are supplied.
-- Redesigning Quiz, authentication/login or Settings/Profile as part of V2-16.
+- Authentication/login visual redesign until its approved target references are supplied.
+- Settings/Profile visual redesign until its approved target references are supplied.
+- Implementing `Report a problem` or preset-management infrastructure without an explicit future task.
