@@ -1,7 +1,7 @@
 # V2-18-01 — Quiz home, learning states and mode actions
 
 **Parent epic:** V2-18 — Quiz, Authentication and Settings UI Follow-up  
-**Status:** Ready  
+**Status:** Done
 **Workspace:** frontend + root  
 **Size:** 5 story points  
 **Dependencies:** completed V2-16/V2-17 baseline
@@ -49,3 +49,36 @@ See `references/V2-18-01/`.
 - Reuse existing project animation/easing constants where available instead of introducing unrelated timing values.
 - Animations must not block input or the UI thread and must remain responsive on supported iOS/Android phones and tablet-sized layouts.
 - Do not add decorative animation unrelated to the interaction being implemented.
+
+## Completion evidence
+
+- Frontend commit `55d0896` replaces the Quiz landing page with the four-card
+  responsive layout, exact Hard/Learning/Mastered totals, review-ordered word
+  rows, Clear Score swipe action and the mode action sheet.
+- Translation and Article card bodies and `Begin` launch the existing local quiz
+  engine with a safe default count. `Custom` keeps using the existing setup
+  route; Examples, Writing and `Report a problem` remain non-functional
+  placeholders.
+- Clear Score resets the existing synchronized review-statistics entity through
+  its transactional outbox path. Tests verify that the Word and its multi-group
+  memberships remain intact.
+- Service tests cover classification boundaries, multi-group deduplication,
+  review ordering and default launch with fewer than ten eligible questions.
+
+### Verification
+
+- `cmake -S . -B build-tests -DDELEARNER_BUILD_APP=OFF -DDELEARNER_BUILD_TESTS=ON`
+  — passed.
+- `cmake --build build-tests -j4` — passed.
+- `ctest --test-dir build-tests --output-on-failure` — all 26 tests passed,
+  including both contract fixture suites and the existing QML tests.
+- `qmllint qml/Views/DLQuizHomePage.qml` — parsed successfully; only the
+  established global `appStateManager` context-property warnings remain.
+- Frontend staged diff whitespace check passed; the pre-existing Qt Creator
+  `CMakeLists.txt.user` change was excluded from the commit.
+
+### External check
+
+Verify final sizing, safe areas, swipe feel and action-sheet presentation in a
+full Felgo device build. Felgo is not installed in this execution environment,
+so the full application target could not be generated locally.
