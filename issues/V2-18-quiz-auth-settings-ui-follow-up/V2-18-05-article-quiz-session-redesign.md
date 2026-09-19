@@ -1,7 +1,7 @@
 # V2-18-05 — Article Quiz session redesign
 
 **Parent epic:** V2-18 — Quiz, Authentication and Settings UI Follow-up  
-**Status:** Blocked  
+**Status:** Done
 **Workspace:** frontend  
 **Size:** 3 story points  
 **Dependencies:** V2-18-04
