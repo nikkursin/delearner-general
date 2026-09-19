@@ -132,7 +132,7 @@ This order is a priority strategy, not permission to bypass dependencies.
 | [V2-18-01](./V2-18-quiz-auth-settings-ui-follow-up/V2-18-01-quiz-home-learning-states-and-mode-actions.md) — Quiz home, learning states and mode actions | Done | completed V2-16/V2-17 baseline |
 | [V2-18-02](./V2-18-quiz-auth-settings-ui-follow-up/V2-18-02-translation-quiz-custom-setup.md) — Translation Quiz custom setup | Done | V2-18-01 |
 | [V2-18-03](./V2-18-quiz-auth-settings-ui-follow-up/V2-18-03-translation-quiz-session-redesign.md) — Translation Quiz session redesign | Blocked | V2-18-02 |
-| [V2-18-04](./V2-18-quiz-auth-settings-ui-follow-up/V2-18-04-article-quiz-custom-setup.md) — Article Quiz custom setup | Ready | V2-18-01 |
+| [V2-18-04](./V2-18-quiz-auth-settings-ui-follow-up/V2-18-04-article-quiz-custom-setup.md) — Article Quiz custom setup | Done | V2-18-01 |
 | [V2-18-05](./V2-18-quiz-auth-settings-ui-follow-up/V2-18-05-article-quiz-session-redesign.md) — Article Quiz session redesign | Blocked | V2-18-04 |
 | [V2-18-06](./V2-18-quiz-auth-settings-ui-follow-up/V2-18-06-shared-quiz-results-redesign.md) — Shared Quiz results redesign | Blocked | V2-18-03, V2-18-05 |
 
