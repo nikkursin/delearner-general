@@ -177,7 +177,7 @@ This order is a priority strategy, not permission to bypass dependencies.
 | [V2-19-02](./V2-19-post-redesign-stabilization/V2-19-02-fix-words-filter-alignment-and-swipe-delete.md) — Fix Words filter alignment and swipe delete | Ready | completed V2-16-06 |
 | [V2-19-03](./V2-19-post-redesign-stabilization/V2-19-03-align-group-details-and-fix-swipe-actions.md) — Align Group Details and fix swipe actions | Ready | completed V2-16-05 |
 | [V2-19-04](./V2-19-post-redesign-stabilization/V2-19-04-enable-group-add-word-with-preselected-group.md) — Enable Group → Add Word with preselected group | Blocked | V2-19-03, completed V2-16-03 |
-| [V2-19-05](./V2-19-post-redesign-stabilization/V2-19-05-debug-auth-sign-in-and-account-creation-regressions.md) — Debug sign-in and account-creation regressions | Ready | completed authentication/sync baseline, completed V2-17-05 |
+| [V2-19-05](./V2-19-post-redesign-stabilization/V2-19-05-debug-auth-sign-in-and-account-creation-regressions.md) — Debug sign-in and account-creation regressions | Blocked | completed authentication/sync baseline, completed V2-17-05 |
 
 ### V2-19 stabilization rules
 
