@@ -1,7 +1,7 @@
 # V2-19-01 — Fix Add Word alignment and bottom-navigation position
 
 **Parent epic:** V2-19 — Post-Redesign Stabilization  
-**Status:** Ready  
+**Status:** Done
 **Workspace:** frontend  
 **Size:** 2 story points  
 **Dependencies:** completed V2-16-01, V2-16-03
@@ -40,3 +40,27 @@ See `references/V2-19-01/`.
 - Reuse existing project animation/easing constants where available instead of introducing unrelated timing values.
 - Animations must not block input or the UI thread and must remain responsive on supported iOS/Android phones and tablet-sized layouts.
 - Do not add decorative animation unrelated to the interaction being implemented.
+
+## Implementation checkpoint — 2026-11-09
+
+- Phase: frontend Add Word and shared-navigation regression fix.
+- Behavior tested: the Group placeholder and chevron remain centered with the
+  chevron reserved at the trailing edge; the shared navigation body sits closer
+  to the bottom edge while retaining the full reported safe-area inset at phone
+  and tablet widths; existing multi-group selection behavior remains intact.
+- Frontend files changed: `qml/Components/DLWordEditor.qml`,
+  `qml/Components/DLBottomNavigation.qml`, `tests/CMakeLists.txt`,
+  `tests/TestResponsiveNavigationUi.cmake`,
+  `tests/qml/tst_WordEditor.qml`, and
+  `tests/qml/tst_BottomNavigation.qml`.
+- Verification: `cmake --build build-tests -j4` passed;
+  `ctest --test-dir build-tests -R
+  'Test(ResponsiveNavigationUi|WordEditorUi|BottomNavigationUi)$'
+  --output-on-failure` passed 3/3; `ctest --test-dir build-tests
+  --output-on-failure` passed 28/28; `cmake --build build-ios --target
+  delearner -j4` completed with `BUILD SUCCEEDED`.
+- Diagnostic source/correlation ID: local QML geometry regression tests; no
+  runtime request correlation applies to this frontend-only visual task.
+- Conclusion: V2-19-01 acceptance criteria are satisfied. V2-19-02 is the next
+  task in the documented V2-19 execution order; the parent epic remains In
+  Progress.

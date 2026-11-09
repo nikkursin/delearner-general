@@ -177,7 +177,7 @@ order.
 | Priority | Task | Status | Dependencies |
 |---|---|---|---|
 | 1 | [V2-19-05](./V2-19-post-redesign-stabilization/V2-19-05-debug-auth-sign-in-and-account-creation-regressions.md) — Stabilize auth-to-sync startup and add end-to-end diagnostics | Done | completed authentication/sync baseline, completed V2-17-05; no V2-18 dependency |
-| 2 | [V2-19-01](./V2-19-post-redesign-stabilization/V2-19-01-fix-add-word-alignment-and-bottom-navigation-position.md) — Fix Add Word alignment and bottom-navigation position | Ready | completed V2-16-01, V2-16-03 |
+| 2 | [V2-19-01](./V2-19-post-redesign-stabilization/V2-19-01-fix-add-word-alignment-and-bottom-navigation-position.md) — Fix Add Word alignment and bottom-navigation position | Done | completed V2-16-01, V2-16-03 |
 | 3 | [V2-19-02](./V2-19-post-redesign-stabilization/V2-19-02-fix-words-filter-alignment-and-swipe-delete.md) — Fix Words filter alignment and swipe delete | Ready | completed V2-16-06 |
 | 4 | [V2-19-03](./V2-19-post-redesign-stabilization/V2-19-03-align-group-details-and-fix-swipe-actions.md) — Align Group Details and fix swipe actions | Ready | completed V2-16-05 |
 | 5 | [V2-19-04](./V2-19-post-redesign-stabilization/V2-19-04-enable-group-add-word-with-preselected-group.md) — Enable Group → Add Word with preselected group | Blocked | V2-19-03, completed V2-16-03 |
