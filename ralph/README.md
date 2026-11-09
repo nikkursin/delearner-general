@@ -16,14 +16,17 @@ fresh Codex context
   -> stop
 
 afk.sh
-  -> starts another fresh Codex context
+  -> keeps the configured priority task tree selected until it is Done
+  -> starts another fresh Codex context for its next child task
+  -> resumes normal Version 2 selection afterward
 ```
 
-This means the same prompt can finish the remaining V2-01 tasks and then continue into V2-02, V2-03, etc., while keeping each task isolated in Git and context.
+This keeps each task isolated in Git and context while allowing a priority task
+tree to span several fresh invocations.
 
 ## Important before the first AFK run
 
-Your repository should have the already-finished V2-01-01 work committed first.
+Review existing changes before handing the repository to Ralph:
 
 Check:
 
@@ -33,7 +36,11 @@ git -C delearner-frontend status --short
 git -C delearner-backend status --short
 ```
 
-If V2-01-01 is Done but its root changes are still uncommitted, review and commit them manually before starting the continuous runner. Otherwise the agent will intentionally stop with `BLOCKED_DIRTY_WORKTREE` rather than mix old work into V2-01-02.
+The current V2-19-05 planning files and Ralph priority-pin changes may remain
+uncommitted: the prompt identifies them as authorized coordination setup and
+allows the first V2-19-05 root commit to include them after review. Every
+unrelated change must be safely isolatable or Ralph will stop with
+`BLOCKED_DIRTY_WORKTREE`.
 
 ## Install
 
@@ -75,19 +82,39 @@ git submodule status
 
 ## AFK mode
 
+The current default priority pin is `V2-19-05`. A normal run therefore executes
+its dependency-ready child tasks in the order recorded by the parent issue:
+
+```text
+V2-19-05A backend diagnostics
+  -> V2-19-05B frontend diagnostics
+  -> V2-19-05C correlated reproduction, auth/sync fixes and verification
+```
+
+The pin is exported to every fresh `codex exec` invocation. Once the parent is
+Done, Ralph returns to its normal global selector. Override the pin explicitly:
+
+```bash
+RALPH_PRIORITY_TASK=V2-19-05 ./ralph/afk.sh
+```
+
+Disable it and use global selection with an explicitly empty value:
+
+```bash
+RALPH_PRIORITY_TASK= ./ralph/afk.sh
+```
+
 Default is at most 12 task attempts:
 
 ```bash
 ./ralph/afk.sh
 ```
 
-For only the remaining V2-01 work, use a small guard:
+To run only the three planned V2-19-05 child attempts, use:
 
 ```bash
 MAX_ITERATIONS=3 ./ralph/afk.sh
 ```
-
-because V2-01-01 is already complete and V2-01-02 through V2-01-04 remain.
 
 To allow work to continue into later V2 epics:
 

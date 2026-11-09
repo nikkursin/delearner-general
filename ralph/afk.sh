@@ -10,11 +10,20 @@ LOG_DIR="${RALPH_LOG_DIR:-$HOME/.codex/ralph-logs/$PROJECT_NAME}"
 # Increase this intentionally if you want Ralph to continue deeper into V2.
 MAX_ITERATIONS="${MAX_ITERATIONS:-12}"
 SLEEP_SECONDS="${SLEEP_SECONDS:-8}"
+# Pin the current stabilization work across fresh Codex contexts. An explicitly
+# empty value disables the pin and restores global Ralph selection.
+RALPH_PRIORITY_TASK="${RALPH_PRIORITY_TASK-V2-19-05}"
+export RALPH_PRIORITY_TASK
 
 echo "==> Starting Ralph AFK loop"
 echo "==> Root: $ROOT_DIR"
 echo "==> Max task attempts: $MAX_ITERATIONS"
 echo "==> Sleep between tasks: ${SLEEP_SECONDS}s"
+if [[ -n "$RALPH_PRIORITY_TASK" ]]; then
+  echo "==> Priority task tree: $RALPH_PRIORITY_TASK (until Done)"
+else
+  echo "==> Priority task tree: disabled; using global selection"
+fi
 echo "==> Logs: $LOG_DIR"
 echo
 echo "IMPORTANT: each successful iteration creates task commit(s), but never pushes."

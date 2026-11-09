@@ -169,15 +169,18 @@ This order is a priority strategy, not permission to bypass dependencies.
 
 ## V2-19 — Post-Redesign Stabilization Tasks
 
-**Status:** Active stabilization scope.
+**Status:** Active stabilization scope. Auth-to-sync reliability executes first.
 
-| Task | Status | Dependencies |
-|---|---|---|
-| [V2-19-01](./V2-19-post-redesign-stabilization/V2-19-01-fix-add-word-alignment-and-bottom-navigation-position.md) — Fix Add Word alignment and bottom-navigation position | Ready | completed V2-16-01, V2-16-03 |
-| [V2-19-02](./V2-19-post-redesign-stabilization/V2-19-02-fix-words-filter-alignment-and-swipe-delete.md) — Fix Words filter alignment and swipe delete | Ready | completed V2-16-06 |
-| [V2-19-03](./V2-19-post-redesign-stabilization/V2-19-03-align-group-details-and-fix-swipe-actions.md) — Align Group Details and fix swipe actions | Ready | completed V2-16-05 |
-| [V2-19-04](./V2-19-post-redesign-stabilization/V2-19-04-enable-group-add-word-with-preselected-group.md) — Enable Group → Add Word with preselected group | Blocked | V2-19-03, completed V2-16-03 |
-| [V2-19-05](./V2-19-post-redesign-stabilization/V2-19-05-debug-auth-sign-in-and-account-creation-regressions.md) — Debug sign-in and account-creation regressions | Blocked | completed authentication/sync baseline, completed V2-17-05 |
+Task numbers remain stable identifiers; the priority column defines execution
+order.
+
+| Priority | Task | Status | Dependencies |
+|---|---|---|---|
+| 1 | [V2-19-05](./V2-19-post-redesign-stabilization/V2-19-05-debug-auth-sign-in-and-account-creation-regressions.md) — Stabilize auth-to-sync startup and add end-to-end diagnostics | In Progress | completed authentication/sync baseline, completed V2-17-05; no V2-18 dependency |
+| 2 | [V2-19-01](./V2-19-post-redesign-stabilization/V2-19-01-fix-add-word-alignment-and-bottom-navigation-position.md) — Fix Add Word alignment and bottom-navigation position | Ready | completed V2-16-01, V2-16-03 |
+| 3 | [V2-19-02](./V2-19-post-redesign-stabilization/V2-19-02-fix-words-filter-alignment-and-swipe-delete.md) — Fix Words filter alignment and swipe delete | Ready | completed V2-16-06 |
+| 4 | [V2-19-03](./V2-19-post-redesign-stabilization/V2-19-03-align-group-details-and-fix-swipe-actions.md) — Align Group Details and fix swipe actions | Ready | completed V2-16-05 |
+| 5 | [V2-19-04](./V2-19-post-redesign-stabilization/V2-19-04-enable-group-add-word-with-preselected-group.md) — Enable Group → Add Word with preselected group | Blocked | V2-19-03, completed V2-16-03 |
 
 ### V2-19 stabilization rules
 
@@ -186,9 +189,10 @@ This order is a priority strategy, not permission to bypass dependencies.
 - Words and Group Details swipe gestures must reveal the intended actions while coexisting with normal vertical scrolling.
 - Group Details must restore missing visual/decorative treatment from the approved reference.
 - Group → Add Word now routes to the canonical Add Word page with the originating group preselected; this supersedes the earlier disabled-action decision.
-- Authentication investigation begins from code/tests and reproducible behavior.
-- If runtime logs are still required, the task must ask for exact frontend/backend capture steps and never request passwords, session tokens or authorization headers.
-- Existing-account sign-in, account creation, bootstrap and sign-in-with-existing-local-vocabulary behavior must be covered by focused regression tests.
+- Auth-to-sync stabilization starts immediately; the former V2-18-06 scheduling gate was explicitly overridden on 2026-11-09.
+- Safe verbose diagnostics are an implementation prerequisite, not a last-resort request. Every auth, device-registration, bootstrap and synchronization phase must emit correlated start/result/failure events.
+- Existing-account sign-in, account creation, bootstrap, sign-in with existing local vocabulary and pending-outbox preservation must be covered by focused regression tests.
+- Logs may contain development-only operational metadata, but never passwords, hashes, salts, session/bearer values, authorization headers, raw auth bodies, database credentials or personal vocabulary.
 - All UI fixes should preserve smooth, responsive animations and interactions without adding unrelated decorative motion.
 
 ## Version 2 Non-Goals / Deferred Scope

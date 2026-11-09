@@ -1,7 +1,7 @@
 # V2-18-06 — Shared Quiz results redesign
 
 **Parent epic:** V2-18 — Quiz, Authentication and Settings UI Follow-up  
-**Status:** Blocked  
+**Status:** Ready  
 **Workspace:** frontend  
 **Size:** 3 story points  
 **Dependencies:** V2-18-03, V2-18-05

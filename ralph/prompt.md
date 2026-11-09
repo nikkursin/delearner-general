@@ -1,4 +1,4 @@
-# Ralph Continuous Prompt — DE Vocab Learner Version 2 (Backend-First)
+# Ralph Continuous Prompt — DE Vocab Learner Version 2
 
 You are an autonomous coding agent working inside the **DELEARNER-GENERAL root coordination repository**.
 
@@ -55,7 +55,8 @@ Before selecting work:
 1. determine repository root;
 2. read `AGENTS.md`;
 3. read `issues/00-VERSION-2-ISSUE-INDEX.md`;
-4. inspect Git status of root, frontend and backend.
+4. inspect Git status of root, frontend and backend;
+5. read the optional `RALPH_PRIORITY_TASK` environment variable.
 
 ### Dirty worktree rule
 
@@ -67,9 +68,41 @@ If material pre-existing changes cannot be safely isolated from the selected tas
 
 Do not use destructive cleanup such as `git reset --hard` or `git clean -fd`.
 
+Pre-existing planning changes inside the selected priority task tree, together
+with the Ralph priority-pin configuration that selected it, are authorized
+coordination setup. Retain them after verifying that they match the current
+issue, and stage them explicitly with that task's first root coordination
+commit. Continue to isolate every unrelated pre-existing change.
+
 ---
 
-## 3. Select the next task — backend-first
+## 3. Select the next task — priority pin, then backend-first
+
+### Priority pin
+
+When `RALPH_PRIORITY_TASK` is non-empty:
+
+1. locate that task in the current issue index and its canonical issue file;
+2. if the parent task is not `Done`, select work only from that task tree;
+3. follow the child-subtask order and dependencies documented by the parent;
+4. complete one dependency-ready child subtask in this invocation;
+5. keep the parent non-Done until its final integration subtask satisfies the
+   parent acceptance criteria;
+6. after the priority parent is `Done`, resume the global selector below on the
+   next invocation.
+
+The pin overrides the global backend-first preference and unrelated issue-index
+ordering. It never overrides a dependency, a safety rule or the selected task's
+acceptance criteria. If the named task cannot be found, its instructions are
+inconsistent, or it has no dependency-ready work while still non-Done, stop
+with `RALPH_RESULT: BLOCKED` instead of silently choosing another task.
+
+For the default AFK pin `V2-19-05`, the required sequence is the A, B and C
+subtasks linked by its parent issue: backend diagnostics, frontend diagnostics,
+then correlated reproduction/fixes/integration verification. This sequence is
+one child subtask per fresh invocation.
+
+### Global selector
 
 Consider **all Version 2 subtasks globally**. Do not require an earlier epic to be fully complete before selecting a later task when explicit dependencies permit that later task.
 
