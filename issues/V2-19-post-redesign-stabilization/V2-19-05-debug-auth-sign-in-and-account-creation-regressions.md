@@ -48,8 +48,8 @@ personal vocabulary.
 
 ## Child subtasks
 
-- **A — Ready:** [Backend request and auth/sync operation tracing](./V2-19-05-backend.md)
-- **B — Planned after A:** [Frontend instrumentation and auth/sync state tracing](./V2-19-05-frontend.md)
+- **A — Done:** [Backend request and auth/sync operation tracing](./V2-19-05-backend.md)
+- **B — Ready:** [Frontend instrumentation and auth/sync state tracing](./V2-19-05-frontend.md)
 - **C — Planned after A and B:** [Correlated reproduction, fixes and integration verification](./V2-19-05-integration.md)
 
 The parent task owns end-to-end reproduction, integration tests, final
