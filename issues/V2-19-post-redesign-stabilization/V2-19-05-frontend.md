@@ -1,7 +1,7 @@
 # V2-19-05B — Frontend auth/sync diagnostics and startup reliability
 
 **Parent:** V2-19-05
-**Status:** Planned
+**Status:** Done
 **Workspace:** frontend
 **Dependencies:** V2-19-05A
 
@@ -40,3 +40,38 @@ user-facing product behavior or exposing secrets.
 - All early exits in the auth-to-sync state machine produce a terminal log.
 - Tests prove representative supplied secrets do not appear in captured logs.
 - Existing frontend auth/bootstrap/sync tests pass.
+
+## Evidence checkpoint — 2026-11-09
+
+- Phase: frontend diagnostics implementation (V2-19-05B).
+- Baseline revisions: root `9a4e067`, frontend `6ca3413`, backend `58e65b4`.
+  The pre-existing frontend `CMakeLists.txt.user` modification was left
+  untouched and excluded from all commits.
+- Baseline command:
+  `ctest --test-dir build-tests --output-on-failure -R 'Test(AppStateAuthBootstrap|DeviceIdentityAndSyncContext|SyncCoordinator|BootstrapStateRestorer|AuthSessionStore)$'`
+  from `delearner-frontend` — 5/5 passed. No external runtime account or
+  affected-device environment was available in this child task, so the
+  originally reported production symptom was not claimed as reproduced.
+- Added `delearner.auth`, `delearner.network` and `delearner.sync` categories,
+  configurable message formatting, per-operation `X-Request-ID` generation,
+  request timing and safe backend error-code extraction.
+- Instrumented auth, device registration, session persistence, startup,
+  bootstrap/restore, outbox upload, pull/reconciliation, stale-cursor replay,
+  cursor acknowledgement, reachability and sync-trigger outcomes. HTTP status,
+  Qt network error, safe backend code, request ID and technical network error
+  remain separately available after auth/device failures.
+- Added message-capture coverage proving that supplied email/password/session
+  token/authorization values and backend-supplied personal vocabulary text do
+  not appear in auth or sync logs. Tests also verify distinct valid request IDs
+  for auth/device operations and request IDs on sync requests.
+- Focused build/check:
+  `cmake --build build-tests --target TestDeviceIdentityAndSyncContext TestSyncCoordinator TestAppStateAuthBootstrap -j4 && ctest --test-dir build-tests --output-on-failure -R 'Test(DeviceIdentityAndSyncContext|SyncCoordinator|AppStateAuthBootstrap)$'`
+  — build succeeded; 3/3 passed.
+- Broader check: `ctest --test-dir build-tests --output-on-failure -E 'Ui$'`
+  — 17/17 frontend C++ and root contract-fixture tests passed. No QML files
+  changed in this subtask.
+- Frontend commit: `e7c58b1` (`feat(frontend): V2-19-05B add auth sync diagnostics`).
+- Conclusion: the frontend auth-to-sync path now emits correlated, secret-free
+  operational diagnostics and preserves device-registration failure context.
+  V2-19-05C is the next executable child; the parent remains In Progress until
+  correlated reproduction and integration verification complete.
