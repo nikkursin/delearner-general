@@ -1,6 +1,6 @@
 # V2-19 — Post-Redesign Stabilization
 
-**Status:** In Progress — auth-to-sync stabilization is first
+**Status:** In Progress — auth-to-sync stabilization complete
 **Workspace:** frontend + backend + root
 **Dependencies:** completed V2-16/V2-17 implementation
 
@@ -17,7 +17,7 @@ The task number is a stable identifier, not the execution priority.
 
 | Priority | Task | Status | Why it is ordered here |
 |---|---|---|---|
-| 1 | V2-19-05 — Stabilize auth-to-sync startup and add end-to-end diagnostics | In Progress | Account access and safe synchronization block reliable use of every other feature. |
+| 1 | V2-19-05 — Stabilize auth-to-sync startup and add end-to-end diagnostics | Done | Account access and safe synchronization block reliable use of every other feature. |
 | 2 | V2-19-01 — Fix Add Word alignment and bottom-navigation position | Ready | Independent local UI regression. |
 | 3 | V2-19-02 — Fix Words filter alignment and swipe delete | Ready | Independent local UI regression. |
 | 4 | V2-19-03 — Align Group Details and fix swipe actions | Ready | Must finish before V2-19-04. |

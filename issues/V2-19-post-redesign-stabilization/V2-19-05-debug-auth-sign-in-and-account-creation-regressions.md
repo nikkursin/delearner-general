@@ -1,7 +1,7 @@
 # V2-19-05 — Stabilize auth-to-sync startup and add end-to-end diagnostics
 
 **Parent epic:** V2-19 — Post-Redesign Stabilization
-**Status:** In Progress — execute its child subtasks first
+**Status:** Done
 **Workspace:** frontend + backend + root
 **Size:** 8 story points
 **Dependencies:** completed authentication/sync baseline, completed V2-17-05
@@ -50,7 +50,7 @@ personal vocabulary.
 
 - **A — Done:** [Backend request and auth/sync operation tracing](./V2-19-05-backend.md)
 - **B — Done:** [Frontend instrumentation and auth/sync state tracing](./V2-19-05-frontend.md)
-- **C — Planned after A and B:** [Correlated reproduction, fixes and integration verification](./V2-19-05-integration.md)
+- **C — Done:** [Correlated reproduction, fixes and integration verification](./V2-19-05-integration.md)
 
 The parent task owns end-to-end reproduction, integration tests, final
 acceptance and the evidence checkpoint. Child subtasks may add stricter local
@@ -267,3 +267,59 @@ previously fixed behavior while establishing the first currently failing seam.
 - Do not synchronously write large payloads or files from request callbacks.
 - Authentication and bootstrap progress must remain responsive.
 - Do not add unrelated visual or animation changes.
+
+## Final evidence checkpoint — 2026-11-09
+
+Baseline revisions were root `07e3d01`, frontend `e7c58b1` and backend
+`58e65b4`. The unrelated frontend `CMakeLists.txt.user` change remained
+unstaged. Child implementation commits are backend `c191353` and frontend
+`f23af3f`.
+
+### Reproduction matrix
+
+| Case | Evidence and result |
+|---|---|
+| New-account registration | Disposable PostgreSQL HTTP: 201, `v2-19-05c-registration-success-81fe5318-bee1-49fa-81aa-d5f7d67bbab2`. |
+| Normalized duplicate registration | HTTP: 409 `email_already_registered`, `v2-19-05c-registration-duplicate-851f012e-dd89-4470-820b-c220b4139b99`. |
+| Existing-account sign-in | HTTP: 200 for the registered account, `v2-19-05c-sign-in-success-9d5e899f-7055-49ea-91d7-015453708509`. |
+| Invalid credentials | HTTP: 401 `invalid_credentials`, `v2-19-05c-sign-in-invalid-b7074c05-ae24-4db9-b619-9fb41439f922`. |
+| Device registration success/rejection | HTTP: 201 success and 400 `invalid_device_id`, IDs `v2-19-05c-device-success-da56b808-d1ee-483d-95f8-c5bb1022b397` and `v2-19-05c-device-rejected-5298983f-764a-4a59-b0d4-23b27a6d177d`. |
+| Empty-local bootstrap | HTTP returned empty state and sequence 0, `v2-19-05c-bootstrap-empty-8b9e5f61-62c1-4c42-ba44-8ae9ec2b6a6a`; frontend register/sign-in startup rows passed. |
+| Existing local vocabulary + pending outbox | `TestAppStateAuthBootstrap::firstSignInAdoptsPopulatedLocalVocabularyBeforePullingRemoteState` and `TestBootstrapStateRestorer::preservesAndReplaysPendingOutboxWhenReplacingState` passed. |
+| Bootstrap parse/restore failure | New `rejectsMalformedBootstrapWithoutReplacingLocalState` passed for invalid JSON and invalid state type without changing local state, outbox or cursor; the existing HTTP-failure recovery case also passed. |
+| Upload acceptance/rejection | HTTP accepted two valid events and rejected invalid `icon_key` without a transaction; IDs `v2-19-05c-upload-accepted-c9a936a3-9b2d-4f6c-ab2e-4b0f24a280d0` and `v2-19-05c-upload-rejected-7f52c8dc-03f0-4a57-8fb3-c3f39908651f`. |
+| Incremental pull + cursor acknowledgement | Pull returned two ordered events and cursor 2; acknowledgement persisted cursor 2. IDs `v2-19-05c-pull-incremental-33d5eb3d-c6fa-46e1-a22c-2eb83c43afe2` and `v2-19-05c-cursor-acknowledged-9cc20baa-d3f4-4a74-8e5d-f49025c50e4c`. |
+| Stale cursor + pending replay | `TestSyncCoordinator::staleDeviceRebootstrapsReplaysOriginalEventAndConverges` and the compiled bootstrap/reconnect integration scenarios passed. |
+| Network/backend failure after auth | `failedFreshBootstrapReturnsToRecoverableAuthenticationState` and `syncFailureDiagnosticsRedactBackendMessage` passed with distinct recoverable phase/error handling. |
+
+Additional correlated IDs were
+`v2-19-05c-pull-empty-f813ae09-6cc3-431c-9854-fed77861a197`,
+`v2-19-05c-bootstrap-populated-e52b76f9-d297-4801-9978-d9b9679a5381` and
+`v2-19-05c-pull-caught-up-16d074bf-be54-4dc1-ac20-3ab91c4d95f0`.
+Every ID had one backend request start/completion pair. The log audit found all
+phase result events and no tested secrets or personal payload values.
+
+### Commands and outcomes
+
+- `ctest --test-dir build-tests --output-on-failure -E 'Ui$'` in the frontend:
+  17/17 passed.
+- `ninja -C build-codex-arm64 -j2 && ctest --test-dir
+  build-codex-arm64 --output-on-failure` in the backend: 14/14 passed.
+- `docker build --progress=plain -t delearner-v21905c-backend:local
+  delearner-backend`: rebuilt successfully on Ubuntu/Qt 6.4; 12/12 container
+  suites passed.
+- `python3 tests/authentication_http_regression.py --base-url
+  http://127.0.0.1:18095`: 14/14 correlated HTTP operations passed against a
+  disposable PostgreSQL/backend pair.
+- `./scripts/test-all.sh root`: passed.
+- `CMAKE_BUILD_PARALLEL_LEVEL=2 ./scripts/run-integration.sh`: passed all
+  compiled cross-repository gates and scenarios.
+- `git diff --check`, `git -C delearner-frontend diff --check` and
+  `git -C delearner-backend diff --check`: passed before commits.
+
+The originally reported installation-specific error was not reproduced on the
+unavailable affected installation, so no claim is made about that historical
+binary. Equivalent current-code paths now pass on macOS Qt 6.8/6.9 and Linux
+Qt 6.4 with correlated diagnostics. The first current-code failures were the
+Linux diagnostics compile incompatibility and missing root integration link
+dependency; both are fixed and covered by the successful gates above.

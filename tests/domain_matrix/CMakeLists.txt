@@ -22,6 +22,7 @@ add_executable(domain_matrix
     ${BACKEND}/auth/DLAuthService.cpp
     ${BACKEND}/auth/DLAuthSessionRepository.cpp
     ${BACKEND}/auth/DLPasswordHasher.cpp
+    ${BACKEND}/common/DLDiagnostics.cpp
     ${BACKEND}/common/DLJsonResponse.cpp
     ${BACKEND}/devices/DLDeviceRegistrationService.cpp
     ${BACKEND}/handlers/DLDeviceHandler.cpp
