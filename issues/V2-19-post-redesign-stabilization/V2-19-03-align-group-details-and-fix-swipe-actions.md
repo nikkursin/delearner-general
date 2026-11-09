@@ -1,7 +1,7 @@
 # V2-19-03 — Align Group Details and fix swipe actions
 
 **Parent epic:** V2-19 — Post-Redesign Stabilization  
-**Status:** Ready  
+**Status:** Done
 **Workspace:** frontend  
 **Size:** 5 story points  
 **Dependencies:** completed V2-16-05
@@ -30,6 +30,33 @@ See `references/V2-19-03/` for current regression and target comparison.
 - Horizontal swipe reveals the intended action area and coexists with vertical scrolling.
 - Group membership operations preserve the multi-group domain model.
 - No Word entity is deleted merely because one group membership is removed.
+
+## Checkpoint — 2026-11-09
+
+- **Phase:** implementation and verification complete.
+- **Behavior/hypothesis tested:** Group Details had lost the approved
+  accent-colored header silhouette and used an oversized text action; its
+  two-button swipe strip also lacked a trailing anchor, so a left swipe could
+  move the word card while leaving the actions partially off-screen.
+- **Files changed:** `qml/Components/DLGroupDetails.qml`,
+  `qml/Views/DLGroupDetailsPage.qml` and `tests/qml/tst_Groups.qml` in the
+  frontend repository.
+- **Verification:** the maintained Qt 6.8 `qmltestrunner` passed all 18 Groups
+  cases; `ctest --test-dir build-tests -R
+  'TestGroupsUi|TestWordRepository|TestGroupRepository' --output-on-failure`
+  passed 3/3; `cmake --build build-tests --parallel` passed; the first 25
+  frontend CTest cases passed before the command output window closed, and a
+  follow-up run passed the remaining Groups, Words and BottomNavigation UI
+  cases 3/3; `qmllint` reported no errors; `git diff --check` passed.
+- **Diagnostic source:** the supplied current/target V2-19-03 screenshots and
+  focused QML geometry, gesture-direction and membership assertions;
+  correlation/request ID is not applicable to this local UI task.
+- **Conclusion:** the responsive header again carries the group's stable accent
+  color and compact plus treatment, word rows remain within tested
+  phone/tablet widths, deliberate left swipe reveals both anchored actions,
+  vertical drag leaves the swipe closed, and remove/move operations retain the
+  Word entity plus unrelated group memberships. V2-19-04 is now dependency
+  ready for a fresh invocation.
 
 
 ## Interaction quality

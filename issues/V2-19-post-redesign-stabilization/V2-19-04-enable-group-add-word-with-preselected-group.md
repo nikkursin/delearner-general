@@ -1,7 +1,7 @@
 # V2-19-04 — Enable Group → Add Word with preselected group
 
 **Parent epic:** V2-19 — Post-Redesign Stabilization  
-**Status:** Blocked  
+**Status:** Ready
 **Workspace:** frontend  
 **Size:** 2 story points  
 **Dependencies:** V2-19-03, completed V2-16-03
