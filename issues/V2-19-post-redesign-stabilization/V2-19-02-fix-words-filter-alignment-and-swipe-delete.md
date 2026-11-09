@@ -1,7 +1,7 @@
 # V2-19-02 — Fix Words filter alignment and swipe delete
 
 **Parent epic:** V2-19 — Post-Redesign Stabilization  
-**Status:** Ready  
+**Status:** Done
 **Workspace:** frontend  
 **Size:** 3 story points  
 **Dependencies:** completed V2-16-06
@@ -34,6 +34,28 @@ See `references/V2-19-02/`.
 - A deliberate horizontal swipe reveals the delete action.
 - Normal vertical scrolling does not accidentally trigger delete.
 - Deleting a word still follows the existing vocabulary/domain deletion path.
+
+## Checkpoint — 2026-11-09
+
+- **Phase:** implementation and verification complete.
+- **Behavior/hypothesis tested:** the filter label/checkmark row was laid out at
+  the leading edge of each chip instead of being centered; the Words delete
+  action had no trailing anchor, so a left swipe moved the word card without
+  exposing the action at the right edge.
+- **Files changed:** `qml/Components/DLWordsList.qml` and
+  `tests/qml/tst_Words.qml` in the frontend repository.
+- **Verification:** `ctest --test-dir delearner-frontend/build-tests -R
+  '^TestWordsUi$' --output-on-failure` passed; `cmake --build
+  delearner-frontend/build-tests --parallel` passed; `ctest --test-dir
+  delearner-frontend/build-tests --output-on-failure` passed all 28 tests.
+- **Diagnostic source:** the local V2-19-02 regression screenshot, the approved
+  V2-16-06 reference screenshots and focused QML geometry/gesture assertions;
+  correlation/request ID is not applicable to this local UI task.
+- **Conclusion:** filter content remains centered across tested phone/tablet
+  widths, both horizontal filter-scroll boundaries remain reachable, deliberate
+  left swipe exposes the anchored delete action, vertical drag leaves swipe
+  position closed, and confirmation still uses the existing word deletion path.
+  The next executable stabilization task is V2-19-03 in a fresh invocation.
 
 
 ## Interaction quality
