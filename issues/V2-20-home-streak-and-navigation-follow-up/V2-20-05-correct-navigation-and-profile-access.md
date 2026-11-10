@@ -1,7 +1,7 @@
 # V2-20-05 — Correct navigation and Profile access
 
 **Parent epic:** V2-20 — Home, Streak and Navigation Follow-up
-**Status:** Planned
+**Status:** Done
 **Workspace:** frontend + root
 **Size:** 5 story points
 **Dependencies:** V2-19-08, V2-20-04
