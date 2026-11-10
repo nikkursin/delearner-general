@@ -208,14 +208,14 @@ order.
 
 ## V2-20 — Home, Streak and Navigation Follow-up Tasks
 
-**Status:** In Progress. V2-20-01 through V2-20-03 are complete; continue in dependency order.
+**Status:** In Progress. V2-20-01 through V2-20-04 are complete; continue in dependency order.
 
 | Task | Status | Dependencies |
 |---|---|---|
 | [V2-20-01](./V2-20-home-streak-and-navigation-follow-up/V2-20-01-freeze-learning-day-contract-and-fixtures.md) — Freeze learning-day contract and fixtures | Done | completed V2-18 Quiz baseline |
 | [V2-20-02](./V2-20-home-streak-and-navigation-follow-up/V2-20-02-implement-backend-learning-day-sync.md) — Implement backend learning-day persistence and sync | Done | V2-20-01 |
 | [V2-20-03](./V2-20-home-streak-and-navigation-follow-up/V2-20-03-implement-frontend-learning-day-persistence.md) — Implement frontend learning-day persistence | Done | V2-20-01, V2-20-02 |
-| [V2-20-04](./V2-20-home-streak-and-navigation-follow-up/V2-20-04-build-home-streak-page.md) — Build Home streak page | Planned | V2-20-03 |
+| [V2-20-04](./V2-20-home-streak-and-navigation-follow-up/V2-20-04-build-home-streak-page.md) — Build Home streak page | Done | V2-20-03 |
 | [V2-20-05](./V2-20-home-streak-and-navigation-follow-up/V2-20-05-correct-navigation-and-profile-access.md) — Correct navigation and Profile access | Planned | V2-19-08, V2-20-04 |
 | [V2-20-06](./V2-20-home-streak-and-navigation-follow-up/V2-20-06-run-streak-navigation-integration-gate.md) — Run streak and navigation integration gate | Planned | V2-20-02 through V2-20-05 |
 

@@ -1,7 +1,7 @@
 # V2-20-04 — Build Home streak page
 
 **Parent epic:** V2-20 — Home, Streak and Navigation Follow-up
-**Status:** Planned
+**Status:** Done
 **Workspace:** frontend + root
 **Size:** 5 story points
 **Dependencies:** V2-20-03
