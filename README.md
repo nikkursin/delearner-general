@@ -84,11 +84,16 @@ Then start the shared backend dependencies from the root:
 docker compose up -d postgres
 ```
 
-When backend-container testing is useful, run:
+For backend-container development, use the guarded start command:
 
 ```sh
-docker compose up --build backend
+./scripts/run-backend-dev.sh
 ```
+
+It rebuilds and force-recreates the Compose backend, stamps and verifies the
+checked-out backend revision, waits for health, and confirms the real
+`POST /api/v1/auth/sign-out` route is present. This prevents a long-running
+stale image from silently serving a physical device.
 
 The Compose scaffold exposes PostgreSQL for Version 2 backend persistence work
 and passes database connection variables to the backend container. Local secrets

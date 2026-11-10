@@ -24,6 +24,8 @@ services:
   backend:
     build:
       context: ./delearner-backend
+      args:
+        DELEARNER_BACKEND_REVISION: ${DELEARNER_BACKEND_REVISION:-unknown}
     container_name: delearner-backend
     restart: unless-stopped
     depends_on:

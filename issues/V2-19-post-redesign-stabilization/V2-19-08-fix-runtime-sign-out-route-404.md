@@ -1,7 +1,7 @@
 # V2-19-08 — Fix runtime sign-out route 404
 
 **Parent epic:** V2-19 — Post-Redesign Stabilization
-**Status:** Planned
+**Status:** Done
 **Workspace:** backend + frontend + root
 **Size:** 3 story points
 **Dependencies:** completed V2-19-07
@@ -92,3 +92,36 @@ binary/build directory and API origin used by the test without logging secrets.
 - Treating every backend failure as successful sign-out.
 - Revoking other device sessions.
 - Account deletion or account switching changes.
+
+## Completion checkpoint — 2026-11-10
+
+- Reproduced the reported failure against the device-development Compose
+  runtime with
+  `DELEARNER_SKIP_BACKEND_START=1 tests/sign_out_http_runtime_regression.sh`:
+  registration and sign-in succeeded, then the real
+  `POST /api/v1/auth/sign-out` returned HTTP 404.
+- Confirmed the exact cause: the running image was created at 02:49, before
+  backend commit `c43249e` added the route at 07:36. The checked-out handler
+  and route were correct; the physical-device API origin was serving a stale
+  `/app/de_backend` image.
+- Added `scripts/run-backend-dev.sh` as the documented development start path.
+  It rebuilds and force-recreates Compose, stamps and verifies the backend Git
+  revision, waits for health, and requires the real sign-out POST to return
+  HTTP 401 without a bearer session rather than 404.
+- Added `tests/sign_out_http_runtime_regression.sh`, which starts that same
+  `DLBackendApplication`/`QHttpServer` runtime and records revision, build
+  directory, binary, image and API origin before running the live auth matrix.
+- Final committed-runtime evidence used backend revision `1fe5487`, build
+  directory `/app/build`, binary `/app/de_backend`, image
+  `sha256:56ef7bdd852add4863ed1079c22dbd94230860ac9687c1752f23f74174be5b06`
+  and API origin `http://127.0.0.1:8080`. The route probe returned 401; live
+  sign-out returned 200; the revoked token returned 401; the second session
+  remained valid; all 17 correlated HTTP checks passed.
+- Added frontend coverage proving both HTTP 404 and connection failure retain
+  the SQLite database, local group data, saved session and retryable error.
+  Existing successful 200/401 teardown behavior remains unchanged.
+- Verification passed: Docker backend CTest 12/12; local backend CTest 14/14;
+  focused frontend CTest 4/4; `./scripts/test-all.sh root`; and the final
+  served full-HTTP regression matrix.
+- Physical-iPad verification against the refreshed backend remains a separate
+  human check and is not claimed by these automated results.

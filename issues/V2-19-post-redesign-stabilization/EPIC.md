@@ -1,6 +1,6 @@
 # V2-19 — Post-Redesign Stabilization
 
-**Status:** In Progress — V2-19-08 runtime sign-out regression planned
+**Status:** Done
 **Workspace:** frontend + backend + root
 **Dependencies:** completed V2-16/V2-17 implementation
 
@@ -17,7 +17,7 @@ The task number is a stable identifier, not the execution priority.
 
 | Priority | Task | Status | Why it is ordered here |
 |---|---|---|---|
-| 1 | V2-19-08 — Fix runtime sign-out route 404 | Planned | The physical-device backend runtime returns 404 for the checked-in route; verify and repair runtime/build parity before further Profile integration. |
+| 1 | V2-19-08 — Fix runtime sign-out route 404 | Done | The stale device-development backend image is now prevented by a revision-verified rebuild/recreate path and served-HTTP regression coverage. |
 | 2 | V2-19-07 — Add secure Sign out and Sign in again controls | Done | Presented-session revocation, safe local sign-out, same-account recovery and account isolation are covered. |
 | 3 | V2-19-04 — Enable Group → Add Word with preselected group | Done | Canonical Add Word routing now preselects the originating group. |
 | 4 | V2-19-06 — Fix multi-device authentication and sync regressions | Done | Bootstrap compatibility, rejected-session recovery and secure device/account transition regressions are fixed with automated coverage. |

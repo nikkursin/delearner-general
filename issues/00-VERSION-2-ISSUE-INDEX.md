@@ -37,7 +37,7 @@ The remaining work stays dependency-driven and backend-first where cross-system 
 6. **Client pull/bootstrap/scheduling/recovery wiring** — remaining V2-09, V2-10, V2-11 and V2-12 tasks.
 7. **End-to-end domain convergence** — V2-13.
 8. **Stable-sync production UX cleanup** — V2-14. Keep its existing scope; do not duplicate the screenshot-driven redesign already completed in V2-16.
-9. **Post-redesign stabilization** — V2-19. Complete the new sign-out-route regression before further Profile integration.
+9. **Post-redesign stabilization** — V2-19. Done, including the served-runtime sign-out-route regression.
 10. **Quiz and Profile UI baseline** — completed in V2-18. Preserve its Done history; later navigation corrections belong to V2-20.
 11. **Home, streak and navigation follow-up** — V2-20 after the sign-out regression. Freeze the streak contract, implement backend then frontend persistence, build Home, correct navigation/Profile access, and run the integration gate.
 12. **Release gate** — V2-15 after the functional sync system, completed V2-16/V2-17/V2-18 UI baseline, V2-19 stabilization and V2-20 are integrated and verified.
@@ -174,15 +174,15 @@ V2-20. V2-18 remains Done and is not reopened.
 
 ## V2-19 — Post-Redesign Stabilization Tasks
 
-**Status:** In Progress. Runtime sign-out-route regression planned; completed
-history remains closed.
+**Status:** Done. Runtime sign-out-route regression complete; completed history
+remains closed.
 
 Task numbers remain stable identifiers; the priority column defines execution
 order.
 
 | Priority | Task | Status | Dependencies |
 |---|---|---|---|
-| 1 | [V2-19-08](./V2-19-post-redesign-stabilization/V2-19-08-fix-runtime-sign-out-route-404.md) — Fix runtime sign-out route 404 | Planned | completed V2-19-07 |
+| 1 | [V2-19-08](./V2-19-post-redesign-stabilization/V2-19-08-fix-runtime-sign-out-route-404.md) — Fix runtime sign-out route 404 | Done | completed V2-19-07 |
 | 2 | [V2-19-07](./V2-19-post-redesign-stabilization/V2-19-07-add-secure-sign-out-and-session-recovery-controls.md) — Add secure Sign out and Sign in again controls | Done | completed V2-19-06 |
 | 3 | [V2-19-04](./V2-19-post-redesign-stabilization/V2-19-04-enable-group-add-word-with-preselected-group.md) — Enable Group → Add Word with preselected group | Done | V2-19-03, completed V2-16-03 |
 | 4 | [V2-19-06](./V2-19-post-redesign-stabilization/V2-19-06-fix-multi-device-auth-sync-regressions.md) — Fix multi-device authentication and sync regressions | Done | completed V2-19-05, completed V2-17-04 through V2-17-06 |
