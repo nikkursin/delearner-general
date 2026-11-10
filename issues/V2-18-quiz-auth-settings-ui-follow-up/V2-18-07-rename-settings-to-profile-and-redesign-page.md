@@ -1,7 +1,7 @@
 # V2-18-07 — Rename Settings to Profile and redesign the page
 
 **Parent epic:** V2-18 — Quiz, Authentication and Settings UI Follow-up
-**Status:** Planned
+**Status:** Done
 **Workspace:** frontend + root
 **Size:** 5 story points
 **Dependencies:** completed V2-19-07
@@ -139,3 +139,19 @@ can make it truthful and functional.
 - Daily streak persistence or reward logic.
 - Account deletion, password reset or email change.
 - Auth/session/sync protocol changes.
+
+## Completion checkpoint — 2026-11-10
+
+- Renamed the user-facing destination and page heading to **Profile** while
+  retaining the internal `settings` route.
+- Added a responsive account summary, rounded grouped sections, compact local
+  statistics, persistent synchronization state and consistently styled action
+  rows based on the supplied local references.
+- Preserved **Sign in again**, **Manual sync**, **Sign out** and **Delete all
+  vocabulary/groups**, including their state-dependent availability,
+  confirmations and error feedback.
+- Added Profile QML coverage for signed-in, reauthentication, syncing,
+  sync-failure, destructive confirmation, phone and tablet states.
+- Verified the complete frontend suite: 31/31 tests passed.
+- Physical-device verification remains a separate human check and is not
+  claimed from automated tests.

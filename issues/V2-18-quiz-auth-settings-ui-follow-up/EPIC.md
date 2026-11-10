@@ -1,6 +1,6 @@
 # V2-18 — Quiz, Authentication and Settings UI Follow-up
 
-**Status:** In Progress — Profile redesign planned; Authentication redesign deferred
+**Status:** Done — Quiz and Profile scope complete; Authentication redesign deferred
 **Workspace:** frontend + root; backend only where an existing synchronized review-statistics path must be verified  
 **Dependencies:** completed V2-16/V2-17 baseline
 
@@ -31,8 +31,8 @@ Align the existing Quiz experience with the supplied target references while pre
 ## Current execution order — 2026-11-10
 
 1. Preserve the completed V2-18-01 through V2-18-06 Quiz history.
-2. Execute V2-18-07 as the only active leaf: rename Settings to Profile and
-   redesign it from the supplied V2-19-06 local references.
+2. V2-18-07 completed the Settings-to-Profile rename and redesign from the
+   supplied V2-19-06 local references.
 3. Keep Authentication/login visual redesign deferred.
 
 ## Learning-state classification
