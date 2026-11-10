@@ -169,15 +169,15 @@ This order is a priority strategy, not permission to bypass dependencies.
 
 ## V2-19 — Post-Redesign Stabilization Tasks
 
-**Status:** Active stabilization scope. Multi-device auth/sync regression fixed;
-V2-19-04 is the next executable task.
+**Status:** Done. Post-redesign UI and multi-device auth/sync regressions are
+stabilized.
 
 Task numbers remain stable identifiers; the priority column defines execution
 order.
 
 | Priority | Task | Status | Dependencies |
 |---|---|---|---|
-| 1 | [V2-19-04](./V2-19-post-redesign-stabilization/V2-19-04-enable-group-add-word-with-preselected-group.md) — Enable Group → Add Word with preselected group | Ready | V2-19-03, completed V2-16-03 |
+| 1 | [V2-19-04](./V2-19-post-redesign-stabilization/V2-19-04-enable-group-add-word-with-preselected-group.md) — Enable Group → Add Word with preselected group | Done | V2-19-03, completed V2-16-03 |
 | 2 | [V2-19-06](./V2-19-post-redesign-stabilization/V2-19-06-fix-multi-device-auth-sync-regressions.md) — Fix multi-device authentication and sync regressions | Done | completed V2-19-05, completed V2-17-04 through V2-17-06 |
 | 3 | [V2-19-05](./V2-19-post-redesign-stabilization/V2-19-05-debug-auth-sign-in-and-account-creation-regressions.md) — Stabilize auth-to-sync startup and add end-to-end diagnostics | Done | completed authentication/sync baseline, completed V2-17-05; no V2-18 dependency |
 | 4 | [V2-19-01](./V2-19-post-redesign-stabilization/V2-19-01-fix-add-word-alignment-and-bottom-navigation-position.md) — Fix Add Word alignment and bottom-navigation position | Done | completed V2-16-01, V2-16-03 |

@@ -1,7 +1,7 @@
 # V2-19-04 — Enable Group → Add Word with preselected group
 
 **Parent epic:** V2-19 — Post-Redesign Stabilization  
-**Status:** Ready
+**Status:** Done
 **Workspace:** frontend  
 **Size:** 2 story points  
 **Dependencies:** V2-19-03, completed V2-16-03
@@ -30,6 +30,17 @@ See `references/V2-19-04/`.
 - Saving creates the normal Word entity with that membership through the existing repository/outbox flow.
 - Maximum-four-group validation still applies.
 - Back/cancel leaves persisted data unchanged.
+
+## Completion evidence — 2026-11-10
+
+- Enabled the existing Groups action sheet, Group Details header, and empty-state Add Word actions.
+- Routed each action through the canonical Add/Edit Word screen with the originating group preselected; normal Add Word navigation clears stale group context.
+- Kept save behavior on the existing `createWord` repository/outbox path and retained the existing four-group selector limit.
+- Verified cancel returns without calling the persistence path.
+- Changed frontend files: `DLAppStateManager`, `Main.qml`, `DLAddEditWordPage.qml`, `DLWordEditor.qml`, `DLGroupsList.qml`, `DLGroupDetails.qml`, and focused C++/QML tests.
+- Verification: `cmake --build build-tests --target TestAppStateAuthBootstrap -j4`; focused `ctest` for app-state, Groups UI, and Word Editor UI; full `ctest --test-dir build-tests --output-on-failure` (28/28 passed); full `cmake --build build-tests -j4`.
+- Diagnostic/correlation ID: not applicable to this local UI routing task.
+- Conclusion: all acceptance criteria are locally verified; no external check remains.
 
 
 ## Interaction quality
