@@ -39,7 +39,7 @@ Current Version 2 values:
 
 ```text
 SQLite schema:     1.4
-PostgreSQL schema: 1.3
+PostgreSQL schema: 1.4
 Sync/API contract: 2.0
 API route major:   /api/v2
 ```
@@ -59,7 +59,11 @@ whose winning identities cannot be recovered after retention; account/auth/devic
 identity remains intact. PostgreSQL `1.3` adds portable Group icon metadata,
 Word morphology/literal-translation fields, and relational multi-Group Word
 membership while migrating the former single membership without data loss.
-These changes do not advance the active sync/API version. SQLite `1.4` adds
+PostgreSQL `1.4` normalizes the unambiguous legacy Word type labels retained in
+canonical domain rows and sync-event payloads (`Nomen`, `Verb`, `Adjektiv`,
+`Adverb`, and `Phrase`) to the strict contract 2 wire values. It deliberately
+does not treat ambiguous legacy `Andere` as `phrase`. These changes do not
+advance the active sync/API version. SQLite `1.4` adds
 portable Group icon metadata, Word morphology/literal-translation fields, and
 relational multi-Group Word membership while migrating the former single
 membership without data loss.

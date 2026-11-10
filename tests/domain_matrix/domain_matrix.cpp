@@ -8,6 +8,8 @@
 #include "Managers/DLAppStateManager.h"
 #include <QJsonArray>
 #include <QSqlDatabase>
+#include <QSqlError>
+#include <QSqlQuery>
 #include <QTemporaryDir>
 #include <QUuid>
 
@@ -34,6 +36,7 @@ private slots:
     void authenticationAndDeviceLifecycle();
     void automaticTwoDeviceReconnect();
     void bootstrapRaceCatchUp();
+    void legacyPartOfSpeechMigrationBootstrapsFreshClient();
     void wordGroupContract2Convergence();
     void lwwTombstoneAndBootstrap_data();
     void lwwTombstoneAndBootstrap();
@@ -206,6 +209,41 @@ void DomainMatrix::authenticationAndDeviceLifecycle()
     push(mutation("group", "update", 5, 1), "update", 5);
     QCOMPARE(json(handler->handleDownload({{"after", "0"}}, authorization)).value("events").toArray().size(), 2);
     QCOMPARE(json(handler->handleDownload({{"after", "0"}}, otherAuthorization)).value("events").toArray().size(), 0);
+}
+
+void DomainMatrix::legacyPartOfSpeechMigrationBootstrapsFreshClient()
+{
+    const QString wordId = QStringLiteral("3f692bd1-bd88-43d6-a653-28330cdb8c77");
+    QSqlQuery query(backend);
+    QVERIFY(query.exec(QStringLiteral(
+        "UPDATE schema_metadata SET minor_version = 3 WHERE schema_name = 'postgres'")));
+    query.prepare(QStringLiteral(
+        "INSERT INTO domain_words "
+        "(id, owner_user_id, german_word, normalized_german_word, article, part_of_speech, "
+        "native_translation, normalized_native_translation, created_at, updated_at) "
+        "VALUES (?, ?, 'Legacy noun', 'legacy noun', 'die', 'Nomen', 'legacy translation', "
+        "'legacy translation', '2026-02-01T12:00:00Z', '2026-02-01T12:00:00Z')"));
+    query.addBindValue(wordId);
+    query.addBindValue(owner);
+    QVERIFY2(query.exec(), qPrintable(query.lastError().text()));
+
+    DLDatabaseMigrator migrator;
+    QVERIFY2(migrator.initializePostgresBaseline(backend), qPrintable(migrator.lastError()));
+    QCOMPARE(migrator.currentPostgresVersion(backend).toString(), QStringLiteral("1.4"));
+
+    const QHttpServerResponse bootstrap = handler->handleBootstrap(authorization);
+    QCOMPARE(bootstrap.statusCode(), QHttpServerResponse::StatusCode::Ok);
+    openClient(2);
+    DLBootstrapStateRestorer restorer(DLDatabaseManager::instance());
+    QString error;
+    QVERIFY2(restorer.restoreFromJson(bootstrap.data(), &error), qPrintable(error));
+    const QVariantMap restored = DLDatabaseManager::instance().selectOneRow(
+        QStringLiteral("SELECT part_of_speech FROM words WHERE sync_id = :sync_id"),
+        {{QStringLiteral(":sync_id"), wordId}});
+    QVERIFY(!restored.isEmpty());
+    QCOMPARE(restored.value(QStringLiteral("part_of_speech")).toString(), QStringLiteral("noun"));
+    QCOMPARE(DLDatabaseManager::instance().selectInt(
+                 QStringLiteral("SELECT COUNT(*) FROM sync_outbox_events")), 0);
 }
 
 QJsonObject DomainMatrix::fixture(const QString& type)

@@ -1,6 +1,6 @@
 # V2-19 — Post-Redesign Stabilization
 
-**Status:** In Progress — auth-to-sync stabilization complete
+**Status:** In Progress — multi-device auth/sync regression fixed; V2-19-04 remains
 **Workspace:** frontend + backend + root
 **Dependencies:** completed V2-16/V2-17 implementation
 
@@ -17,15 +17,15 @@ The task number is a stable identifier, not the execution priority.
 
 | Priority | Task | Status | Why it is ordered here |
 |---|---|---|---|
-| 1 | V2-19-05 — Stabilize auth-to-sync startup and add end-to-end diagnostics | Done | Account access and safe synchronization block reliable use of every other feature. |
-| 2 | V2-19-01 — Fix Add Word alignment and bottom-navigation position | Done | Independent local UI regression. |
-| 3 | V2-19-02 — Fix Words filter alignment and swipe delete | Done | Independent local UI regression. |
-| 4 | V2-19-03 — Align Group Details and fix swipe actions | Done | Must finish before V2-19-04. |
-| 5 | V2-19-04 — Enable Group → Add Word with preselected group | Ready | V2-19-03 is complete. |
+| 1 | V2-19-04 — Enable Group → Add Word with preselected group | Ready | V2-19-03 is complete; this is the next executable task. |
+| 2 | V2-19-06 — Fix multi-device authentication and sync regressions | Done | Bootstrap compatibility, rejected-session recovery and secure device/account transition regressions are fixed with automated coverage. |
+| 3 | V2-19-05 — Stabilize auth-to-sync startup and add end-to-end diagnostics | Done | Preserved completed diagnostic baseline; do not reopen. |
+| 4 | V2-19-01 — Fix Add Word alignment and bottom-navigation position | Done | Independent local UI regression. |
+| 5 | V2-19-02 — Fix Words filter alignment and swipe delete | Done | Independent local UI regression. |
+| 6 | V2-19-03 — Align Group Details and fix swipe actions | Done | Completed prerequisite for V2-19-04. |
 
-Do not start a lower-priority task while V2-19-05 has executable work remaining,
-unless the user explicitly changes the order. V2-19-01, V2-19-02 and V2-19-03
-are otherwise independent. V2-19-04 remains blocked until V2-19-03 is Done.
+V2-19-04 is the only remaining executable task. V2-19-05 and V2-19-06 are
+completed regression history and must not be reopened or duplicated.
 
 ## Scheduling decision — 2026-11-09
 
@@ -107,7 +107,7 @@ personal or device-identifying metadata.
 
 V2-19 is complete only when:
 
-- V2-19-01 through V2-19-05 are Done;
+- V2-19-01 through V2-19-06 are Done;
 - the auth → device registration → bootstrap → first sync sequence is
   diagnosable end to end and passes its regression matrix;
 - required frontend, backend and root tests pass;
