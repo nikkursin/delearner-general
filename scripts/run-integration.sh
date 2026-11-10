@@ -40,5 +40,6 @@ log "Building child repositories for compiled integration scenarios."
 "$ROOT_DIR/tests/word_group_two_device_sync_scenario.sh" --run
 "$ROOT_DIR/tests/review_stats_quiz_sync_scenario.sh" --run
 "$ROOT_DIR/tests/learning_settings_sync_scenario.sh" --run
+"$ROOT_DIR/tests/learning_day_backend_sync_scenario.sh" --run
 
 log "Integration smoke gate complete."

@@ -1,6 +1,6 @@
 # V2-20 — Home, Streak and Navigation Follow-up
 
-**Status:** In Progress
+**Status:** Done
 **Workspace:** root + backend + frontend
 **Dependencies:** completed V2-18 UI baseline; V2-19-08 before final Profile integration
 
