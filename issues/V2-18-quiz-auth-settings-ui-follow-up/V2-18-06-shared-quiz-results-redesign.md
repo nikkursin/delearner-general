@@ -1,16 +1,15 @@
 # V2-18-06 — Shared Quiz results redesign
 
 **Parent epic:** V2-18 — Quiz, Authentication and Settings UI Follow-up  
-**Status:** Planned
+**Status:** Done
 **Workspace:** frontend  
 **Size:** 3 story points  
 **Dependencies:** V2-18-03, V2-18-05
 
 ## Scheduling note — 2026-11-10
 
-V2-18-05 is Done, but V2-18-03 is not. This task becomes eligible only after
-the Translation Quiz session redesign is Done; its Planned status must not
-bypass that explicit dependency.
+Both V2-18-03 and V2-18-05 are Done. The shared result presentation is now
+implemented and verified for both completed session paths.
 
 ## Objective
 

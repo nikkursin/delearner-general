@@ -1,6 +1,6 @@
 # V2-18 — Quiz, Authentication and Settings UI Follow-up
 
-**Status:** In Progress — Quiz scope active; Authentication/Settings redesign deferred
+**Status:** Done — active Quiz scope complete; Authentication/Settings redesign deferred
 **Workspace:** frontend + root; backend only where an existing synchronized review-statistics path must be verified  
 **Dependencies:** completed V2-16/V2-17 baseline
 

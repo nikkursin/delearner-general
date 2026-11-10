@@ -125,7 +125,7 @@ This order is a priority strategy, not permission to bypass dependencies.
 
 ## V2-18 — Quiz, Authentication and Settings UI Follow-up Tasks
 
-**Status:** Quiz scope active. Authentication/login visual redesign and Settings/Profile redesign remain deferred.
+**Status:** Done. Active Quiz scope complete; Authentication/login visual redesign and Settings/Profile redesign remain deferred.
 
 | Task | Status | Dependencies |
 |---|---|---|
@@ -134,7 +134,7 @@ This order is a priority strategy, not permission to bypass dependencies.
 | [V2-18-03](./V2-18-quiz-auth-settings-ui-follow-up/V2-18-03-translation-quiz-session-redesign.md) — Translation Quiz session redesign | Done | V2-18-02, V2-19-07 |
 | [V2-18-04](./V2-18-quiz-auth-settings-ui-follow-up/V2-18-04-article-quiz-custom-setup.md) — Article Quiz custom setup | Done | V2-18-01 |
 | [V2-18-05](./V2-18-quiz-auth-settings-ui-follow-up/V2-18-05-article-quiz-session-redesign.md) — Article Quiz session redesign | Done | V2-18-04 |
-| [V2-18-06](./V2-18-quiz-auth-settings-ui-follow-up/V2-18-06-shared-quiz-results-redesign.md) — Shared Quiz results redesign | Planned | V2-18-03, V2-18-05 |
+| [V2-18-06](./V2-18-quiz-auth-settings-ui-follow-up/V2-18-06-shared-quiz-results-redesign.md) — Shared Quiz results redesign | Done | V2-18-03, V2-18-05 |
 
 ### V2-18 approved Quiz semantics
 
