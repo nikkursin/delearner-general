@@ -2,7 +2,7 @@
 
 **Status:** In Progress  
 **Epics:** 19  
-**Loop-sized subtasks:** 87
+**Loop-sized subtasks:** 88
 
 ## Version 2 Goal
 
@@ -10,7 +10,7 @@ Deliver an authenticated, account-based, offline-capable multi-device synchroniz
 
 After the functional synchronization baseline is stable, align the approved vocabulary/group/onboarding/navigation frontend surfaces with the supplied design references, evolve the synchronized Word/Group domain only where those approved designs require it, stabilize post-redesign regressions, and align the currently implemented Quiz flows with the approved Quiz references.
 
-Authentication/login visual redesign and Settings/Profile redesign remain deferred until their target references are supplied. Functional authentication regressions are not deferred and are handled by V2-19.
+Profile redesign is now active in V2-18 from the supplied V2-19-06 local references. Authentication/login visual redesign remains deferred until its target references are supplied. Functional authentication regressions are not deferred and are handled by V2-19.
 
 ## Completed Foundation — Do Not Reopen
 
@@ -38,9 +38,9 @@ The remaining work stays dependency-driven and backend-first where cross-system 
 7. **End-to-end domain convergence** — V2-13.
 8. **Stable-sync production UX cleanup** — V2-14. Keep its existing scope; do not duplicate the screenshot-driven redesign already completed in V2-16.
 9. **Post-redesign stabilization** — V2-19. Fix current UI regressions and authentication/account-creation failures before layering further UI work on top.
-10. **Quiz UI follow-up** — active Quiz scope in V2-18 after the blocking V2-19 regressions are stabilized. Translation and Article remain the only implemented quiz families; additional quiz-family cards stay placeholders.
-11. **Release gate** — V2-15 after the functional sync system, completed V2-16/V2-17 baseline, active V2-18 Quiz scope, and V2-19 stabilization are integrated and verified.
-12. **Deferred visual follow-up** — Authentication/login visual redesign and Settings/Profile redesign remain reserved under V2-18 until target references are supplied.
+10. **Quiz and Profile UI follow-up** — completed Quiz scope plus the active Profile redesign in V2-18. Translation and Article remain the only implemented quiz families; additional quiz-family cards stay placeholders.
+11. **Release gate** — V2-15 after the functional sync system, completed V2-16/V2-17 baseline, active V2-18 UI scope, and V2-19 stabilization are integrated and verified.
+12. **Deferred visual follow-up** — Authentication/login visual redesign remains reserved under V2-18 until target references are supplied.
 
 This order is a priority strategy, not permission to bypass dependencies.
 
@@ -49,7 +49,7 @@ This order is a priority strategy, not permission to bypass dependencies.
 - **V2-14** retains its existing production UX cleanup responsibilities around stable synchronization.
 - **V2-16** owns the completed screenshot-driven redesign for onboarding, bottom navigation, Add/Edit Word, Groups, Group Details, Words and Word Details/Edit.
 - **V2-17** owns the completed cross-system data/contract changes required by that redesign.
-- **V2-18** is now partially activated for the approved Quiz redesign. Authentication/login visual redesign and Settings/Profile redesign remain deferred within the same epic.
+- **V2-18** owns the completed Quiz redesign and the active Settings-to-Profile redesign. Authentication/login visual redesign remains deferred within the same epic.
 - **V2-19** owns regressions discovered after V2-16/V2-17 execution, including broken UI alignment/gesture behavior and authentication/account-creation failures.
 - Functional authentication bugs belong to V2-19 even though future authentication visual redesign remains deferred in V2-18.
 
@@ -74,7 +74,7 @@ This order is a priority strategy, not permission to bypass dependencies.
 | [V2-15](./V2-15-root-integration-and-release-gate/EPIC.md) | Root Integration and Release Gate | root + frontend + backend | Verify approved references only | V2-14 + V2-16/V2-17 + active V2-18 + V2-19 + functional system |
 | [V2-16](./V2-16-frontend-design-alignment/EPIC.md) | Frontend Design Alignment | frontend + root | Use supplied screenshots; avoid MCP unless material information is missing | Done |
 | [V2-17](./V2-17-word-group-domain-and-sync-evolution/EPIC.md) | Word/Group Domain and Sync Evolution | frontend + backend + root | None | Done |
-| [V2-18](./V2-18-quiz-auth-settings-ui-follow-up/EPIC.md) | Quiz, Authentication and Settings UI Follow-up | frontend + root; backend only where existing synchronized review statistics must be verified | Use supplied Quiz screenshots; avoid MCP unless material information is missing | completed V2-16/V2-17 baseline; Quiz scope active |
+| [V2-18](./V2-18-quiz-auth-settings-ui-follow-up/EPIC.md) | Quiz, Authentication and Settings UI Follow-up | frontend + root; backend only where existing synchronized review statistics must be verified | Use supplied local screenshots; avoid MCP unless material information is missing | completed V2-16/V2-17 baseline; Profile scope active |
 | [V2-19](./V2-19-post-redesign-stabilization/EPIC.md) | Post-Redesign Stabilization | frontend + backend + root | Use current regression screenshots plus approved V2-16 references | completed V2-16/V2-17 baseline |
 
 ## V2-16 — Frontend Design Alignment Tasks
@@ -125,7 +125,7 @@ This order is a priority strategy, not permission to bypass dependencies.
 
 ## V2-18 — Quiz, Authentication and Settings UI Follow-up Tasks
 
-**Status:** Done. Active Quiz scope complete; Authentication/login visual redesign and Settings/Profile redesign remain deferred.
+**Status:** In Progress. Quiz scope complete; Profile redesign planned; Authentication/login visual redesign remains deferred.
 
 | Task | Status | Dependencies |
 |---|---|---|
@@ -135,6 +135,7 @@ This order is a priority strategy, not permission to bypass dependencies.
 | [V2-18-04](./V2-18-quiz-auth-settings-ui-follow-up/V2-18-04-article-quiz-custom-setup.md) — Article Quiz custom setup | Done | V2-18-01 |
 | [V2-18-05](./V2-18-quiz-auth-settings-ui-follow-up/V2-18-05-article-quiz-session-redesign.md) — Article Quiz session redesign | Done | V2-18-04 |
 | [V2-18-06](./V2-18-quiz-auth-settings-ui-follow-up/V2-18-06-shared-quiz-results-redesign.md) — Shared Quiz results redesign | Done | V2-18-03, V2-18-05 |
+| [V2-18-07](./V2-18-quiz-auth-settings-ui-follow-up/V2-18-07-rename-settings-to-profile-and-redesign-page.md) — Rename Settings to Profile and redesign the page | Planned | completed V2-19-07 |
 
 ### V2-18 approved Quiz semantics
 
@@ -160,12 +161,10 @@ This order is a priority strategy, not permission to bypass dependencies.
 ### V2-18 still deferred
 
 - Authentication/login visual redesign.
-- Settings/Profile visual redesign.
-- Broader logout/profile UX redesign beyond the functional V2-19-07 Sign out
-  and Sign in again controls.
+- Profile fields and product features beyond the visual reorganization and
+  preserved functional controls authorized by V2-18-07.
 - Email validation/verification UX redesign.
 - Password-strength UX redesign.
-- Manual-sync control/icon treatment.
 - Any later dedicated Home-screen redesign.
 
 ## V2-19 — Post-Redesign Stabilization Tasks
@@ -194,7 +193,7 @@ order.
 - Group Details must restore missing visual/decorative treatment from the approved reference.
 - Group → Add Word now routes to the canonical Add Word page with the originating group preselected; this supersedes the earlier disabled-action decision.
 - Auth-to-sync stabilization starts immediately; the former V2-18-06 scheduling gate was explicitly overridden on 2026-11-09.
-- V2-19-07 executes before the remaining V2-18 Quiz work so manual multi-account and expired-session testing has safe Settings controls.
+- Completed V2-19-07 remains the behavioral baseline for the V2-18-07 Profile controls.
 - Safe verbose diagnostics are an implementation prerequisite, not a last-resort request. Every auth, device-registration, bootstrap and synchronization phase must emit correlated start/result/failure events.
 - Existing-account sign-in, account creation, bootstrap, sign-in with existing local vocabulary and pending-outbox preservation must be covered by focused regression tests.
 - Logs may contain development-only operational metadata, but never passwords, hashes, salts, session/bearer values, authorization headers, raw auth bodies, database credentials or personal vocabulary.
@@ -210,5 +209,4 @@ order.
 - Merging Adjective and Adverb in the current redesign.
 - Inventing final onboarding illustrations/logo assets before approved assets are supplied.
 - Authentication/login visual redesign until its approved target references are supplied.
-- Settings/Profile visual redesign until its approved target references are supplied.
 - Implementing `Report a problem` or preset-management infrastructure without an explicit future task.

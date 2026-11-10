@@ -36,9 +36,9 @@ git -C delearner-frontend status --short
 git -C delearner-backend status --short
 ```
 
-V2-19-07 planning files and Ralph priority-pin changes are authorized
+V2-18-07 planning files, supplied reference screenshots and Ralph priority-pin changes are authorized
 coordination setup. If they are not already committed, the prompt allows the
-V2-19-07 root completion commit to include them after review. Every unrelated
+V2-18-07 root completion commit to include them after review. Every unrelated
 change must remain safely isolatable or Ralph will stop with
 `BLOCKED_DIRTY_WORKTREE`.
 
@@ -82,13 +82,11 @@ git submodule status
 
 ## AFK mode
 
-The current default priority pin is `V2-19-07`. A normal run therefore executes
-the secure account/session-controls task before returning to global selection:
+The current default priority pin is `V2-18-07`. A normal run therefore executes
+the Settings-to-Profile redesign before returning to global selection:
 
 ```text
-V2-19-07 secure Sign out + Sign in again controls
-  -> V2-18-03 Translation Quiz session
-  -> V2-18-06 shared Quiz results
+V2-18-07 rename Settings to Profile and redesign the page
 ```
 
 The pin is exported to every fresh `codex exec` invocation. Once the pinned
@@ -96,7 +94,7 @@ leaf task or parent task tree is Done, Ralph returns to its normal global
 selector. Override the pin explicitly:
 
 ```bash
-RALPH_PRIORITY_TASK=V2-19-07 ./ralph/afk.sh
+RALPH_PRIORITY_TASK=V2-18-07 ./ralph/afk.sh
 ```
 
 Disable it and use global selection with an explicitly empty value:
@@ -111,7 +109,7 @@ Default is at most 12 task attempts:
 ./ralph/afk.sh
 ```
 
-To run only the priority account/session task, use:
+To run only the priority Profile task, use:
 
 ```bash
 MAX_ITERATIONS=1 ./ralph/afk.sh

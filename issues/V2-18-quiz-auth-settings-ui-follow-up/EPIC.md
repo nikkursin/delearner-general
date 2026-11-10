@@ -1,12 +1,12 @@
 # V2-18 — Quiz, Authentication and Settings UI Follow-up
 
-**Status:** Done — active Quiz scope complete; Authentication/Settings redesign deferred
+**Status:** In Progress — Profile redesign planned; Authentication redesign deferred
 **Workspace:** frontend + root; backend only where an existing synchronized review-statistics path must be verified  
 **Dependencies:** completed V2-16/V2-17 baseline
 
 ## Purpose
 
-Align the existing Quiz experience with the supplied target references while preserving the already-working quiz/domain behavior. Authentication/login and Settings/Profile redesign remain deferred until their target references are supplied.
+Align the existing Quiz experience with the supplied target references while preserving the already-working quiz/domain behavior, then redesign the existing Settings destination as Profile from the supplied local references. Authentication/login redesign remains deferred until its target references are supplied.
 
 ## Active Quiz scope
 
@@ -21,15 +21,19 @@ Align the existing Quiz experience with the supplied target references while pre
 - Allow per-word review statistics to be cleared from the Quiz home without deleting the Word entity.
 - Preserve local quiz execution; do not move current quiz generation/execution to the backend.
 
+## Active Profile scope
+
+- Rename the user-facing Settings destination to Profile.
+- Redesign the page from the supplied V2-19-06 local references.
+- Preserve and consistently restyle all existing functional Settings controls.
+- Add only useful presentation backed by existing application data and behavior.
+
 ## Current execution order — 2026-11-10
 
-1. Complete priority task V2-19-07 for secure Sign out and Sign in again
-   controls used by manual testing.
-2. Execute V2-18-03 Translation Quiz session redesign; its references and
-   completed dependency are available.
-3. Execute V2-18-06 shared Quiz results only after V2-18-03 is Done.
-4. Run the V2-18 integration/regression pass and close only the active Quiz
-   scope. Broader Authentication/Settings visual redesign remains deferred.
+1. Preserve the completed V2-18-01 through V2-18-06 Quiz history.
+2. Execute V2-18-07 as the only active leaf: rename Settings to Profile and
+   redesign it from the supplied V2-19-06 local references.
+3. Keep Authentication/login visual redesign deferred.
 
 ## Learning-state classification
 
@@ -45,8 +49,7 @@ The attempt count should come from the review statistics already maintained by t
 
 - Authentication/login redesign — deferred beyond the functional V2-19-07
   same-account recovery entry point.
-- Settings/Profile redesign — deferred beyond the functional V2-19-07 account
-  controls added to the existing Settings layout.
+- Profile fields or product features not authorized by V2-18-07.
 - Report-a-problem backend/workflow — placeholder only.
 - The two non-implemented quiz families — placeholder cards only; no session/setup logic.
 - Preset management/application flow — not defined. A `Save as preset` control may match the supplied setup reference but must not invent persistence or a preset browser in this epic.

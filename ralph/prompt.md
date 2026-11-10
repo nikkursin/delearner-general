@@ -100,10 +100,11 @@ acceptance criteria. If the named task cannot be found, its instructions are
 inconsistent, or it has no dependency-ready work while still non-Done, stop
 with `RALPH_RESULT: BLOCKED` instead of silently choosing another task.
 
-For the default AFK pin `V2-19-07`, execute that leaf task directly. It owns the
-backend session-revocation seam, frontend Settings controls, same-account
-recovery, account isolation and cross-repository verification described by its
-issue. Complete no later Quiz task in the same invocation.
+For the default AFK pin `V2-18-07`, execute that leaf task directly. It owns the
+frontend Settings-to-Profile rename and reference-driven redesign while
+preserving the completed V2-19-07 account/session controls described by its
+issue. Do not implement unrelated reference-app features in the same
+invocation.
 
 ### Global selector
 
