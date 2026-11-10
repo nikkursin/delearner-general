@@ -83,12 +83,15 @@ commit. Continue to isolate every unrelated pre-existing change.
 When `RALPH_PRIORITY_TASK` is non-empty:
 
 1. locate that task in the current issue index and its canonical issue file;
-2. if the parent task is not `Done`, select work only from that task tree;
-3. follow the child-subtask order and dependencies documented by the parent;
-4. complete one dependency-ready child subtask in this invocation;
-5. keep the parent non-Done until its final integration subtask satisfies the
+2. if the named leaf task or priority parent is `Done`, resume the global
+   selector below;
+3. if it is a dependency-ready leaf task, select that task directly;
+4. otherwise, if the parent task is not `Done`, select work only from that task tree;
+5. follow the child-subtask order and dependencies documented by the parent;
+6. complete one dependency-ready child subtask in this invocation;
+7. keep the parent non-Done until its final integration subtask satisfies the
    parent acceptance criteria;
-6. after the priority parent is `Done`, resume the global selector below on the
+8. after the priority parent is `Done`, resume the global selector below on the
    next invocation.
 
 The pin overrides the global backend-first preference and unrelated issue-index
@@ -97,10 +100,10 @@ acceptance criteria. If the named task cannot be found, its instructions are
 inconsistent, or it has no dependency-ready work while still non-Done, stop
 with `RALPH_RESULT: BLOCKED` instead of silently choosing another task.
 
-For the default AFK pin `V2-19-05`, the required sequence is the A, B and C
-subtasks linked by its parent issue: backend diagnostics, frontend diagnostics,
-then correlated reproduction/fixes/integration verification. This sequence is
-one child subtask per fresh invocation.
+For the default AFK pin `V2-19-07`, execute that leaf task directly. It owns the
+backend session-revocation seam, frontend Settings controls, same-account
+recovery, account isolation and cross-repository verification described by its
+issue. Complete no later Quiz task in the same invocation.
 
 ### Global selector
 

@@ -12,7 +12,7 @@ MAX_ITERATIONS="${MAX_ITERATIONS:-12}"
 SLEEP_SECONDS="${SLEEP_SECONDS:-8}"
 # Pin the current stabilization work across fresh Codex contexts. An explicitly
 # empty value disables the pin and restores global Ralph selection.
-RALPH_PRIORITY_TASK="${RALPH_PRIORITY_TASK-V2-19-05}"
+RALPH_PRIORITY_TASK="${RALPH_PRIORITY_TASK-V2-19-07}"
 export RALPH_PRIORITY_TASK
 
 echo "==> Starting Ralph AFK loop"

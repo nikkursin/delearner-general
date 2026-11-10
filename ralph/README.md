@@ -36,10 +36,10 @@ git -C delearner-frontend status --short
 git -C delearner-backend status --short
 ```
 
-The current V2-19-05 planning files and Ralph priority-pin changes may remain
-uncommitted: the prompt identifies them as authorized coordination setup and
-allows the first V2-19-05 root commit to include them after review. Every
-unrelated change must be safely isolatable or Ralph will stop with
+V2-19-07 planning files and Ralph priority-pin changes are authorized
+coordination setup. If they are not already committed, the prompt allows the
+V2-19-07 root completion commit to include them after review. Every unrelated
+change must remain safely isolatable or Ralph will stop with
 `BLOCKED_DIRTY_WORKTREE`.
 
 ## Install
@@ -82,20 +82,21 @@ git submodule status
 
 ## AFK mode
 
-The current default priority pin is `V2-19-05`. A normal run therefore executes
-its dependency-ready child tasks in the order recorded by the parent issue:
+The current default priority pin is `V2-19-07`. A normal run therefore executes
+the secure account/session-controls task before returning to global selection:
 
 ```text
-V2-19-05A backend diagnostics
-  -> V2-19-05B frontend diagnostics
-  -> V2-19-05C correlated reproduction, auth/sync fixes and verification
+V2-19-07 secure Sign out + Sign in again controls
+  -> V2-18-03 Translation Quiz session
+  -> V2-18-06 shared Quiz results
 ```
 
-The pin is exported to every fresh `codex exec` invocation. Once the parent is
-Done, Ralph returns to its normal global selector. Override the pin explicitly:
+The pin is exported to every fresh `codex exec` invocation. Once the pinned
+leaf task or parent task tree is Done, Ralph returns to its normal global
+selector. Override the pin explicitly:
 
 ```bash
-RALPH_PRIORITY_TASK=V2-19-05 ./ralph/afk.sh
+RALPH_PRIORITY_TASK=V2-19-07 ./ralph/afk.sh
 ```
 
 Disable it and use global selection with an explicitly empty value:
@@ -110,10 +111,10 @@ Default is at most 12 task attempts:
 ./ralph/afk.sh
 ```
 
-To run only the three planned V2-19-05 child attempts, use:
+To run only the priority account/session task, use:
 
 ```bash
-MAX_ITERATIONS=3 ./ralph/afk.sh
+MAX_ITERATIONS=1 ./ralph/afk.sh
 ```
 
 To allow work to continue into later V2 epics:

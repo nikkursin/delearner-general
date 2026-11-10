@@ -1,10 +1,17 @@
 # V2-18-03 — Translation Quiz session redesign
 
 **Parent epic:** V2-18 — Quiz, Authentication and Settings UI Follow-up  
-**Status:** Blocked  
+**Status:** Planned
 **Workspace:** frontend  
 **Size:** 5 story points  
-**Dependencies:** V2-18-02
+**Dependencies:** V2-18-02, V2-19-07
+
+## Scheduling note — 2026-11-10
+
+The former `Blocked` status had no remaining recorded blocker: V2-18-02 is
+Done and the current/target session references are present. Execute this task
+after the higher-priority V2-19-07 account/session controls so manual testing
+can switch accounts and recover expired sync sessions safely.
 
 ## Objective
 

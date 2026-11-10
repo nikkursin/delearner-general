@@ -21,6 +21,16 @@ Align the existing Quiz experience with the supplied target references while pre
 - Allow per-word review statistics to be cleared from the Quiz home without deleting the Word entity.
 - Preserve local quiz execution; do not move current quiz generation/execution to the backend.
 
+## Current execution order — 2026-11-10
+
+1. Complete priority task V2-19-07 for secure Sign out and Sign in again
+   controls used by manual testing.
+2. Execute V2-18-03 Translation Quiz session redesign; its references and
+   completed dependency are available.
+3. Execute V2-18-06 shared Quiz results only after V2-18-03 is Done.
+4. Run the V2-18 integration/regression pass and close only the active Quiz
+   scope. Broader Authentication/Settings visual redesign remains deferred.
+
 ## Learning-state classification
 
 Use the existing per-word review statistics; do not invent a new spaced-repetition system.
@@ -33,8 +43,10 @@ The attempt count should come from the review statistics already maintained by t
 
 ## Deferred / placeholder scope
 
-- Authentication/login redesign — deferred.
-- Settings/Profile redesign — deferred.
+- Authentication/login redesign — deferred beyond the functional V2-19-07
+  same-account recovery entry point.
+- Settings/Profile redesign — deferred beyond the functional V2-19-07 account
+  controls added to the existing Settings layout.
 - Report-a-problem backend/workflow — placeholder only.
 - The two non-implemented quiz families — placeholder cards only; no session/setup logic.
 - Preset management/application flow — not defined. A `Save as preset` control may match the supplied setup reference but must not invent persistence or a preset browser in this epic.

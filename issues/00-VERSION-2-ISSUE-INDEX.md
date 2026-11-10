@@ -2,7 +2,7 @@
 
 **Status:** In Progress  
 **Epics:** 19  
-**Loop-sized subtasks:** 86
+**Loop-sized subtasks:** 87
 
 ## Version 2 Goal
 
@@ -131,10 +131,10 @@ This order is a priority strategy, not permission to bypass dependencies.
 |---|---|---|
 | [V2-18-01](./V2-18-quiz-auth-settings-ui-follow-up/V2-18-01-quiz-home-learning-states-and-mode-actions.md) — Quiz home, learning states and mode actions | Done | completed V2-16/V2-17 baseline |
 | [V2-18-02](./V2-18-quiz-auth-settings-ui-follow-up/V2-18-02-translation-quiz-custom-setup.md) — Translation Quiz custom setup | Done | V2-18-01 |
-| [V2-18-03](./V2-18-quiz-auth-settings-ui-follow-up/V2-18-03-translation-quiz-session-redesign.md) — Translation Quiz session redesign | Blocked | V2-18-02 |
+| [V2-18-03](./V2-18-quiz-auth-settings-ui-follow-up/V2-18-03-translation-quiz-session-redesign.md) — Translation Quiz session redesign | Planned | V2-18-02, V2-19-07 |
 | [V2-18-04](./V2-18-quiz-auth-settings-ui-follow-up/V2-18-04-article-quiz-custom-setup.md) — Article Quiz custom setup | Done | V2-18-01 |
 | [V2-18-05](./V2-18-quiz-auth-settings-ui-follow-up/V2-18-05-article-quiz-session-redesign.md) — Article Quiz session redesign | Done | V2-18-04 |
-| [V2-18-06](./V2-18-quiz-auth-settings-ui-follow-up/V2-18-06-shared-quiz-results-redesign.md) — Shared Quiz results redesign | Blocked | V2-18-03, V2-18-05 |
+| [V2-18-06](./V2-18-quiz-auth-settings-ui-follow-up/V2-18-06-shared-quiz-results-redesign.md) — Shared Quiz results redesign | Planned | V2-18-03, V2-18-05 |
 
 ### V2-18 approved Quiz semantics
 
@@ -161,7 +161,8 @@ This order is a priority strategy, not permission to bypass dependencies.
 
 - Authentication/login visual redesign.
 - Settings/Profile visual redesign.
-- Logout/profile UX redesign.
+- Broader logout/profile UX redesign beyond the functional V2-19-07 Sign out
+  and Sign in again controls.
 - Email validation/verification UX redesign.
 - Password-strength UX redesign.
 - Manual-sync control/icon treatment.
@@ -169,20 +170,21 @@ This order is a priority strategy, not permission to bypass dependencies.
 
 ## V2-19 — Post-Redesign Stabilization Tasks
 
-**Status:** Done. Post-redesign UI and multi-device auth/sync regressions are
-stabilized.
+**Status:** Active stabilization scope. Secure account/session controls execute
+before the remaining Quiz UI work.
 
 Task numbers remain stable identifiers; the priority column defines execution
 order.
 
 | Priority | Task | Status | Dependencies |
 |---|---|---|---|
-| 1 | [V2-19-04](./V2-19-post-redesign-stabilization/V2-19-04-enable-group-add-word-with-preselected-group.md) — Enable Group → Add Word with preselected group | Done | V2-19-03, completed V2-16-03 |
-| 2 | [V2-19-06](./V2-19-post-redesign-stabilization/V2-19-06-fix-multi-device-auth-sync-regressions.md) — Fix multi-device authentication and sync regressions | Done | completed V2-19-05, completed V2-17-04 through V2-17-06 |
-| 3 | [V2-19-05](./V2-19-post-redesign-stabilization/V2-19-05-debug-auth-sign-in-and-account-creation-regressions.md) — Stabilize auth-to-sync startup and add end-to-end diagnostics | Done | completed authentication/sync baseline, completed V2-17-05; no V2-18 dependency |
-| 4 | [V2-19-01](./V2-19-post-redesign-stabilization/V2-19-01-fix-add-word-alignment-and-bottom-navigation-position.md) — Fix Add Word alignment and bottom-navigation position | Done | completed V2-16-01, V2-16-03 |
-| 5 | [V2-19-02](./V2-19-post-redesign-stabilization/V2-19-02-fix-words-filter-alignment-and-swipe-delete.md) — Fix Words filter alignment and swipe delete | Done | completed V2-16-06 |
-| 6 | [V2-19-03](./V2-19-post-redesign-stabilization/V2-19-03-align-group-details-and-fix-swipe-actions.md) — Align Group Details and fix swipe actions | Done | completed V2-16-05 |
+| 1 | [V2-19-07](./V2-19-post-redesign-stabilization/V2-19-07-add-secure-sign-out-and-session-recovery-controls.md) — Add secure Sign out and Sign in again controls | Ready | completed V2-19-06 |
+| 2 | [V2-19-04](./V2-19-post-redesign-stabilization/V2-19-04-enable-group-add-word-with-preselected-group.md) — Enable Group → Add Word with preselected group | Done | V2-19-03, completed V2-16-03 |
+| 3 | [V2-19-06](./V2-19-post-redesign-stabilization/V2-19-06-fix-multi-device-auth-sync-regressions.md) — Fix multi-device authentication and sync regressions | Done | completed V2-19-05, completed V2-17-04 through V2-17-06 |
+| 4 | [V2-19-05](./V2-19-post-redesign-stabilization/V2-19-05-debug-auth-sign-in-and-account-creation-regressions.md) — Stabilize auth-to-sync startup and add end-to-end diagnostics | Done | completed authentication/sync baseline, completed V2-17-05; no V2-18 dependency |
+| 5 | [V2-19-01](./V2-19-post-redesign-stabilization/V2-19-01-fix-add-word-alignment-and-bottom-navigation-position.md) — Fix Add Word alignment and bottom-navigation position | Done | completed V2-16-01, V2-16-03 |
+| 6 | [V2-19-02](./V2-19-post-redesign-stabilization/V2-19-02-fix-words-filter-alignment-and-swipe-delete.md) — Fix Words filter alignment and swipe delete | Done | completed V2-16-06 |
+| 7 | [V2-19-03](./V2-19-post-redesign-stabilization/V2-19-03-align-group-details-and-fix-swipe-actions.md) — Align Group Details and fix swipe actions | Done | completed V2-16-05 |
 
 ### V2-19 stabilization rules
 
@@ -192,6 +194,7 @@ order.
 - Group Details must restore missing visual/decorative treatment from the approved reference.
 - Group → Add Word now routes to the canonical Add Word page with the originating group preselected; this supersedes the earlier disabled-action decision.
 - Auth-to-sync stabilization starts immediately; the former V2-18-06 scheduling gate was explicitly overridden on 2026-11-09.
+- V2-19-07 executes before the remaining V2-18 Quiz work so manual multi-account and expired-session testing has safe Settings controls.
 - Safe verbose diagnostics are an implementation prerequisite, not a last-resort request. Every auth, device-registration, bootstrap and synchronization phase must emit correlated start/result/failure events.
 - Existing-account sign-in, account creation, bootstrap, sign-in with existing local vocabulary and pending-outbox preservation must be covered by focused regression tests.
 - Logs may contain development-only operational metadata, but never passwords, hashes, salts, session/bearer values, authorization headers, raw auth bodies, database credentials or personal vocabulary.
