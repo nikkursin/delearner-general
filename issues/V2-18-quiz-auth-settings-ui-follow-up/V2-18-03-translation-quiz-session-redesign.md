@@ -1,7 +1,7 @@
 # V2-18-03 — Translation Quiz session redesign
 
 **Parent epic:** V2-18 — Quiz, Authentication and Settings UI Follow-up  
-**Status:** Planned
+**Status:** Done
 **Workspace:** frontend  
 **Size:** 5 story points  
 **Dependencies:** V2-18-02, V2-19-07
