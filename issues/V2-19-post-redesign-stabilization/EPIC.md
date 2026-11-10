@@ -1,6 +1,6 @@
 # V2-19 — Post-Redesign Stabilization
 
-**Status:** In Progress — secure account/session controls ready
+**Status:** Done
 **Workspace:** frontend + backend + root
 **Dependencies:** completed V2-16/V2-17 implementation
 
@@ -17,7 +17,7 @@ The task number is a stable identifier, not the execution priority.
 
 | Priority | Task | Status | Why it is ordered here |
 |---|---|---|---|
-| 1 | V2-19-07 — Add secure Sign out and Sign in again controls | Ready | Required before further manual multi-account and long-running session testing. |
+| 1 | V2-19-07 — Add secure Sign out and Sign in again controls | Done | Presented-session revocation, safe local sign-out, same-account recovery and account isolation are covered. |
 | 2 | V2-19-04 — Enable Group → Add Word with preselected group | Done | Canonical Add Word routing now preselects the originating group. |
 | 3 | V2-19-06 — Fix multi-device authentication and sync regressions | Done | Bootstrap compatibility, rejected-session recovery and secure device/account transition regressions are fixed with automated coverage. |
 | 4 | V2-19-05 — Stabilize auth-to-sync startup and add end-to-end diagnostics | Done | Preserved completed diagnostic baseline; do not reopen. |
@@ -25,8 +25,8 @@ The task number is a stable identifier, not the execution priority.
 | 6 | V2-19-02 — Fix Words filter alignment and swipe delete | Done | Independent local UI regression. |
 | 7 | V2-19-03 — Align Group Details and fix swipe actions | Done | Completed prerequisite for V2-19-04. |
 
-V2-19-01 through V2-19-06 are complete. V2-19-07 is the only active task;
-completed regression history must not be reopened or duplicated.
+V2-19-01 through V2-19-07 are complete. Completed regression history must not
+be reopened or duplicated.
 
 ## Scheduling decision — 2026-11-09
 

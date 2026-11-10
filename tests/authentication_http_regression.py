@@ -59,6 +59,14 @@ def main():
     assert signed_in['userId'] == registered['userId']
     token = signed_in['sessionToken']
     owner = signed_in['userId']
+    first_token = registered['sessionToken']
+    signed_out = request('sign-out-presented-session', '/api/v1/auth/sign-out', 200, {}, first_token)
+    assert signed_out['signedOut'] is True
+    revoked = request('sign-out-revoked-token', '/bootstrap', 401, token=first_token)
+    assert revoked['error'] == 'invalid_session'
+    still_valid = request('sign-out-other-session-valid', '/bootstrap', 200, token=token)
+    assert still_valid['state']['words'] == []
+    print('PASS sign out revoked only the presented session')
     device = str(uuid.uuid4())
     rejected_device = request(
         'device-rejected', '/api/v1/devices/register', 400,

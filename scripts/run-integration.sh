@@ -36,6 +36,7 @@ log "Building child repositories for compiled integration scenarios."
 "$ROOT_DIR/scripts/build-all.sh" all
 
 "$ROOT_DIR/tests/word_group_domain_regression_gate.sh"
+"$ROOT_DIR/tests/session_account_controls_regression_gate.sh"
 "$ROOT_DIR/tests/word_group_two_device_sync_scenario.sh" --run
 "$ROOT_DIR/tests/review_stats_quiz_sync_scenario.sh" --run
 "$ROOT_DIR/tests/learning_settings_sync_scenario.sh" --run

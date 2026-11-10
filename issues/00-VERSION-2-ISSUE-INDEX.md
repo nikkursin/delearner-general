@@ -170,15 +170,15 @@ This order is a priority strategy, not permission to bypass dependencies.
 
 ## V2-19 — Post-Redesign Stabilization Tasks
 
-**Status:** Active stabilization scope. Secure account/session controls execute
-before the remaining Quiz UI work.
+**Status:** Done. Secure account/session controls completed before the remaining
+Quiz UI work.
 
 Task numbers remain stable identifiers; the priority column defines execution
 order.
 
 | Priority | Task | Status | Dependencies |
 |---|---|---|---|
-| 1 | [V2-19-07](./V2-19-post-redesign-stabilization/V2-19-07-add-secure-sign-out-and-session-recovery-controls.md) — Add secure Sign out and Sign in again controls | Ready | completed V2-19-06 |
+| 1 | [V2-19-07](./V2-19-post-redesign-stabilization/V2-19-07-add-secure-sign-out-and-session-recovery-controls.md) — Add secure Sign out and Sign in again controls | Done | completed V2-19-06 |
 | 2 | [V2-19-04](./V2-19-post-redesign-stabilization/V2-19-04-enable-group-add-word-with-preselected-group.md) — Enable Group → Add Word with preselected group | Done | V2-19-03, completed V2-16-03 |
 | 3 | [V2-19-06](./V2-19-post-redesign-stabilization/V2-19-06-fix-multi-device-auth-sync-regressions.md) — Fix multi-device authentication and sync regressions | Done | completed V2-19-05, completed V2-17-04 through V2-17-06 |
 | 4 | [V2-19-05](./V2-19-post-redesign-stabilization/V2-19-05-debug-auth-sign-in-and-account-creation-regressions.md) — Stabilize auth-to-sync startup and add end-to-end diagnostics | Done | completed authentication/sync baseline, completed V2-17-05; no V2-18 dependency |

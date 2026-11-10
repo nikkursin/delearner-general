@@ -1,7 +1,7 @@
 # V2-19-07 — Add secure Sign out and Sign in again controls
 
 **Parent epic:** V2-19 — Post-Redesign Stabilization
-**Status:** Ready
+**Status:** Done
 **Workspace:** frontend + backend + root
 **Size:** 8 story points
 **Dependencies:** completed V2-19-06
@@ -130,3 +130,29 @@ email addresses, vocabulary, or outbox payloads.
 - Cross-account transfer of local vocabulary or pending events.
 - Changing the 30-day session TTL without correlated evidence that the TTL is
   itself incorrect.
+
+## Completion checkpoint — 2026-11-10
+
+- Implemented presented-session revocation in the backend and verified that a
+  second session for the same account remains valid.
+- Added Settings **Sign out** confirmation/refusal behavior and **Sign in
+  again** recovery mode while preserving the existing responsive UI.
+- Verified same-account recovery, different-account rejection before device
+  registration, preserved-outbox acknowledgement without duplication, safe
+  local teardown, and isolated bootstrap for a later account.
+- Added the root `session_account_controls_regression_gate.sh` and extended the
+  live HTTP authentication scenario with two-session revocation coverage.
+- `./scripts/build-all.sh all`: passed (Felgo application target unavailable;
+  tests/core built).
+- Frontend CTest excluding the host-blocked `qmltestrunner` suites: 20/20
+  passed, including `TestAppStateAuthBootstrap` and
+  `TestProductionSettingsUi`.
+- Backend CTest: 14/14 passed, including `test_auth_service`.
+- `./scripts/test-all.sh root`: passed.
+- `qmllint` accepted the changed QML and QML test; it reported only the
+  project's existing unqualified-context warnings.
+- `TestAuthSyncPresentationUi` could not execute on this macOS host because
+  `qmltestrunner -platform offscreen` is killed/hangs before test output; the
+  same failure reproduces with the unrelated existing `TestSyncStatusUi`.
+- Physical-device verification remains a separate human check and is not
+  claimed here.
