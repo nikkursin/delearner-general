@@ -229,7 +229,7 @@ void DomainMatrix::legacyPartOfSpeechMigrationBootstrapsFreshClient()
 
     DLDatabaseMigrator migrator;
     QVERIFY2(migrator.initializePostgresBaseline(backend), qPrintable(migrator.lastError()));
-    QCOMPARE(migrator.currentPostgresVersion(backend).toString(), QStringLiteral("1.4"));
+    QCOMPARE(migrator.currentPostgresVersion(backend).toString(), QStringLiteral("1.5"));
 
     const QHttpServerResponse bootstrap = handler->handleBootstrap(authorization);
     QCOMPARE(bootstrap.statusCode(), QHttpServerResponse::StatusCode::Ok);

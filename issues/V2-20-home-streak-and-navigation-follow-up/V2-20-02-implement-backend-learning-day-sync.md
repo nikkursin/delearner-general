@@ -1,7 +1,7 @@
 # V2-20-02 — Implement backend learning-day persistence and sync
 
 **Parent epic:** V2-20 — Home, Streak and Navigation Follow-up
-**Status:** Planned
+**Status:** Done
 **Workspace:** backend + root
 **Size:** 5 story points
 **Dependencies:** V2-20-01

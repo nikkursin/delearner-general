@@ -50,6 +50,7 @@ run_root_tests() {
   "$ROOT_DIR/tests/word_group_contract_fixtures_smoke.sh"
   "$ROOT_DIR/tests/word_group_v2_contract_fixtures_smoke.sh"
   "$ROOT_DIR/tests/learning_day_v21_contract_fixtures_smoke.sh"
+  "$ROOT_DIR/tests/learning_day_backend_sync_scenario.sh"
   "$ROOT_DIR/tests/review_settings_tombstone_contract_fixtures_smoke.sh"
   "$ROOT_DIR/tests/contract_fixture_compatibility_smoke.sh"
 }
@@ -78,6 +79,7 @@ case "$target" in
     "$ROOT_DIR/tests/word_group_two_device_sync_scenario.sh" --run
     "$ROOT_DIR/tests/review_stats_quiz_sync_scenario.sh" --run
     "$ROOT_DIR/tests/learning_settings_sync_scenario.sh" --run
+    "$ROOT_DIR/tests/learning_day_backend_sync_scenario.sh" --run
     ;;
   root)
     run_root_tests
