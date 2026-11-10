@@ -10,9 +10,9 @@ LOG_DIR="${RALPH_LOG_DIR:-$HOME/.codex/ralph-logs/$PROJECT_NAME}"
 # Increase this intentionally if you want Ralph to continue deeper into V2.
 MAX_ITERATIONS="${MAX_ITERATIONS:-12}"
 SLEEP_SECONDS="${SLEEP_SECONDS:-8}"
-# Pin the current Profile redesign across fresh Codex contexts. An explicitly
+# Pin the runtime sign-out regression across fresh Codex contexts. An explicitly
 # empty value disables the pin and restores global Ralph selection.
-RALPH_PRIORITY_TASK="${RALPH_PRIORITY_TASK-V2-18-07}"
+RALPH_PRIORITY_TASK="${RALPH_PRIORITY_TASK-V2-19-08}"
 export RALPH_PRIORITY_TASK
 
 echo "==> Starting Ralph AFK loop"

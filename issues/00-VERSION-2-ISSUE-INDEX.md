@@ -1,8 +1,8 @@
 # DE Vocab Learner — Version 2 Issue Index
 
 **Status:** In Progress  
-**Epics:** 19  
-**Loop-sized subtasks:** 88
+**Epics:** 20
+**Loop-sized subtasks:** 95
 
 ## Version 2 Goal
 
@@ -10,7 +10,7 @@ Deliver an authenticated, account-based, offline-capable multi-device synchroniz
 
 After the functional synchronization baseline is stable, align the approved vocabulary/group/onboarding/navigation frontend surfaces with the supplied design references, evolve the synchronized Word/Group domain only where those approved designs require it, stabilize post-redesign regressions, and align the currently implemented Quiz flows with the approved Quiz references.
 
-Profile redesign is complete in V2-18 from the supplied V2-19-06 local references. Authentication/login visual redesign remains deferred until its target references are supplied. Functional authentication regressions are not deferred and are handled by V2-19.
+Profile redesign is complete in V2-18 from the supplied V2-19-06 local references. V2-20 owns the later product correction that introduces Home, synchronized learning streaks and Profile access from the Home header. Authentication/login visual redesign remains deferred until its target references are supplied. Functional authentication regressions are not deferred and are handled by V2-19.
 
 ## Completed Foundation — Do Not Reopen
 
@@ -37,10 +37,11 @@ The remaining work stays dependency-driven and backend-first where cross-system 
 6. **Client pull/bootstrap/scheduling/recovery wiring** — remaining V2-09, V2-10, V2-11 and V2-12 tasks.
 7. **End-to-end domain convergence** — V2-13.
 8. **Stable-sync production UX cleanup** — V2-14. Keep its existing scope; do not duplicate the screenshot-driven redesign already completed in V2-16.
-9. **Post-redesign stabilization** — V2-19. Fix current UI regressions and authentication/account-creation failures before layering further UI work on top.
-10. **Quiz and Profile UI follow-up** — completed in V2-18. Translation and Article remain the only implemented quiz families; additional quiz-family cards stay placeholders.
-11. **Release gate** — V2-15 after the functional sync system, completed V2-16/V2-17/V2-18 UI scope, and V2-19 stabilization are integrated and verified.
-12. **Deferred visual follow-up** — Authentication/login visual redesign remains outside the completed V2-18 leaf scope until target references are supplied.
+9. **Post-redesign stabilization** — V2-19. Complete the new sign-out-route regression before further Profile integration.
+10. **Quiz and Profile UI baseline** — completed in V2-18. Preserve its Done history; later navigation corrections belong to V2-20.
+11. **Home, streak and navigation follow-up** — V2-20 after the sign-out regression. Freeze the streak contract, implement backend then frontend persistence, build Home, correct navigation/Profile access, and run the integration gate.
+12. **Release gate** — V2-15 after the functional sync system, completed V2-16/V2-17/V2-18 UI baseline, V2-19 stabilization and V2-20 are integrated and verified.
+13. **Deferred visual follow-up** — Authentication/login visual redesign remains outside the completed V2-18 leaf scope until target references are supplied.
 
 This order is a priority strategy, not permission to bypass dependencies.
 
@@ -49,8 +50,9 @@ This order is a priority strategy, not permission to bypass dependencies.
 - **V2-14** retains its existing production UX cleanup responsibilities around stable synchronization.
 - **V2-16** owns the completed screenshot-driven redesign for onboarding, bottom navigation, Add/Edit Word, Groups, Group Details, Words and Word Details/Edit.
 - **V2-17** owns the completed cross-system data/contract changes required by that redesign.
-- **V2-18** owns the completed Quiz and Settings-to-Profile redesigns. Authentication/login visual redesign remains deferred.
-- **V2-19** owns regressions discovered after V2-16/V2-17 execution, including broken UI alignment/gesture behavior and authentication/account-creation failures.
+- **V2-18** owns the completed Quiz and Settings-to-Profile baseline. Authentication/login visual redesign remains deferred.
+- **V2-19** owns regressions discovered after completed work, including the runtime sign-out-route 404. Done tasks stay Done; new regressions receive new task IDs.
+- **V2-20** owns Home, synchronized learning-day/streak data, corrected bottom navigation and Home-to-Profile access.
 - Functional authentication bugs belong to V2-19 even though future authentication visual redesign remains deferred in V2-18.
 
 ## Epic Catalog
@@ -76,6 +78,7 @@ This order is a priority strategy, not permission to bypass dependencies.
 | [V2-17](./V2-17-word-group-domain-and-sync-evolution/EPIC.md) | Word/Group Domain and Sync Evolution | frontend + backend + root | None | Done |
 | [V2-18](./V2-18-quiz-auth-settings-ui-follow-up/EPIC.md) | Quiz, Authentication and Settings UI Follow-up | frontend + root; backend only where existing synchronized review statistics must be verified | Use supplied local screenshots; avoid MCP unless material information is missing | Done |
 | [V2-19](./V2-19-post-redesign-stabilization/EPIC.md) | Post-Redesign Stabilization | frontend + backend + root | Use current regression screenshots plus approved V2-16 references | completed V2-16/V2-17 baseline |
+| [V2-20](./V2-20-home-streak-and-navigation-follow-up/EPIC.md) | Home, Streak and Navigation Follow-up | root + backend + frontend | Use supplied V2-19-06 Home/Profile screenshots and dog assets; no MCP required | completed V2-18 baseline; V2-19-08 before final Profile integration |
 
 ## V2-16 — Frontend Design Alignment Tasks
 
@@ -165,25 +168,28 @@ This order is a priority strategy, not permission to bypass dependencies.
   preserved functional controls authorized by V2-18-07.
 - Email validation/verification UX redesign.
 - Password-strength UX redesign.
-- Any later dedicated Home-screen redesign.
+
+The formerly deferred Home-screen redesign is now explicitly activated in
+V2-20. V2-18 remains Done and is not reopened.
 
 ## V2-19 — Post-Redesign Stabilization Tasks
 
-**Status:** Done. Secure account/session controls completed before the remaining
-Quiz UI work.
+**Status:** In Progress. Runtime sign-out-route regression planned; completed
+history remains closed.
 
 Task numbers remain stable identifiers; the priority column defines execution
 order.
 
 | Priority | Task | Status | Dependencies |
 |---|---|---|---|
-| 1 | [V2-19-07](./V2-19-post-redesign-stabilization/V2-19-07-add-secure-sign-out-and-session-recovery-controls.md) — Add secure Sign out and Sign in again controls | Done | completed V2-19-06 |
-| 2 | [V2-19-04](./V2-19-post-redesign-stabilization/V2-19-04-enable-group-add-word-with-preselected-group.md) — Enable Group → Add Word with preselected group | Done | V2-19-03, completed V2-16-03 |
-| 3 | [V2-19-06](./V2-19-post-redesign-stabilization/V2-19-06-fix-multi-device-auth-sync-regressions.md) — Fix multi-device authentication and sync regressions | Done | completed V2-19-05, completed V2-17-04 through V2-17-06 |
-| 4 | [V2-19-05](./V2-19-post-redesign-stabilization/V2-19-05-debug-auth-sign-in-and-account-creation-regressions.md) — Stabilize auth-to-sync startup and add end-to-end diagnostics | Done | completed authentication/sync baseline, completed V2-17-05; no V2-18 dependency |
-| 5 | [V2-19-01](./V2-19-post-redesign-stabilization/V2-19-01-fix-add-word-alignment-and-bottom-navigation-position.md) — Fix Add Word alignment and bottom-navigation position | Done | completed V2-16-01, V2-16-03 |
-| 6 | [V2-19-02](./V2-19-post-redesign-stabilization/V2-19-02-fix-words-filter-alignment-and-swipe-delete.md) — Fix Words filter alignment and swipe delete | Done | completed V2-16-06 |
-| 7 | [V2-19-03](./V2-19-post-redesign-stabilization/V2-19-03-align-group-details-and-fix-swipe-actions.md) — Align Group Details and fix swipe actions | Done | completed V2-16-05 |
+| 1 | [V2-19-08](./V2-19-post-redesign-stabilization/V2-19-08-fix-runtime-sign-out-route-404.md) — Fix runtime sign-out route 404 | Planned | completed V2-19-07 |
+| 2 | [V2-19-07](./V2-19-post-redesign-stabilization/V2-19-07-add-secure-sign-out-and-session-recovery-controls.md) — Add secure Sign out and Sign in again controls | Done | completed V2-19-06 |
+| 3 | [V2-19-04](./V2-19-post-redesign-stabilization/V2-19-04-enable-group-add-word-with-preselected-group.md) — Enable Group → Add Word with preselected group | Done | V2-19-03, completed V2-16-03 |
+| 4 | [V2-19-06](./V2-19-post-redesign-stabilization/V2-19-06-fix-multi-device-auth-sync-regressions.md) — Fix multi-device authentication and sync regressions | Done | completed V2-19-05, completed V2-17-04 through V2-17-06 |
+| 5 | [V2-19-05](./V2-19-post-redesign-stabilization/V2-19-05-debug-auth-sign-in-and-account-creation-regressions.md) — Stabilize auth-to-sync startup and add end-to-end diagnostics | Done | completed authentication/sync baseline, completed V2-17-05; no V2-18 dependency |
+| 6 | [V2-19-01](./V2-19-post-redesign-stabilization/V2-19-01-fix-add-word-alignment-and-bottom-navigation-position.md) — Fix Add Word alignment and bottom-navigation position | Done | completed V2-16-01, V2-16-03 |
+| 7 | [V2-19-02](./V2-19-post-redesign-stabilization/V2-19-02-fix-words-filter-alignment-and-swipe-delete.md) — Fix Words filter alignment and swipe delete | Done | completed V2-16-06 |
+| 8 | [V2-19-03](./V2-19-post-redesign-stabilization/V2-19-03-align-group-details-and-fix-swipe-actions.md) — Align Group Details and fix swipe actions | Done | completed V2-16-05 |
 
 ### V2-19 stabilization rules
 
@@ -194,10 +200,37 @@ order.
 - Group → Add Word now routes to the canonical Add Word page with the originating group preselected; this supersedes the earlier disabled-action decision.
 - Auth-to-sync stabilization starts immediately; the former V2-18-06 scheduling gate was explicitly overridden on 2026-11-09.
 - Completed V2-19-07 remains the behavioral baseline for the V2-18-07 Profile controls.
+- V2-19-08 must test the real HTTP route through the served backend application; direct handler tests are insufficient for a runtime 404.
 - Safe verbose diagnostics are an implementation prerequisite, not a last-resort request. Every auth, device-registration, bootstrap and synchronization phase must emit correlated start/result/failure events.
 - Existing-account sign-in, account creation, bootstrap, sign-in with existing local vocabulary and pending-outbox preservation must be covered by focused regression tests.
 - Logs may contain development-only operational metadata, but never passwords, hashes, salts, session/bearer values, authorization headers, raw auth bodies, database credentials or personal vocabulary.
 - All UI fixes should preserve smooth, responsive animations and interactions without adding unrelated decorative motion.
+
+## V2-20 — Home, Streak and Navigation Follow-up Tasks
+
+**Status:** Planned. Execute after priority V2-19-08.
+
+| Task | Status | Dependencies |
+|---|---|---|
+| [V2-20-01](./V2-20-home-streak-and-navigation-follow-up/V2-20-01-freeze-learning-day-contract-and-fixtures.md) — Freeze learning-day contract and fixtures | Planned | completed V2-18 Quiz baseline |
+| [V2-20-02](./V2-20-home-streak-and-navigation-follow-up/V2-20-02-implement-backend-learning-day-sync.md) — Implement backend learning-day persistence and sync | Planned | V2-20-01 |
+| [V2-20-03](./V2-20-home-streak-and-navigation-follow-up/V2-20-03-implement-frontend-learning-day-persistence.md) — Implement frontend learning-day persistence | Planned | V2-20-01, V2-20-02 |
+| [V2-20-04](./V2-20-home-streak-and-navigation-follow-up/V2-20-04-build-home-streak-page.md) — Build Home streak page | Planned | V2-20-03 |
+| [V2-20-05](./V2-20-home-streak-and-navigation-follow-up/V2-20-05-correct-navigation-and-profile-access.md) — Correct navigation and Profile access | Planned | V2-19-08, V2-20-04 |
+| [V2-20-06](./V2-20-home-streak-and-navigation-follow-up/V2-20-06-run-streak-navigation-integration-gate.md) — Run streak and navigation integration gate | Planned | V2-20-02 through V2-20-05 |
+
+### V2-20 approved semantics
+
+- Bottom navigation is `Home | Quiz | + | Words | Groups`.
+- Profile opens from the top-left Home account/avatar affordance and is not a
+  bottom-navigation destination.
+- Completing an implemented quiz with at least one answered question completes
+  one account-owned local calendar learning day.
+- Same-day completion is idempotent; consecutive completed dates define the
+  current streak; completed days synchronize and bootstrap across devices.
+- The dog uses the supplied tail, repeatable middle and face assets.
+- Requested reference Profile rows remain visible placeholders; existing real
+  Profile actions retain their implemented behavior.
 
 ## Version 2 Non-Goals / Deferred Scope
 

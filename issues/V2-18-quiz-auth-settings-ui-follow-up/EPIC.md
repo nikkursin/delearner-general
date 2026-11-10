@@ -35,6 +35,12 @@ Align the existing Quiz experience with the supplied target references while pre
    supplied V2-19-06 local references.
 3. Keep Authentication/login visual redesign deferred.
 
+## Later product correction — V2-20
+
+The user subsequently removed Profile from primary bottom navigation and
+activated the formerly deferred Home/streak design. V2-20 owns that correction,
+including Home-header Profile access. This epic and V2-18-07 remain Done.
+
 ## Learning-state classification
 
 Use the existing per-word review statistics; do not invent a new spaced-repetition system.

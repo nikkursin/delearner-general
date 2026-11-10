@@ -155,3 +155,9 @@ can make it truthful and functional.
 - Verified the complete frontend suite: 31/31 tests passed.
 - Physical-device verification remains a separate human check and is not
   claimed from automated tests.
+
+## Superseding navigation decision — V2-20
+
+This task remains Done. V2-20-05 later removes Profile from the bottom bar,
+opens the retained Profile view from Home, and aligns it more closely with the
+same reference. V2-20 does not invalidate this task's completed safety controls.

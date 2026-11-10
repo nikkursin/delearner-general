@@ -1,6 +1,6 @@
 # V2-19 — Post-Redesign Stabilization
 
-**Status:** Done
+**Status:** In Progress — V2-19-08 runtime sign-out regression planned
 **Workspace:** frontend + backend + root
 **Dependencies:** completed V2-16/V2-17 implementation
 
@@ -17,16 +17,17 @@ The task number is a stable identifier, not the execution priority.
 
 | Priority | Task | Status | Why it is ordered here |
 |---|---|---|---|
-| 1 | V2-19-07 — Add secure Sign out and Sign in again controls | Done | Presented-session revocation, safe local sign-out, same-account recovery and account isolation are covered. |
-| 2 | V2-19-04 — Enable Group → Add Word with preselected group | Done | Canonical Add Word routing now preselects the originating group. |
-| 3 | V2-19-06 — Fix multi-device authentication and sync regressions | Done | Bootstrap compatibility, rejected-session recovery and secure device/account transition regressions are fixed with automated coverage. |
-| 4 | V2-19-05 — Stabilize auth-to-sync startup and add end-to-end diagnostics | Done | Preserved completed diagnostic baseline; do not reopen. |
-| 5 | V2-19-01 — Fix Add Word alignment and bottom-navigation position | Done | Independent local UI regression. |
-| 6 | V2-19-02 — Fix Words filter alignment and swipe delete | Done | Independent local UI regression. |
-| 7 | V2-19-03 — Align Group Details and fix swipe actions | Done | Completed prerequisite for V2-19-04. |
+| 1 | V2-19-08 — Fix runtime sign-out route 404 | Planned | The physical-device backend runtime returns 404 for the checked-in route; verify and repair runtime/build parity before further Profile integration. |
+| 2 | V2-19-07 — Add secure Sign out and Sign in again controls | Done | Presented-session revocation, safe local sign-out, same-account recovery and account isolation are covered. |
+| 3 | V2-19-04 — Enable Group → Add Word with preselected group | Done | Canonical Add Word routing now preselects the originating group. |
+| 4 | V2-19-06 — Fix multi-device authentication and sync regressions | Done | Bootstrap compatibility, rejected-session recovery and secure device/account transition regressions are fixed with automated coverage. |
+| 5 | V2-19-05 — Stabilize auth-to-sync startup and add end-to-end diagnostics | Done | Preserved completed diagnostic baseline; do not reopen. |
+| 6 | V2-19-01 — Fix Add Word alignment and bottom-navigation position | Done | Independent local UI regression. |
+| 7 | V2-19-02 — Fix Words filter alignment and swipe delete | Done | Independent local UI regression. |
+| 8 | V2-19-03 — Align Group Details and fix swipe actions | Done | Completed prerequisite for V2-19-04. |
 
 V2-19-01 through V2-19-07 are complete. Completed regression history must not
-be reopened or duplicated.
+be reopened or duplicated; V2-19-08 records the newly observed runtime failure.
 
 ## Scheduling decision — 2026-11-09
 
@@ -48,6 +49,8 @@ authentication and synchronization reliability are active here.
 - Enable Group → Add Word routing with the originating group preselected.
 - Add secure Settings controls for intentional sign out and same-account
   recovery after an online session is rejected or expires.
+- Fix the observed runtime 404 for the sign-out route through a real served
+  HTTP regression test and verified development backend path.
 - Add focused frontend, backend and root regression coverage.
 
 ## Epic-wide evidence and logging rule
@@ -110,7 +113,7 @@ personal or device-identifying metadata.
 
 V2-19 is complete only when:
 
-- V2-19-01 through V2-19-07 are Done;
+- V2-19-01 through V2-19-08 are Done;
 - the auth → device registration → bootstrap → first sync sequence is
   diagnosable end to end and passes its regression matrix;
 - required frontend, backend and root tests pass;

@@ -36,10 +36,11 @@ git -C delearner-frontend status --short
 git -C delearner-backend status --short
 ```
 
-V2-18-07 planning files, supplied reference screenshots and Ralph priority-pin changes are authorized
-coordination setup. If they are not already committed, the prompt allows the
-V2-18-07 root completion commit to include them after review. Every unrelated
-change must remain safely isolatable or Ralph will stop with
+V2-19-08/V2-20 planning files, supplied dog assets and Ralph priority-pin
+changes are authorized coordination setup. If they are not already committed,
+the prompt allows the selected task's root completion commit to include the
+relevant planning after review. Every unrelated change must remain safely
+isolatable or Ralph will stop with
 `BLOCKED_DIRTY_WORKTREE`.
 
 ## Install
@@ -82,11 +83,18 @@ git submodule status
 
 ## AFK mode
 
-The current default priority pin is `V2-18-07`. A normal run therefore executes
-the Settings-to-Profile redesign before returning to global selection:
+The current default priority pin is `V2-19-08`. A normal run fixes the runtime
+sign-out-route regression before returning to global selection, which then
+follows the V2-20 dependency chain:
 
 ```text
-V2-18-07 rename Settings to Profile and redesign the page
+V2-19-08 runtime sign-out route 404
+  -> V2-20-01 contract
+  -> V2-20-02 backend persistence/sync
+  -> V2-20-03 frontend persistence
+  -> V2-20-04 Home streak UI
+  -> V2-20-05 navigation/Profile correction
+  -> V2-20-06 integration gate
 ```
 
 The pin is exported to every fresh `codex exec` invocation. Once the pinned
@@ -94,7 +102,7 @@ leaf task or parent task tree is Done, Ralph returns to its normal global
 selector. Override the pin explicitly:
 
 ```bash
-RALPH_PRIORITY_TASK=V2-18-07 ./ralph/afk.sh
+RALPH_PRIORITY_TASK=V2-19-08 ./ralph/afk.sh
 ```
 
 Disable it and use global selection with an explicitly empty value:
@@ -109,7 +117,7 @@ Default is at most 12 task attempts:
 ./ralph/afk.sh
 ```
 
-To run only the priority Profile task, use:
+To run only the priority sign-out regression, use:
 
 ```bash
 MAX_ITERATIONS=1 ./ralph/afk.sh
