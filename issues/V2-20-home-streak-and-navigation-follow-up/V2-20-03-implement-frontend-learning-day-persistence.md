@@ -1,7 +1,7 @@
 # V2-20-03 — Implement frontend learning-day persistence
 
 **Parent epic:** V2-20 — Home, Streak and Navigation Follow-up
-**Status:** Planned
+**Status:** Done
 **Workspace:** frontend + root
 **Size:** 5 story points
 **Dependencies:** V2-20-01, V2-20-02

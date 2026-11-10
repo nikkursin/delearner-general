@@ -106,7 +106,8 @@ for line in (root / "contracts" / "version-baseline.env").read_text(encoding="ut
     if line and not line.startswith("#"):
         key, value = line.split("=", 1)
         baseline[key] = value
-assert baseline["DELEARNER_SYNC_API_CONTRACT_VERSION"] == "2.0"
+assert baseline["DELEARNER_SQLITE_SCHEMA_VERSION"] == "1.5"
+assert baseline["DELEARNER_SYNC_API_CONTRACT_VERSION"] == "2.1"
 assert baseline["DELEARNER_V2_20_TARGET_SQLITE_SCHEMA_VERSION"] == "1.5"
 assert baseline["DELEARNER_V2_20_TARGET_POSTGRESQL_SCHEMA_VERSION"] == "1.5"
 assert baseline["DELEARNER_V2_20_TARGET_SYNC_API_CONTRACT_VERSION"] == "2.1"

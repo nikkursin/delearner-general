@@ -69,7 +69,7 @@ def verify(root: Path) -> None:
     postgres_version = require_value(baseline, "DELEARNER_POSTGRESQL_SCHEMA_VERSION", baseline_path)
     contract_version = require_value(baseline, "DELEARNER_SYNC_API_CONTRACT_VERSION", baseline_path)
     route_major = require_value(baseline, "DELEARNER_SYNC_API_ROUTE_MAJOR", baseline_path)
-    fixture_dir = root / "contracts" / "fixtures" / f"v{require_value(baseline, 'DELEARNER_SYNC_API_CONTRACT_MAJOR', baseline_path)}"
+    fixture_dir = root / "contracts" / "fixtures" / f"v{contract_version}"
 
     sqlite_expected = "{}.{}".format(
         require_value(baseline, "DELEARNER_SQLITE_SCHEMA_MAJOR", baseline_path),

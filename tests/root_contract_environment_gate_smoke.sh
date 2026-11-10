@@ -11,12 +11,14 @@ python3 "$root_dir/scripts/verify-version-compatibility.py" >/dev/null
 mkdir -p \
   "$temporary_dir/contracts/fixtures/v1" \
   "$temporary_dir/contracts/fixtures/v2" \
+  "$temporary_dir/contracts/fixtures/v2.1" \
   "$temporary_dir/delearner-frontend/src/Managers" \
   "$temporary_dir/delearner-frontend/src/Sync" \
   "$temporary_dir/delearner-backend/src/persistence"
 cp "$root_dir/contracts/version-baseline.env" "$temporary_dir/contracts/version-baseline.env"
 cp "$root_dir/contracts/fixtures/v1/"*.json "$temporary_dir/contracts/fixtures/v1/"
 cp "$root_dir/contracts/fixtures/v2/"*.json "$temporary_dir/contracts/fixtures/v2/"
+cp "$root_dir/contracts/fixtures/v2.1/"*.json "$temporary_dir/contracts/fixtures/v2.1/"
 cp "$root_dir/delearner-frontend/src/Managers/DLDatabaseManager.cpp" \
   "$temporary_dir/delearner-frontend/src/Managers/DLDatabaseManager.cpp"
 cp "$root_dir/delearner-frontend/src/Sync/DLSyncEventSerializer.cpp" \
@@ -24,7 +26,7 @@ cp "$root_dir/delearner-frontend/src/Sync/DLSyncEventSerializer.cpp" \
 cp "$root_dir/delearner-backend/src/persistence/DLDatabaseSchemaVersion.cpp" \
   "$temporary_dir/delearner-backend/src/persistence/DLDatabaseSchemaVersion.cpp"
 
-sed -i.bak 's/kSqliteSchemaMinor = 4/kSqliteSchemaMinor = 5/' \
+sed -i.bak 's/kSqliteSchemaMinor = 5/kSqliteSchemaMinor = 6/' \
   "$temporary_dir/delearner-frontend/src/Managers/DLDatabaseManager.cpp"
 if python3 "$root_dir/scripts/verify-version-compatibility.py" --root "$temporary_dir" \
   >"$temporary_dir/version-output" 2>"$temporary_dir/version-error"; then
