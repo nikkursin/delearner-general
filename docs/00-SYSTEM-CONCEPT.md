@@ -179,6 +179,11 @@ The backend is not required to generate or run existing quizzes.
 
 Quiz outcomes update local review statistics, and review statistics synchronize across devices.
 
+Completing an implemented quiz with at least one answered question also creates
+one immutable, account-owned learning-day record for that local calendar date.
+These daily records synchronize across devices; the current streak is derived
+from their dates and is not a mutable synchronized counter.
+
 Raw/full quiz session history is not synchronized in the current scope. Server-side quiz-history storage may be introduced later for advanced analytics or premium features.
 
 ## Settings

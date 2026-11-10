@@ -44,6 +44,21 @@ Sync/API contract: 2.0
 API route major:   /api/v2
 ```
 
+V2-20-01 freezes the next additive targets without claiming that the pinned
+children already implement them:
+
+```text
+SQLite schema target:     1.5
+PostgreSQL schema target: 1.5
+Sync/API contract target: 2.1
+API route major:          /api/v2
+```
+
+The active runtime remains SQLite `1.4`, PostgreSQL `1.4`, and sync/API `2.0`
+until V2-20-02 and V2-20-03 implement the target. The machine-readable target
+values live beside the active values in `contracts/version-baseline.env` with
+the `DELEARNER_V2_20_TARGET_` prefix.
+
 V2-17 defines and implements the current Word/Group contract as sync/API `2.0`
 on `/api/v2`. The prior `1.0` fixture sets remain available as compatibility
 references; the active runtime compatibility baseline is `2.0`.
@@ -67,6 +82,14 @@ advance the active sync/API version. SQLite `1.4` adds
 portable Group icon metadata, Word morphology/literal-translation fields, and
 relational multi-Group Word membership while migrating the former single
 membership without data loss.
+
+The approved `1.5` schema targets are additive. SQLite `1.5` adds an
+account-isolated `learning_days` store with a unique `(owner_user_id,
+activity_date)` key and reuses the transactional outbox. PostgreSQL `1.5` adds
+the canonical account-owned `learning_days` relation with the same logical
+unique key. Exact child migration SQL belongs to V2-20-02 and V2-20-03; neither
+schema is required to mirror the other beyond the contract fields and
+constraints.
 
 ## Database Schema Versioning
 
@@ -115,6 +138,20 @@ Responses, pull events and bootstrap state carry the canonical UUID. Clients
 reconcile the local row by key without creating duplicate logical settings.
 Words, groups and review statistics retain their existing UUID identity semantics.
 
+### Keyed learning-day identity
+
+Completed learning days have logical identity `(ownerUserId, activity_date)`.
+Their UUID is a technical identifier generated offline by a client. PostgreSQL
+`1.5` must enforce `UNIQUE(owner_user_id, activity_date)` and resolve that key
+before inserting. The first accepted row for a key retains its UUID and full
+payload. A later create for the same key, including one with a different
+offline UUID, is an idempotent no-op that acknowledges and returns the existing
+canonical row. Clients reconcile local rows by owner/date and adopt the
+canonical UUID after acknowledgement or bootstrap.
+
+There is no learning-day update or user-facing delete. Account deletion still
+removes all learning days owned by the deleted account.
+
 ## Ownership
 
 Every personal syncable entity belongs to exactly one backend user account.
@@ -137,6 +174,7 @@ The first backend-connected MVP synchronizes the important current personal data
 - groups;
 - review statistics;
 - synchronized learning settings;
+- completed learning days (contract `2.1` target);
 - deletes/tombstones for those entities.
 
 Current quiz execution and raw quiz-session history are not part of the synchronization contract.
@@ -185,6 +223,12 @@ validate this same root-owned target before their persistence implementations
 adopt it. Moving from `group_id` to authoritative `group_ids` full state, and
 removing legacy `Andere` as a phrase alias, are breaking semantics; therefore
 this shape is contract `2.0`, not a compatible `1.x` addition.
+
+The learning-day target fixtures are in
+`contracts/fixtures/v2.1/learning-day-events.json`. They define two-device
+same-date convergence, strict invalid cases, acknowledgement-driven canonical
+UUID adoption, bootstrap state, incremental events, and the legacy `2.0` read
+projection. Existing `1.0` and `2.0` fixture sets remain unchanged and valid.
 
 ## Contract 2.0 Word and Group Payloads
 
@@ -247,6 +291,65 @@ from affected membership sets and makes those resulting full Word states
 available through normal mutation/pull reconciliation; the Group delete remains
 a normal tombstone. Removing one membership likewise updates the Word's full
 `group_ids` state and never implies Word deletion.
+
+## Contract 2.1 Learning-Day Payload
+
+`learning_day` is an additive, immutable entity on `/api/v2`. A create carries
+full state:
+
+```text
+id, ownerUserId
+activity_date
+completed_at, timezone_offset_minutes
+created_at, updated_at
+```
+
+Rules:
+
+- `id` is a client-generated UUID and initially equals the event `entityId`.
+- `ownerUserId` must equal the authenticated user UUID. The backend never
+  accepts a client-supplied owner for another account.
+- `activity_date` is a real Gregorian calendar date in exact `YYYY-MM-DD`
+  form. It must equal the local date obtained by applying
+  `timezone_offset_minutes` to `completed_at`.
+- `completed_at` is an ISO-8601 UTC timestamp captured when the qualifying quiz
+  completes.
+- `timezone_offset_minutes` is an integer from `-840` through `840`, inclusive.
+- Creation is the only operation. `created_at` and `updated_at` equal
+  `completed_at`; no mutable streak counter or later last-modification-wins
+  update exists for this entity.
+- `(ownerUserId, activity_date)` is the logical key. The first accepted create
+  remains canonical; later same-key creates return that canonical UUID and
+  state without inserting another domain row. The later accepted sync event
+  carries the resolved canonical UUID/state, preserving ordinary event
+  idempotency and allowing every client to upsert the same logical row.
+- Bootstrap uses `state.learningDays`, an array of these payloads.
+- Incremental pull uses the ordinary event envelope with
+  `entityType: "learning_day"`, `operation: "create"`, a `serverSequence`, and
+  the full payload.
+
+The current streak is a client-side derivation over consecutive
+`activity_date` values. It is not synchronized state.
+
+### Why this is contract 2.1
+
+The entity is additive and optional for contract `2.0` product behavior, so it
+does not require a new route major. Safe coexistence is nevertheless explicit:
+
+- sync reads accept `X-DELearner-Sync-Contract` with `2.0` or `2.1`;
+- an omitted header means `2.0`, preserving existing clients;
+- the `2.0` bootstrap projection omits `state.learningDays`;
+- the `2.0` incremental projection omits `learning_day` events but advances
+  `nextSequence` through scanned optional events so legacy clients do not loop;
+- `2.1` responses include learning days and echo `contractVersion: "2.1"`;
+- a client upgrading from `2.0` to `2.1` performs one bootstrap before resuming
+  incremental sync, restoring any learning days skipped by its former cursor;
+- a `learning_day` mutation under `2.0`, or any unknown required entity
+  semantic, is rejected rather than silently accepted.
+
+This negotiation is by declared contract version, not by client product or
+platform, so the backend remains client-independent. The fixture compatibility
+scenario proves the legacy projection and upgrade rule.
 
 ## Delete Representation
 

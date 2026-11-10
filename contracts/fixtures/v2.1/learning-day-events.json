@@ -1,0 +1,206 @@
+{
+  "fixtureSet": "delearner.sync.v2.1.learning-day-events",
+  "contractVersion": "2.1",
+  "apiRouteMajor": "/api/v2",
+  "description": "Additive immutable learning-day contract, keyed convergence, bootstrap, incremental pull and legacy 2.0 projection fixtures.",
+  "assumptions": {
+    "identity": "The logical identity is (ownerUserId, activity_date); id is an offline-capable technical UUID.",
+    "ownership": "The authenticated owner is the only account allowed to create or read a learning day.",
+    "immutability": "Only create is supported. Completed days have no user-facing update or delete; account deletion removes them with the account.",
+    "convergence": "The first accepted row for an owner/date retains its UUID and full payload. Later creates for the same key acknowledge and return that canonical row without inserting another row; their accepted sync events carry the resolved canonical state.",
+    "streak": "Current streak is derived from consecutive activity_date values and is never stored as a canonical mutable counter."
+  },
+  "readNegotiation": {
+    "header": "X-DELearner-Sync-Contract",
+    "omittedHeaderMeans": "2.0",
+    "legacyProjection": "Contract 2.0 bootstrap and incremental reads omit learning_day state/events while still advancing nextSequence through scanned optional events.",
+    "featureProjection": "Contract 2.1 reads include learningDays bootstrap state and learning_day incremental events.",
+    "upgradeRule": "A client moving from 2.0 to 2.1 must perform one bootstrap before incremental sync so learning days skipped by its former cursor are restored."
+  },
+  "fixtures": [
+    {
+      "name": "device_a_learning_day_create",
+      "operation": "create",
+      "eventId": "2c7566ec-d29b-49f9-81ca-4c52b98cbf05",
+      "deviceId": "321c4276-8a18-43dd-9053-44404c77f983",
+      "entityType": "learning_day",
+      "entityId": "8411a1aa-d70f-4428-b92e-e4dc7149e727",
+      "updatedAt": "2026-11-10T20:15:00Z",
+      "context": {
+        "authenticatedUserId": "7fa541a6-a168-4c8f-9ce8-0485b8a11494"
+      },
+      "payload": {
+        "id": "8411a1aa-d70f-4428-b92e-e4dc7149e727",
+        "ownerUserId": "7fa541a6-a168-4c8f-9ce8-0485b8a11494",
+        "activity_date": "2026-11-10",
+        "completed_at": "2026-11-10T20:15:00Z",
+        "timezone_offset_minutes": 60,
+        "created_at": "2026-11-10T20:15:00Z",
+        "updated_at": "2026-11-10T20:15:00Z"
+      }
+    },
+    {
+      "name": "device_b_same_learning_day_create",
+      "operation": "create",
+      "eventId": "e5978c9f-855d-4117-a24a-856fc9cb8071",
+      "deviceId": "1889bd16-e39f-48d7-86a9-7cdab7f1cad0",
+      "entityType": "learning_day",
+      "entityId": "c21eaeab-dd29-4768-acaa-dfb608944477",
+      "updatedAt": "2026-11-10T22:30:00Z",
+      "context": {
+        "authenticatedUserId": "7fa541a6-a168-4c8f-9ce8-0485b8a11494"
+      },
+      "payload": {
+        "id": "c21eaeab-dd29-4768-acaa-dfb608944477",
+        "ownerUserId": "7fa541a6-a168-4c8f-9ce8-0485b8a11494",
+        "activity_date": "2026-11-10",
+        "completed_at": "2026-11-10T22:30:00Z",
+        "timezone_offset_minutes": -300,
+        "created_at": "2026-11-10T22:30:00Z",
+        "updated_at": "2026-11-10T22:30:00Z"
+      }
+    }
+  ],
+  "invalidFixtures": [
+    {
+      "name": "invalid_calendar_date",
+      "sourceFixture": "device_a_learning_day_create",
+      "overrides": {
+        "payload.activity_date": "2026-02-30"
+      },
+      "expectedError": "valid ISO YYYY-MM-DD date"
+    },
+    {
+      "name": "activity_date_does_not_match_local_completion_date",
+      "sourceFixture": "device_a_learning_day_create",
+      "overrides": {
+        "payload.activity_date": "2026-11-09"
+      },
+      "expectedError": "must match completed_at"
+    },
+    {
+      "name": "owner_mismatch",
+      "sourceFixture": "device_a_learning_day_create",
+      "overrides": {
+        "payload.ownerUserId": "5fd42d0b-526e-48d3-a037-76cb93f916d4"
+      },
+      "expectedError": "payload owner must match authenticated user"
+    },
+    {
+      "name": "timezone_offset_out_of_range",
+      "sourceFixture": "device_a_learning_day_create",
+      "overrides": {
+        "payload.timezone_offset_minutes": 841
+      },
+      "expectedError": "must be between -840 and 840"
+    },
+    {
+      "name": "completion_timestamp_not_utc",
+      "sourceFixture": "device_a_learning_day_create",
+      "overrides": {
+        "payload.completed_at": "2026-11-10T20:15:00+01:00"
+      },
+      "expectedError": "learning_day.completed_at must be UTC"
+    },
+    {
+      "name": "mutable_update_is_forbidden",
+      "sourceFixture": "device_a_learning_day_create",
+      "overrides": {
+        "operation": "update"
+      },
+      "expectedError": "learning_day only supports create"
+    }
+  ],
+  "sameDateConvergence": {
+    "logicalKey": {
+      "ownerUserId": "7fa541a6-a168-4c8f-9ce8-0485b8a11494",
+      "activity_date": "2026-11-10"
+    },
+    "submittedFixtureNames": [
+      "device_a_learning_day_create",
+      "device_b_same_learning_day_create"
+    ],
+    "firstAcceptedFixtureName": "device_a_learning_day_create",
+    "expectedCanonicalEntityId": "8411a1aa-d70f-4428-b92e-e4dc7149e727",
+    "expectedCanonicalRowCount": 1,
+    "acknowledgements": [
+      {
+        "submittedEntityId": "8411a1aa-d70f-4428-b92e-e4dc7149e727",
+        "canonicalEntityId": "8411a1aa-d70f-4428-b92e-e4dc7149e727"
+      },
+      {
+        "submittedEntityId": "c21eaeab-dd29-4768-acaa-dfb608944477",
+        "canonicalEntityId": "8411a1aa-d70f-4428-b92e-e4dc7149e727"
+      }
+    ]
+  },
+  "bootstrapResponse": {
+    "contractVersion": "2.1",
+    "serverSequence": 42,
+    "state": {
+      "learningDays": [
+        {
+          "id": "8411a1aa-d70f-4428-b92e-e4dc7149e727",
+          "ownerUserId": "7fa541a6-a168-4c8f-9ce8-0485b8a11494",
+          "activity_date": "2026-11-10",
+          "completed_at": "2026-11-10T20:15:00Z",
+          "timezone_offset_minutes": 60,
+          "created_at": "2026-11-10T20:15:00Z",
+          "updated_at": "2026-11-10T20:15:00Z"
+        }
+      ]
+    }
+  },
+  "incrementalResponse": {
+    "contractVersion": "2.1",
+    "events": [
+      {
+        "serverSequence": 41,
+        "eventId": "2c7566ec-d29b-49f9-81ca-4c52b98cbf05",
+        "deviceId": "321c4276-8a18-43dd-9053-44404c77f983",
+        "entityType": "learning_day",
+        "entityId": "8411a1aa-d70f-4428-b92e-e4dc7149e727",
+        "operation": "create",
+        "updatedAt": "2026-11-10T20:15:00Z",
+        "payload": {
+          "id": "8411a1aa-d70f-4428-b92e-e4dc7149e727",
+          "ownerUserId": "7fa541a6-a168-4c8f-9ce8-0485b8a11494",
+          "activity_date": "2026-11-10",
+          "completed_at": "2026-11-10T20:15:00Z",
+          "timezone_offset_minutes": 60,
+          "created_at": "2026-11-10T20:15:00Z",
+          "updated_at": "2026-11-10T20:15:00Z"
+        }
+      },
+      {
+        "serverSequence": 42,
+        "eventId": "e5978c9f-855d-4117-a24a-856fc9cb8071",
+        "deviceId": "1889bd16-e39f-48d7-86a9-7cdab7f1cad0",
+        "entityType": "learning_day",
+        "entityId": "8411a1aa-d70f-4428-b92e-e4dc7149e727",
+        "operation": "create",
+        "updatedAt": "2026-11-10T20:15:00Z",
+        "payload": {
+          "id": "8411a1aa-d70f-4428-b92e-e4dc7149e727",
+          "ownerUserId": "7fa541a6-a168-4c8f-9ce8-0485b8a11494",
+          "activity_date": "2026-11-10",
+          "completed_at": "2026-11-10T20:15:00Z",
+          "timezone_offset_minutes": 60,
+          "created_at": "2026-11-10T20:15:00Z",
+          "updated_at": "2026-11-10T20:15:00Z"
+        }
+      }
+    ],
+    "nextSequence": 42,
+    "hasMore": false
+  },
+  "legacy20Projection": {
+    "contractVersion": "2.0",
+    "bootstrapStateOmittedKeys": [
+      "learningDays"
+    ],
+    "incrementalEvents": [],
+    "nextSequence": 42,
+    "hasMore": false
+  }
+}

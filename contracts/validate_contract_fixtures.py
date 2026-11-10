@@ -9,7 +9,7 @@ import json
 import re
 import sys
 import uuid
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
 
@@ -17,6 +17,7 @@ from typing import Any
 CONTRACT_PROFILES = {
     "1.0": "/api/v1",
     "2.0": "/api/v2",
+    "2.1": "/api/v2",
 }
 SUPPORTED_CONTRACT_MAJORS = {int(version.split(".")[0]) for version in CONTRACT_PROFILES}
 
@@ -25,6 +26,7 @@ KNOWN_REQUIRED_SEMANTICS: set[str] = set()
 FIXTURE_FILES = (
     "word-and-group-events.json",
     "review-settings-and-tombstone-events.json",
+    "learning-day-events.json",
 )
 
 EXPECTED_OPERATIONS = {
@@ -43,6 +45,9 @@ EXPECTED_OPERATIONS = {
         ("word", "delete"),
         ("word_review_stats", "delete"),
         ("app_setting", "delete"),
+    },
+    "learning-day-events.json": {
+        ("learning_day", "create"),
     },
 }
 
@@ -96,6 +101,15 @@ PAYLOAD_REQUIRED_FIELDS = {
         "setting_value",
         "value_type",
         "scope",
+        "created_at",
+        "updated_at",
+    },
+    "learning_day": {
+        "id",
+        "ownerUserId",
+        "activity_date",
+        "completed_at",
+        "timezone_offset_minutes",
         "created_at",
         "updated_at",
     },
@@ -160,6 +174,12 @@ def major(version: str) -> int:
     return int(parts[0])
 
 
+def version_tuple(version: str) -> tuple[int, int]:
+    parts = version.split(".")
+    assert_condition(len(parts) == 2 and all(part.isdigit() for part in parts), f"invalid version: {version}")
+    return int(parts[0]), int(parts[1])
+
+
 def assert_uuid(value: Any, field_name: str) -> None:
     assert_condition(isinstance(value, str), f"{field_name} must be a UUID string")
     try:
@@ -176,6 +196,20 @@ def assert_timestamp(value: Any, field_name: str) -> None:
         raise ContractError(f"{field_name} must be an ISO-8601 UTC timestamp") from exc
     assert_condition(parsed.tzinfo is not None, f"{field_name} must include timezone")
     assert_condition(parsed.utcoffset() == timezone.utc.utcoffset(parsed), f"{field_name} must be UTC")
+
+
+def parse_timestamp(value: Any, field_name: str) -> datetime:
+    assert_timestamp(value, field_name)
+    return datetime.fromisoformat(value.replace("Z", "+00:00"))
+
+
+def assert_calendar_date(value: Any, field_name: str) -> None:
+    assert_condition(isinstance(value, str), f"{field_name} must be an ISO YYYY-MM-DD date")
+    try:
+        parsed = datetime.strptime(value, "%Y-%m-%d")
+    except ValueError as exc:
+        raise ContractError(f"{field_name} must be a valid ISO YYYY-MM-DD date") from exc
+    assert_condition(parsed.strftime("%Y-%m-%d") == value, f"{field_name} must be an ISO YYYY-MM-DD date")
 
 
 def assert_no_forbidden_fields(mapping: dict[str, Any], context: str) -> None:
@@ -208,7 +242,7 @@ def validate_payload(event: dict[str, Any], payload: dict[str, Any], fixture_ver
     assert_timestamp(payload["created_at"], "payload.created_at")
     assert_timestamp(payload["updated_at"], "payload.updated_at")
 
-    if entity_type in {"word", "group", "app_setting"}:
+    if entity_type in {"word", "group", "app_setting", "learning_day"}:
         assert_uuid(payload["id"], f"{event['name']}.payload.id")
         assert_condition(payload["id"] == event["entityId"], "payload.id must match entityId")
 
@@ -277,6 +311,32 @@ def validate_payload(event: dict[str, Any], payload: dict[str, Any], fixture_ver
         assert_condition(payload["scope"] == "account_learning", "app_setting.scope must be account_learning")
         assert_condition(str(payload["setting_key"]).startswith("learning."), "app_setting.setting_key must be account learning scoped")
         assert_condition(payload["value_type"] in {"string", "integer", "boolean", "json"}, "app_setting.value_type is unsupported")
+    elif entity_type == "learning_day":
+        assert_condition(version_tuple(fixture_version) >= (2, 1), "learning_day requires sync contract 2.1 or later")
+        assert_calendar_date(payload["activity_date"], "learning_day.activity_date")
+        completed_at = parse_timestamp(payload["completed_at"], "learning_day.completed_at")
+        offset = payload["timezone_offset_minutes"]
+        assert_condition(
+            isinstance(offset, int) and not isinstance(offset, bool),
+            "learning_day.timezone_offset_minutes must be an integer",
+        )
+        assert_condition(
+            -840 <= offset <= 840,
+            "learning_day.timezone_offset_minutes must be between -840 and 840",
+        )
+        local_date = (completed_at + timedelta(minutes=offset)).date().isoformat()
+        assert_condition(
+            payload["activity_date"] == local_date,
+            "learning_day.activity_date must match completed_at at timezone_offset_minutes",
+        )
+        assert_condition(
+            payload["created_at"] == payload["completed_at"],
+            "learning_day.created_at must equal completed_at",
+        )
+        assert_condition(
+            payload["updated_at"] == payload["completed_at"],
+            "learning_day.updated_at must equal completed_at",
+        )
 
 
 def validate_tombstone(event: dict[str, Any], tombstone: dict[str, Any]) -> None:
@@ -307,6 +367,9 @@ def validate_event(event: dict[str, Any], fixture_version: str) -> None:
 
     assert_condition(event["operation"] in {"create", "update", "delete"}, "unsupported operation")
     assert_condition(event["entityType"] in PAYLOAD_REQUIRED_FIELDS, "unsupported entity type")
+    if event["entityType"] == "learning_day":
+        assert_condition(version_tuple(fixture_version) >= (2, 1), "learning_day requires sync contract 2.1 or later")
+        assert_condition(event["operation"] == "create", "learning_day only supports create")
     assert_uuid(event["eventId"], "eventId")
     assert_uuid(event["deviceId"], "deviceId")
     assert_uuid(event["entityId"], "entityId")
@@ -354,15 +417,19 @@ def validate_fixture_set(path: Path) -> list[dict[str, Any]]:
 
 def run_compatibility_probes(fixtures: list[dict[str, Any]], fixture_version: str) -> None:
     create_or_update = next(
-        event
-        for event in fixtures
-        if event["entityType"] == "word" and event["operation"] in {"create", "update"}
+        (
+            event
+            for event in fixtures
+            if event["entityType"] == "word" and event["operation"] in {"create", "update"}
+        ),
+        next(event for event in fixtures if event["operation"] in {"create", "update"}),
     )
 
     optional_probe = copy.deepcopy(create_or_update)
     optional_probe["optionalClientMetadata"] = {"debugSource": "compatibility-probe"}
     optional_probe["payload"]["optionalExampleSource"] = "manual-entry"
-    compatible_minor = f"{major(fixture_version)}.1"
+    fixture_major, fixture_minor = version_tuple(fixture_version)
+    compatible_minor = f"{fixture_major}.{fixture_minor + 1}"
     validate_event(optional_probe, compatible_minor)
 
     required_probe = copy.deepcopy(create_or_update)
@@ -396,8 +463,7 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
         "--fixture-files",
         nargs="+",
         choices=FIXTURE_FILES,
-        default=list(FIXTURE_FILES),
-        help="Fixture files to validate. Defaults to every canonical fixture file.",
+        help="Fixture files to validate. Defaults to every known fixture file present in the directory.",
     )
     return parser.parse_args(argv)
 
@@ -409,7 +475,9 @@ def main(argv: list[str]) -> int:
     try:
         all_fixtures: list[dict[str, Any]] = []
         fixture_versions: set[str] = set()
-        for file_name in args.fixture_files:
+        fixture_files = args.fixture_files or [name for name in FIXTURE_FILES if (fixture_dir / name).is_file()]
+        assert_condition(bool(fixture_files), f"no known fixture files found in {fixture_dir}")
+        for file_name in fixture_files:
             path = fixture_dir / file_name
             assert_condition(path.is_file(), f"missing fixture file: {path}")
             all_fixtures.extend(validate_fixture_set(path))

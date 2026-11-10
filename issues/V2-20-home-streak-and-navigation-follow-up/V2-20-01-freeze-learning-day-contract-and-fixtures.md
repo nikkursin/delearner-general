@@ -1,7 +1,7 @@
 # V2-20-01 — Freeze learning-day contract and fixtures
 
 **Parent epic:** V2-20 — Home, Streak and Navigation Follow-up
-**Status:** Planned
+**Status:** Done
 **Workspace:** root + backend + frontend
 **Size:** 5 story points
 **Dependencies:** completed V2-18 Quiz baseline

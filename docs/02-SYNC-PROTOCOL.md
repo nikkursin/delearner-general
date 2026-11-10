@@ -100,6 +100,19 @@ original event ID and payload; pending events may still carry an older UUID and
 resolve by the same logical key. Clients adopt the canonical UUID for subsequent
 local edits and preserve pending local work across acknowledgement and bootstrap.
 
+### Learning-day reconciliation
+
+For `learning_day`, resolve `(authenticated ownerUserId, activity_date)` before
+insert. The first accepted create establishes the canonical UUID and immutable
+payload. A later same-key create with the same or a different UUID is an
+idempotent no-op: acknowledge the submitted event and return the existing
+canonical UUID/state without creating a second domain row. Persist its accepted
+sync event with that resolved canonical state so retry and pull behavior retains
+the normal transaction/idempotency guarantees. Clients match by owner/date and
+adopt the canonical UUID after acknowledgement or bootstrap. Only create is
+valid; ordinary update/delete and last-modification-wins resurrection do not
+apply. Account deletion remains the sole deletion path.
+
 ## Outbox Acknowledgement
 
 The client does not remove an event merely because it was sent.
@@ -141,6 +154,19 @@ client cursor = N
 
 The exact endpoint shape is part of the versioned contract.
 
+### Contract 2.1 optional-entity projection
+
+Bootstrap and incremental reads negotiate the minor contract through
+`X-DELearner-Sync-Contract`. Missing means `2.0`. Contract `2.0` reads omit
+`learning_day` state/events; when such an event is scanned, `nextSequence`
+still advances through its server sequence. Contract `2.1` reads include the
+event and add `contractVersion: "2.1"` to the response.
+
+A client that changes its declared read contract from `2.0` to `2.1` must
+bootstrap once before using its stored incremental cursor. This recovers the
+canonical learning-day state that the safe legacy projection intentionally
+skipped. Unknown required entity semantics are never silently acknowledged.
+
 ## New-Device Bootstrap
 
 After sign-in on a new device:
@@ -154,6 +180,11 @@ authenticate
 → fetch/apply changes after that sequence
 → begin normal incremental sync
 ```
+
+For contract `2.1`, the consistent state includes `state.learningDays` and the
+matching sequence. Contract `2.0` omits that optional key. Pending local
+learning-day creates survive re-bootstrap and reconcile by owner/date when
+replayed.
 
 The implementation does not require a complex pre-generated snapshot system. A consistent backend state export plus matching sequence is sufficient for the first version.
 
@@ -251,6 +282,7 @@ End-to-end synchronization must cover:
 - groups;
 - review statistics;
 - synced learning settings;
+- completed learning days in contract `2.1`;
 - deletes/tombstones;
 - new-device bootstrap;
 - incremental multi-device propagation.
