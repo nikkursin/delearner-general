@@ -248,7 +248,7 @@ the epic.
 | [V2-21-03](./V2-21-design-stabilisation-tasks/V2-21-03-implement-split-authentication-pages-and-client-validation.md) — Implement split authentication pages and client validation | Ready | V2-21-01, V2-21-02 |
 | [V2-21-04](./V2-21-design-stabilisation-tasks/V2-21-04-move-manual-sync-to-home-refresh-control.md) — Move manual sync to a Home refresh control | Done | completed V2-20-05 |
 | [V2-21-05](./V2-21-design-stabilisation-tasks/V2-21-05-fix-ipad-landscape-and-bottom-navigation-geometry.md) — Fix iPad landscape and bottom-navigation geometry | Done | completed V2-16-01, V2-20-05 |
-| [V2-21-06](./V2-21-design-stabilisation-tasks/V2-21-06-add-removable-streak-preview-slider.md) — Add a removable streak preview slider | Ready | completed V2-20-04 |
+| [V2-21-06](./V2-21-design-stabilisation-tasks/V2-21-06-add-removable-streak-preview-slider.md) — Add a removable streak preview slider | Done | completed V2-20-04 |
 | [V2-21-07](./V2-21-design-stabilisation-tasks/V2-21-07-correct-streak-count-and-day-ordering.md) — Correct streak count and day ordering | Ready | V2-21-06 |
 | [V2-21-08](./V2-21-design-stabilisation-tasks/V2-21-08-run-design-stabilisation-regression-gate.md) — Run the design-stabilisation regression gate | Ready | V2-21-02 through V2-21-07 |
 
