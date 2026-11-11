@@ -70,7 +70,7 @@ Task identifiers are stable; use this priority order:
 | 4 | V2-21-04 — Move manual sync to a Home refresh control | Done | completed V2-20-05 |
 | 5 | V2-21-05 — Fix iPad landscape and bottom-navigation geometry | Done | completed V2-16-01, V2-20-05 |
 | 6 | V2-21-06 — Add a removable streak preview slider | Done | completed V2-20-04 |
-| 7 | V2-21-07 — Correct streak count and day ordering | Ready | V2-21-06 |
+| 7 | V2-21-07 — Correct streak count and day ordering | Done | V2-21-06 |
 | 8 | V2-21-08 — Run the design-stabilisation regression gate | Ready | V2-21-02 through V2-21-07 |
 
 V2-21-04, V2-21-05 and V2-21-06 may be executed independently once the agent

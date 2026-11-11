@@ -1,7 +1,7 @@
 # V2-21-07 — Correct streak count and day ordering
 
 **Parent epic:** V2-21 — Design Stabilisation Tasks
-**Status:** Ready
+**Status:** Done
 **Workspace:** frontend
 **Size:** 3 story points
 **Dependencies:** V2-21-06
@@ -45,16 +45,16 @@ learning-day history to compensate for a presentation bug.
 
 ## Acceptance criteria
 
-- [ ] The reported 11 → 10 → 9 → 8 backward representation is reproducible in
+- [x] The reported 11 → 10 → 9 → 8 backward representation is reproducible in
       a test before the fix and absent afterward.
-- [ ] The recent date strip is oldest-to-newest with today in the expected
+- [x] The recent date strip is oldest-to-newest with today in the expected
       trailing position for left-to-right layout.
-- [ ] Current streak remains derived from consecutive completed dates and is
+- [x] Current streak remains derived from consecutive completed dates and is
       not replaced by QML/test-slider state.
-- [ ] Values above seven render in the intended row/continuation order without
+- [x] Values above seven render in the intended row/continuation order without
       reversed growth or distorted dog end pieces.
-- [ ] Missing today, completed today and broken-streak states remain truthful.
-- [ ] Repository and Home QML regression suites pass.
+- [x] Missing today, completed today and broken-streak states remain truthful.
+- [x] Repository and Home QML regression suites pass.
 
 ## Non-goals
 
@@ -66,3 +66,45 @@ learning-day history to compensate for a presentation bug.
 
 - The user-observed sequence cannot be mapped to the current count, date strip
   or dog graphic after the documented viewport/state matrix is exercised.
+
+## Implementation checkpoint — 2026-11-11
+
+**Frontend commit:** `57541de` — `fix(frontend): V2-21-07 correct streak row progression`
+
+### Diagnosis and changes
+
+- injected-clock repository coverage proved canonical streak arithmetic was
+  correct for 0, 1, 2, 7, 8, 10, 11, 14, 15 and 30 days, including ordinary
+  month, year and daylight-saving boundaries;
+- mapped Home label positions proved the recent strip is chronological in the
+  left-to-right test locale, with 11 at the trailing edge rather than the
+  observed 11 → 10 → 9 → 8 backward order;
+- quiz and sync notifications refreshed the canonical headline deterministically,
+  and preview changes remained presentation-only;
+- the first wrong layer was `DLStreakDog`: it capped output at two rows and used
+  a modulo continuation, so 14 represented days rolled backward to 8 represented
+  days when the streak reached 15;
+- the dog now allocates one row per seven-day span, gives every row its correct
+  increasing day span and preserves fixed tail/face end-cap geometry.
+
+### Verification
+
+- pre-fix `ctest --test-dir build-tests --output-on-failure -R '^TestHomeUi$'`
+  failed deterministically for 15 and 30 days (actual row count 2; expected 3
+  and 5), while the date-order and 1–14-day cases passed;
+- `cmake --build build-tests --parallel 2 --target TestLearningDayRepository`
+  succeeded;
+- `ctest --test-dir build-tests --output-on-failure -R '^TestHomeUi$|^TestLearningDayRepository$'`
+  passed 2/2;
+- `cmake --build build-tests --parallel 2` succeeded;
+- `ctest --test-dir build-tests --output-on-failure` passed 35/35;
+- `git diff --check` passed for all selected frontend task files.
+
+### Limitations and next task
+
+- The configured environment builds the frontend core/tests without the Felgo
+  application target; repository-backed and real Home QML component tests cover
+  the task behavior without a packaged-device visual check.
+- Per the V2-21 guardrail, the root frontend submodule pointer remains deferred
+  until V2-21-08. V2-21 remains In Progress; the next globally eligible task is
+  subject to the Ralph selector.
