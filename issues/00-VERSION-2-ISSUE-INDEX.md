@@ -172,6 +172,10 @@ This order is a priority strategy, not permission to bypass dependencies.
 The formerly deferred Home-screen redesign is now explicitly activated in
 V2-20. V2-18 remains Done and is not reopened.
 
+The authentication/login and registration-validation deferrals listed above
+are later activated by V2-21. This records a new follow-up decision and does not
+reopen V2-18.
+
 ## V2-19 — Post-Redesign Stabilization Tasks
 
 **Status:** Done. Runtime sign-out-route regression complete; completed history
@@ -232,6 +236,38 @@ order.
 - Requested reference Profile rows remain visible placeholders; existing real
   Profile actions retain their implemented behavior.
 
+## V2-21 — Design Stabilisation Tasks
+
+**Status:** In Progress. Execute V2-21-01 through V2-21-08 in the priority order in
+the epic.
+
+| Task | Status | Dependencies |
+|---|---|---|
+| [V2-21-01](./V2-21-design-stabilisation-tasks/V2-21-01-define-split-authentication-flow-in-figma.md) — Define split authentication flow in Figma | Ready | none |
+| [V2-21-02](./V2-21-design-stabilisation-tasks/V2-21-02-add-registration-contract-and-backend-validation.md) — Add registration contract and backend validation | Ready | V2-21-01 |
+| [V2-21-03](./V2-21-design-stabilisation-tasks/V2-21-03-implement-split-authentication-pages-and-client-validation.md) — Implement split authentication pages and client validation | Ready | V2-21-01, V2-21-02 |
+| [V2-21-04](./V2-21-design-stabilisation-tasks/V2-21-04-move-manual-sync-to-home-refresh-control.md) — Move manual sync to a Home refresh control | Done | completed V2-20-05 |
+| [V2-21-05](./V2-21-design-stabilisation-tasks/V2-21-05-fix-ipad-landscape-and-bottom-navigation-geometry.md) — Fix iPad landscape and bottom-navigation geometry | Ready | completed V2-16-01, V2-20-05 |
+| [V2-21-06](./V2-21-design-stabilisation-tasks/V2-21-06-add-removable-streak-preview-slider.md) — Add a removable streak preview slider | Ready | completed V2-20-04 |
+| [V2-21-07](./V2-21-design-stabilisation-tasks/V2-21-07-correct-streak-count-and-day-ordering.md) — Correct streak count and day ordering | Ready | V2-21-06 |
+| [V2-21-08](./V2-21-design-stabilisation-tasks/V2-21-08-run-design-stabilisation-regression-gate.md) — Run the design-stabilisation regression gate | Ready | V2-21-02 through V2-21-07 |
+
+### V2-21 approved semantics
+
+- Sign in and Create account are separate pages defined in the existing
+  canonical Figma file before implementation.
+- Apple and Google controls are visible placeholders only; provider integration
+  remains deferred.
+- Create account uses Name, Email, Password and Repeat password with shared
+  client/backend validation; Repeat password never leaves the client.
+- Manual sync is a top-right Home refresh affordance backed by the existing
+  coordinator.
+- Responsive-shell fixes must cover iPad landscape and safe-area-correct bottom
+  navigation without device-specific offsets.
+- Streak presentation is fixed without changing immutable learning-day data.
+- The temporary streak slider is development-only, presentation-only and marked
+  `// TODO: Remove after testing` at every integration point.
+
 ## Version 2 Non-Goals / Deferred Scope
 
 - Payments/subscriptions/entitlements.
@@ -241,5 +277,6 @@ order.
 - Preserving disposable pre-release integer-ID data.
 - Merging Adjective and Adverb in the current redesign.
 - Inventing final onboarding illustrations/logo assets before approved assets are supplied.
-- Authentication/login visual redesign until its approved target references are supplied.
+- Production Apple/Google authentication, email ownership verification and
+  password-reset flows.
 - Implementing `Report a problem` or preset-management infrastructure without an explicit future task.
