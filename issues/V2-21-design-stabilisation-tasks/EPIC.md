@@ -41,9 +41,11 @@ and iPad regressions without reopening completed V2-19/V2-20 history.
 
 ### Home and responsive shell
 
-- Manual sync remains a secondary fallback using the existing sync
-  coordinator. It is represented by `references/500px-Refresh_icon.png` in the
-  top-right of Home.
+- Manual sync remains a secondary fallback using the existing sync coordinator
+  in the top-right of Home. The original white-background
+  `references/500px-Refresh_icon.png` treatment is rejected by V2-21-04A and is
+  replaced by transparent, properly scaled idle/error states. Rotation occurs
+  only during a sync triggered by that Home control.
 - Phone, tablet and desktop-sized layouts use responsive width/safe-area rules.
   iPad landscape must use the available viewport rather than centring a
   portrait-sized surface between black side bars.
@@ -54,8 +56,13 @@ and iPad regressions without reopening completed V2-19/V2-20 history.
 
 - The canonical streak remains derived from account-owned completed learning
   dates. No mutable streak counter is introduced.
-- The displayed count and recent-day sequence must progress in the expected
-  chronological direction and remain correct for values above seven.
+- The displayed count and streak-day ordinal sequence must progress in the
+  expected ascending direction and remain correct for values above seven.
+- The dog is one bounded composition: at most three rows, one face total and at
+  most one tail total. Above 21 days the tail is hidden to show that the body
+  continues beyond the visible range.
+- Home shows ascending streak-day ordinals ending at the displayed count rather
+  than unrelated calendar day-of-month labels.
 - A temporary developer-only Home slider may override only the displayed
   streak value for visual testing. It must not create, persist, upload or
   acknowledge learning-day data.
@@ -72,13 +79,15 @@ Task identifiers are stable; use this priority order:
 | 2 | V2-21-02 — Add registration contract and backend validation | Done | V2-21-01 |
 | 3 | V2-21-03 — Implement split authentication pages and client validation | Done | V2-21-01, V2-21-02 |
 | 4 | V2-21-04 — Move manual sync to a Home refresh control | Done | completed V2-20-05 |
-| 5 | V2-21-05 — Fix iPad landscape and bottom-navigation geometry | Done | completed V2-16-01, V2-20-05 |
-| 6 | V2-21-06 — Add a removable streak preview slider | Done | completed V2-20-04 |
-| 7 | V2-21-07 — Correct streak count and day ordering | Done | V2-21-06 |
-| 8 | V2-21-08 — Run the design-stabilisation regression gate | Ready | V2-21-02 through V2-21-07 |
+| 5 | V2-21-04A — Refine Home sync-control visual states | Done | V2-21-04 |
+| 6 | V2-21-05 — Fix iPad landscape and bottom-navigation geometry | Done | completed V2-16-01, V2-20-05 |
+| 7 | V2-21-06 — Add a removable streak preview slider | Done | completed V2-20-04 |
+| 8 | V2-21-07 — Correct streak count and day ordering | Done | V2-21-06 |
+| 9 | V2-21-07A — Fix single-dog and streak-number presentation | Ready | V2-21-06, V2-21-07 |
+| 10 | V2-21-08 — Run the design-stabilisation regression gate | Ready | V2-21-02 through V2-21-07, V2-21-04A, V2-21-07A |
 
-V2-21-04, V2-21-05 and V2-21-06 may be executed independently once the agent
-has recorded the current frontend baseline. V2-21-08 is always last.
+V2-21-04A and V2-21-07A are now independently dependency-ready. Preserve the
+priority order above when both are eligible. V2-21-08 is always last.
 
 For each task, Ralph/AFK must:
 
@@ -112,6 +121,7 @@ For each task, Ralph/AFK must:
 
 ## Completion
 
-V2-21 is Done only when V2-21-01 through V2-21-08 are Done, frontend/backend/root
-tests pass where applicable, an iPad landscape check is recorded, and a release
-build contains no visible or accessible streak preview control.
+V2-21 is Done only when V2-21-01 through V2-21-08, V2-21-04A and V2-21-07A are
+Done, frontend/backend/root tests pass where applicable, an iPad landscape
+check is recorded, and a release build contains no visible or accessible streak
+preview control.

@@ -82,3 +82,11 @@ issue reference path at runtime.
 ### Next task
 
 - V2-21-05 — Fix iPad landscape and bottom-navigation geometry.
+
+## Superseding visual follow-up — V2-21-04A
+
+The later explicit product review rejected the copied
+`500px-Refresh_icon.png` runtime treatment because its baked white background
+and scale look poor in the Home header. V2-21-04 remains Done as implementation
+history. V2-21-04A replaces only the visual asset and state presentation with a
+transparent, properly scaled idle/spinning/error control.

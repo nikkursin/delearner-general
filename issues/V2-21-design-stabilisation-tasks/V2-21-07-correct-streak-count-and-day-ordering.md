@@ -108,3 +108,12 @@ learning-day history to compensate for a presentation bug.
 - Per the V2-21 guardrail, the root frontend submodule pointer remains deferred
   until V2-21-08. V2-21 remains In Progress; the next globally eligible task is
   subject to the Ralph selector.
+
+## Superseding visual follow-up — V2-21-07A
+
+The later physical-phone screenshot
+`references/V2-21-04A/current-bad-phone.png` proves that the row-per-seven fix
+still duplicates a complete tail and face on every row, permits more than three
+rows and leaves the number strip visually inconsistent with the displayed
+streak. V2-21-07 remains Done as implementation history. V2-21-07A supersedes
+only its dog composition and number-strip presentation decisions.
