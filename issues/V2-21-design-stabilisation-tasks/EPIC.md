@@ -18,6 +18,10 @@ and iPad regressions without reopening completed V2-19/V2-20 history.
 
 ### Authentication entry
 
+- No canonical authentication layout currently exists in Figma. By explicit
+  current user decision, V2-21 auth work must not access or modify Figma;
+  Codex designs the required pages itself from the existing DELearner visual
+  language and V2-21-01 local UX contract.
 - **Sign in** and **Create account** are separate pages.
 - Sign in remains the default first-use and recovery entry page.
 - A user without an account can navigate from Sign in to Create account, and a
@@ -64,7 +68,7 @@ Task identifiers are stable; use this priority order:
 
 | Priority | Task | Status | Dependency |
 |---|---|---|---|
-| 1 | V2-21-01 — Define split authentication flow in Figma | Ready | none |
+| 1 | V2-21-01 — Freeze local split-authentication UX contract | Done | none |
 | 2 | V2-21-02 — Add registration contract and backend validation | Ready | V2-21-01 |
 | 3 | V2-21-03 — Implement split authentication pages and client validation | Ready | V2-21-01, V2-21-02 |
 | 4 | V2-21-04 — Move manual sync to a Home refresh control | Done | completed V2-20-05 |
@@ -95,6 +99,8 @@ For each task, Ralph/AFK must:
 - Preserve V2-19-07 sign-out, reauthentication, pending-outbox and account
   isolation rules.
 - Provider placeholders never fabricate success, tokens or linked identities.
+- Auth-flow agents must use the V2-21-01 local UX contract and must not call
+  Figma tools or modify the canonical Figma file for this flow.
 - Client validation improves feedback; backend validation remains authoritative.
 - Never log passwords, password strength inputs, tokens, full emails or raw
   authentication bodies.
@@ -106,7 +112,6 @@ For each task, Ralph/AFK must:
 
 ## Completion
 
-V2-21 is Done only when V2-21-01 through V2-21-08 are Done, the canonical Figma
-nodes are linked, frontend/backend/root tests pass where applicable, an iPad
-landscape check is recorded, and a release build contains no visible or
-accessible streak preview control.
+V2-21 is Done only when V2-21-01 through V2-21-08 are Done, frontend/backend/root
+tests pass where applicable, an iPad landscape check is recorded, and a release
+build contains no visible or accessible streak preview control.

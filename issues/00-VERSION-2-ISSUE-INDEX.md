@@ -243,7 +243,7 @@ the epic.
 
 | Task | Status | Dependencies |
 |---|---|---|
-| [V2-21-01](./V2-21-design-stabilisation-tasks/V2-21-01-define-split-authentication-flow-in-figma.md) — Define split authentication flow in Figma | Ready | none |
+| [V2-21-01](./V2-21-design-stabilisation-tasks/V2-21-01-freeze-local-split-authentication-ux-contract.md) — Freeze local split-authentication UX contract | Done | none |
 | [V2-21-02](./V2-21-design-stabilisation-tasks/V2-21-02-add-registration-contract-and-backend-validation.md) — Add registration contract and backend validation | Ready | V2-21-01 |
 | [V2-21-03](./V2-21-design-stabilisation-tasks/V2-21-03-implement-split-authentication-pages-and-client-validation.md) — Implement split authentication pages and client validation | Ready | V2-21-01, V2-21-02 |
 | [V2-21-04](./V2-21-design-stabilisation-tasks/V2-21-04-move-manual-sync-to-home-refresh-control.md) — Move manual sync to a Home refresh control | Done | completed V2-20-05 |
@@ -254,8 +254,10 @@ the epic.
 
 ### V2-21 approved semantics
 
-- Sign in and Create account are separate pages defined in the existing
-  canonical Figma file before implementation.
+- No auth layout currently exists in Figma. By explicit current user decision,
+  V2-21 auth work must not access or modify Figma. Codex designs the required
+  pages itself using the existing DELearner style and the V2-21-01 local UX
+  contract.
 - Apple and Google controls are visible placeholders only; provider integration
   remains deferred.
 - Create account uses Name, Email, Password and Repeat password with shared
