@@ -1,7 +1,7 @@
 # V2-21-07A — Fix single-dog and streak-number presentation
 
 **Parent epic:** V2-21 — Design Stabilisation Tasks
-**Status:** Ready
+**Status:** Done
 **Workspace:** frontend
 **Size:** 3 story points
 **Dependencies:** completed V2-21-06, completed V2-21-07
@@ -76,21 +76,21 @@ day-of-month values:
 
 ## Acceptance criteria
 
-- [ ] Streaks 1, 7, 8, 14, 15 and 21 show one tail and one face total across no
+- [x] Streaks 1, 7, 8, 14, 15 and 21 show one tail and one face total across no
       more than three rows.
-- [ ] Streaks 22, 26 and 30 show no tail, exactly one face, exactly three rows
+- [x] Streaks 22, 26 and 30 show no tail, exactly one face, exactly three rows
       and an uncapped truthful headline.
-- [ ] No intermediate row contains a tail or face.
-- [ ] Dog body, final face and card bounds remain valid at narrow-phone, phone
+- [x] No intermediate row contains a tail or face.
+- [x] Dog body, final face and card bounds remain valid at narrow-phone, phone
       and tablet widths.
-- [ ] Ordinals are ascending and end at the displayed streak: 3 → `1…3`,
+- [x] Ordinals are ascending and end at the displayed streak: 3 → `1…3`,
       8 → `2…8`, 26 → `20…26`.
-- [ ] Streak zero hides the ordinal/check row and retains first-day guidance.
-- [ ] Preview changes update headline, dog and ordinals together while leaving
+- [x] Streak zero hides the ordinal/check row and retains first-day guidance.
+- [x] Preview changes update headline, dog and ordinals together while leaving
       SQLite, outbox and network mutation counters at zero.
-- [ ] Canonical current-streak derivation, offline capture, sync and account
+- [x] Canonical current-streak derivation, offline capture, sync and account
       isolation remain unchanged.
-- [ ] Focused Home QML tests and the complete frontend suite pass.
+- [x] Focused Home QML tests and the complete frontend suite pass.
 
 ## Non-goals
 
@@ -105,3 +105,39 @@ day-of-month values:
   or changing sync semantics.
 - The supplied dog assets cannot form one bounded composition without changing
   their visual content rather than their layout.
+
+## Implementation checkpoint — 2026-11-12
+
+**Frontend commit:** `1d2b109` — `fix(frontend): V2-21-07A fix streak presentation`
+
+### Changes
+
+- bounded `DLStreakDog` at three seven-unit rows and exposed visible-capacity,
+  overflow, row-count, tail-count and face-count properties for focused tests;
+- composed one continuous dog with a single face, a single tail through day 21
+  and no tail above visible capacity, while retaining fixed-size end assets;
+- replaced calendar day-of-month labels with up to seven ascending streak-day
+  ordinals ending at the real or previewed headline count;
+- kept the zero-streak ordinal row hidden and preserved existing first-day
+  guidance, canonical repository streak derivation and preview-only mutation
+  isolation;
+- added phone/tablet regressions for required counts, overflow, intermediate
+  rows, asset/card bounds, ordinals and synchronized preview presentation.
+
+### Verification
+
+- pre-fix `ctest --test-dir build-tests --output-on-failure -R '^TestHomeUi$'`
+  failed on the new bounded-composition and ordinal assertions as expected;
+- post-fix `ctest --test-dir build-tests --output-on-failure -R '^TestHomeUi$'`
+  passed 1/1;
+- `cmake --build build-tests --parallel 2` succeeded;
+- `ctest --test-dir build-tests --output-on-failure` passed 36/36;
+- `git diff --check -- qml/Components/DLStreakDog.qml qml/Views/DLHomePage.qml tests/qml/tst_Home.qml`
+  passed.
+
+### Limitations and next task
+
+- The configured local environment verifies the Home component through its
+  real QML test harness; no packaged physical-device screenshot was captured.
+- Per the epic guardrail, the root frontend submodule pointer remains deferred
+  until V2-21-08. V2-21 stays In Progress; the next task is V2-21-08.

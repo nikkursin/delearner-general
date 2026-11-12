@@ -83,11 +83,11 @@ Task identifiers are stable; use this priority order:
 | 6 | V2-21-05 — Fix iPad landscape and bottom-navigation geometry | Done | completed V2-16-01, V2-20-05 |
 | 7 | V2-21-06 — Add a removable streak preview slider | Done | completed V2-20-04 |
 | 8 | V2-21-07 — Correct streak count and day ordering | Done | V2-21-06 |
-| 9 | V2-21-07A — Fix single-dog and streak-number presentation | Ready | V2-21-06, V2-21-07 |
+| 9 | V2-21-07A — Fix single-dog and streak-number presentation | Done | V2-21-06, V2-21-07 |
 | 10 | V2-21-08 — Run the design-stabilisation regression gate | Ready | V2-21-02 through V2-21-07, V2-21-04A, V2-21-07A |
 
-V2-21-04A and V2-21-07A are now independently dependency-ready. Preserve the
-priority order above when both are eligible. V2-21-08 is always last.
+V2-21-04A and V2-21-07A were independently dependency-ready and are now Done.
+V2-21-08 remains last.
 
 For each task, Ralph/AFK must:
 

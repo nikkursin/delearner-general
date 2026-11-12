@@ -251,7 +251,7 @@ V2-21-04A/V2-21-07A in the priority order in the epic.
 | [V2-21-05](./V2-21-design-stabilisation-tasks/V2-21-05-fix-ipad-landscape-and-bottom-navigation-geometry.md) — Fix iPad landscape and bottom-navigation geometry | Done | completed V2-16-01, V2-20-05 |
 | [V2-21-06](./V2-21-design-stabilisation-tasks/V2-21-06-add-removable-streak-preview-slider.md) — Add a removable streak preview slider | Done | completed V2-20-04 |
 | [V2-21-07](./V2-21-design-stabilisation-tasks/V2-21-07-correct-streak-count-and-day-ordering.md) — Correct streak count and day ordering | Done | V2-21-06 |
-| [V2-21-07A](./V2-21-design-stabilisation-tasks/V2-21-07A-fix-single-dog-and-streak-number-presentation.md) — Fix single-dog and streak-number presentation | Ready | V2-21-06, V2-21-07 |
+| [V2-21-07A](./V2-21-design-stabilisation-tasks/V2-21-07A-fix-single-dog-and-streak-number-presentation.md) — Fix single-dog and streak-number presentation | Done | V2-21-06, V2-21-07 |
 | [V2-21-08](./V2-21-design-stabilisation-tasks/V2-21-08-run-design-stabilisation-regression-gate.md) — Run the design-stabilisation regression gate | Ready | V2-21-02 through V2-21-07, V2-21-04A, V2-21-07A |
 
 ### V2-21 approved semantics
