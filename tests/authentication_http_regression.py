@@ -46,10 +46,50 @@ def main():
         print(f'PASS {label}: HTTP {expected} request_id={request_id}')
         return body
 
+    registration_fixture_path = (
+        Path(__file__).resolve().parents[1]
+        / 'contracts/fixtures/v1/registration-input-contract.json')
+    registration_fixture = json.loads(registration_fixture_path.read_text())
+    fixture_fields = registration_fixture['fields']
+    stable_errors = registration_fixture['errorCodes']
+    valid_password = fixture_fields['password']['valid'][0]['value']
+    valid_name = fixture_fields['displayName']['valid'][0]['value']
+
+    for case in fixture_fields['displayName']['invalid']:
+        body = {
+            'displayName': case['value'],
+            'email': str(uuid.uuid4()) + '@example.test',
+            'password': valid_password,
+        }
+        rejected = request(
+            'registration-invalid-name-' + case['id'], '/api/v1/auth/register', 400, body)
+        assert rejected['error'] == stable_errors['displayName']
+        assert case['value'] not in rejected.values()
+
+    for case in fixture_fields['email']['invalid']:
+        body = {'displayName': valid_name, 'email': case['value'], 'password': valid_password}
+        rejected = request(
+            'registration-invalid-email-' + case['id'], '/api/v1/auth/register', 400, body)
+        assert rejected['error'] == stable_errors['email']
+        assert case['value'] not in rejected.values()
+
+    for case in fixture_fields['password']['invalid']:
+        body = {
+            'displayName': valid_name,
+            'email': str(uuid.uuid4()) + '@example.test',
+            'password': case['value'],
+        }
+        rejected = request(
+            'registration-invalid-password-' + case['id'], '/api/v1/auth/register', 400, body)
+        assert rejected['error'] == stable_errors['password']
+        assert case['value'] not in rejected.values()
+
     credentials = {'email': str(uuid.uuid4()) + '@example.test', 'password': str(uuid.uuid4())}
-    registered = request('registration-success', '/api/v1/auth/register', 201, credentials)
+    registration_request = dict(credentials, displayName='  Ada Learner  ')
+    registered = request('registration-success', '/api/v1/auth/register', 201, registration_request)
+    assert registered['displayName'] == 'Ada Learner'
     duplicate = request('registration-duplicate', '/api/v1/auth/register', 409,
-                        dict(credentials, email=' ' + credentials['email'].upper() + ' '))
+                        dict(registration_request, email=' ' + credentials['email'].upper() + ' '))
     assert duplicate['error'] == 'email_already_registered'
     invalid_credentials = request(
         'sign-in-invalid', '/api/v1/auth/sign-in', 401,
@@ -57,6 +97,7 @@ def main():
     assert invalid_credentials['error'] == 'invalid_credentials'
     signed_in = request('sign-in-success', '/api/v1/auth/sign-in', 200, credentials)
     assert signed_in['userId'] == registered['userId']
+    assert signed_in['displayName'] == 'Ada Learner'
     token = signed_in['sessionToken']
     owner = signed_in['userId']
     first_token = registered['sessionToken']

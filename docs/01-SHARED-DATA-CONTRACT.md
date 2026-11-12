@@ -39,7 +39,7 @@ Current Version 2 values:
 
 ```text
 SQLite schema:     1.5
-PostgreSQL schema: 1.5
+PostgreSQL schema: 1.6
 Sync/API contract: 2.1
 API route major:   /api/v2
 ```
@@ -54,12 +54,17 @@ Sync/API contract target: 2.1
 API route major:          /api/v2
 ```
 
-The active compatible system baseline is SQLite `1.5`, PostgreSQL `1.5` and
+The active compatible system baseline is SQLite `1.5`, PostgreSQL `1.6` and
 sync/API `2.1`. V2-20-02 activated PostgreSQL `1.5` and backward-compatible
 backend contract `2.1` support; V2-20-03 activated SQLite `1.5` and the
 client-side `2.1` contract. Machine-readable target values remain beside the
 active values in `contracts/version-baseline.env` with the
 `DELEARNER_V2_20_TARGET_` prefix.
+
+V2-21-02 advances only PostgreSQL to `1.6` by adding nullable account
+`display_name` storage for the registration/authentication result. This is an
+additive account-schema change and does not advance the independent sync/API
+contract.
 
 V2-17 defines and implements the current Word/Group contract as sync/API `2.0`
 on `/api/v2`. The prior `1.0` fixture sets remain available as compatibility

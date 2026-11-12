@@ -37,6 +37,7 @@ run_root_tests() {
   "$ROOT_DIR/tests/root_contract_environment_gate_smoke.sh"
   "$ROOT_DIR/tests/contract_versions_smoke.sh"
   "$ROOT_DIR/tests/auth_behavior_contract_smoke.sh"
+  python3 "$ROOT_DIR/tests/registration_input_contract_smoke.py"
   "$ROOT_DIR/tests/authentication_gate_orchestration_smoke.sh"
   "$ROOT_DIR/tests/bootstrap_recovery_gate_orchestration_smoke.sh"
   "$ROOT_DIR/tests/word_group_domain_gate_orchestration_smoke.sh"

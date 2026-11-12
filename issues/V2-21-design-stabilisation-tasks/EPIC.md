@@ -69,7 +69,7 @@ Task identifiers are stable; use this priority order:
 | Priority | Task | Status | Dependency |
 |---|---|---|---|
 | 1 | V2-21-01 — Freeze local split-authentication UX contract | Done | none |
-| 2 | V2-21-02 — Add registration contract and backend validation | Ready | V2-21-01 |
+| 2 | V2-21-02 — Add registration contract and backend validation | Done | V2-21-01 |
 | 3 | V2-21-03 — Implement split authentication pages and client validation | Ready | V2-21-01, V2-21-02 |
 | 4 | V2-21-04 — Move manual sync to a Home refresh control | Done | completed V2-20-05 |
 | 5 | V2-21-05 — Fix iPad landscape and bottom-navigation geometry | Done | completed V2-16-01, V2-20-05 |

@@ -1,0 +1,83 @@
+{
+  "fixtureSet": "delearner.auth.v1.registration-input",
+  "apiRoute": "/api/v1/auth/register",
+  "requestFields": {
+    "required": ["email", "password"],
+    "optional": ["displayName"],
+    "clientOnly": ["repeatPassword"]
+  },
+  "responseFields": {
+    "required": ["userId", "sessionToken", "tokenType"],
+    "optional": ["displayName"]
+  },
+  "errorCodes": {
+    "displayName": "invalid_display_name",
+    "email": "invalid_email",
+    "password": "weak_password",
+    "duplicateEmail": "email_already_registered"
+  },
+  "fields": {
+    "displayName": {
+      "optionalAtApiBoundary": true,
+      "minimumCharacters": 2,
+      "maximumCharacters": 80,
+      "trimBeforeValidationAndStorage": true,
+      "valid": [
+        {"id": "simple-name", "value": "Ada Learner", "stored": "Ada Learner"},
+        {"id": "trimmed-unicode-name", "value": "  Jörg 学習者  ", "stored": "Jörg 学習者"},
+        {"id": "two-unicode-characters", "value": "李雷", "stored": "李雷"}
+      ],
+      "invalid": [
+        {"id": "empty-name", "value": ""},
+        {"id": "whitespace-name", "value": "   "},
+        {"id": "one-character-name", "value": "A"},
+        {"id": "control-character-name", "value": "Ada\u0007Learner"},
+        {"id": "overlong-name", "value": "NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN"}
+      ]
+    },
+    "email": {
+      "minimumCharacters": 3,
+      "maximumCharacters": 254,
+      "trimAndCaseFoldBeforeLookup": true,
+      "valid": [
+        {"id": "simple-email", "value": "learner@example.com", "normalized": "learner@example.com"},
+        {"id": "trimmed-mixed-case-email", "value": "  Mixed.Case+tag@Sub.Example.DE  ", "normalized": "mixed.case+tag@sub.example.de"},
+        {"id": "short-email", "value": "a@b.co", "normalized": "a@b.co"}
+      ],
+      "invalid": [
+        {"id": "empty-email", "value": ""},
+        {"id": "missing-at", "value": "learner.example.com"},
+        {"id": "multiple-at", "value": "learner@@example.com"},
+        {"id": "empty-local-part", "value": "@example.com"},
+        {"id": "domain-without-dot", "value": "learner@localhost"},
+        {"id": "empty-domain-label", "value": "learner@example..com"},
+        {"id": "leading-domain-hyphen", "value": "learner@-example.com"},
+        {"id": "whitespace-email", "value": "lear ner@example.com"},
+        {"id": "overlong-email", "value": "learner@aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.example.com"}
+      ]
+    },
+    "password": {
+      "minimumCharacters": 8,
+      "maximumCharacters": 128,
+      "passphraseMinimumCharacters": 12,
+      "shortPasswordMinimumCharacterClasses": 2,
+      "characterClasses": ["lowercase", "uppercase", "digit", "non_alphanumeric"],
+      "transformBeforeHashing": false,
+      "valid": [
+        {"id": "short-mixed-case", "value": "Password"},
+        {"id": "short-letter-digit", "value": "learner1"},
+        {"id": "short-letter-symbol", "value": "learn!!!"},
+        {"id": "long-passphrase", "value": "correct horse battery staple"},
+        {"id": "spaces-preserved-passphrase", "value": "  spaces stay  "}
+      ],
+      "invalid": [
+        {"id": "empty-password", "value": ""},
+        {"id": "all-whitespace-password", "value": "            "},
+        {"id": "too-short-password", "value": "Ab1!xyz"},
+        {"id": "short-one-class-lowercase", "value": "password"},
+        {"id": "short-one-class-digits", "value": "12345678"},
+        {"id": "overlong-password", "value": "PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP1"}
+      ]
+    }
+  }
+}

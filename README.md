@@ -26,6 +26,7 @@ Canonical source-of-truth documents:
 - `docs/03-PRODUCT-ROADMAP.md`
 - `docs/04-VERSION-2-PLAN.md`
 - `docs/07-ISSUE-PLANNING-RULES.md`
+- `docs/09-REGISTRATION-INPUT-CONTRACT.md`
 
 ## Submodules
 

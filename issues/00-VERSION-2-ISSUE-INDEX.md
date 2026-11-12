@@ -244,7 +244,7 @@ the epic.
 | Task | Status | Dependencies |
 |---|---|---|
 | [V2-21-01](./V2-21-design-stabilisation-tasks/V2-21-01-freeze-local-split-authentication-ux-contract.md) — Freeze local split-authentication UX contract | Done | none |
-| [V2-21-02](./V2-21-design-stabilisation-tasks/V2-21-02-add-registration-contract-and-backend-validation.md) — Add registration contract and backend validation | Ready | V2-21-01 |
+| [V2-21-02](./V2-21-design-stabilisation-tasks/V2-21-02-add-registration-contract-and-backend-validation.md) — Add registration contract and backend validation | Done | V2-21-01 |
 | [V2-21-03](./V2-21-design-stabilisation-tasks/V2-21-03-implement-split-authentication-pages-and-client-validation.md) — Implement split authentication pages and client validation | Ready | V2-21-01, V2-21-02 |
 | [V2-21-04](./V2-21-design-stabilisation-tasks/V2-21-04-move-manual-sync-to-home-refresh-control.md) — Move manual sync to a Home refresh control | Done | completed V2-20-05 |
 | [V2-21-05](./V2-21-design-stabilisation-tasks/V2-21-05-fix-ipad-landscape-and-bottom-navigation-geometry.md) — Fix iPad landscape and bottom-navigation geometry | Done | completed V2-16-01, V2-20-05 |
