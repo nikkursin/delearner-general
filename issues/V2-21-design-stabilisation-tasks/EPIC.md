@@ -1,6 +1,6 @@
 # V2-21 — Design Stabilisation Tasks
 
-**Status:** In Progress
+**Status:** Done
 **Workspace:** root + frontend + backend
 **Dependencies:** completed V2-19 and V2-20 baselines
 
@@ -84,10 +84,10 @@ Task identifiers are stable; use this priority order:
 | 7 | V2-21-06 — Add a removable streak preview slider | Done | completed V2-20-04 |
 | 8 | V2-21-07 — Correct streak count and day ordering | Done | V2-21-06 |
 | 9 | V2-21-07A — Fix single-dog and streak-number presentation | Done | V2-21-06, V2-21-07 |
-| 10 | V2-21-08 — Run the design-stabilisation regression gate | Ready | V2-21-02 through V2-21-07, V2-21-04A, V2-21-07A |
+| 10 | V2-21-08 — Run the design-stabilisation regression gate | Done | V2-21-02 through V2-21-07, V2-21-04A, V2-21-07A |
 
 V2-21-04A and V2-21-07A were independently dependency-ready and are now Done.
-V2-21-08 remains last.
+V2-21-08 completed the epic after all implementation tasks.
 
 For each task, Ralph/AFK must:
 
