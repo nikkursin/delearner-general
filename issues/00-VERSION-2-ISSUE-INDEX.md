@@ -253,7 +253,7 @@ V2-21-04B, V2-21-07B and V2-21-08A in epic priority order.
 | [V2-21-06](./V2-21-design-stabilisation-tasks/V2-21-06-add-removable-streak-preview-slider.md) — Add a removable streak preview slider | Done | completed V2-20-04 |
 | [V2-21-07](./V2-21-design-stabilisation-tasks/V2-21-07-correct-streak-count-and-day-ordering.md) — Correct streak count and day ordering | Done | V2-21-06 |
 | [V2-21-07A](./V2-21-design-stabilisation-tasks/V2-21-07A-fix-single-dog-and-streak-number-presentation.md) — Fix single-dog and streak-number presentation | Done | V2-21-06, V2-21-07 |
-| [V2-21-07B](./V2-21-design-stabilisation-tasks/V2-21-07B-add-compact-month-calendar-and-enforce-streak-reset.md) — Add compact month calendar and enforce streak reset | Ready | V2-21-06, V2-21-07A |
+| [V2-21-07B](./V2-21-design-stabilisation-tasks/V2-21-07B-add-compact-month-calendar-and-enforce-streak-reset.md) — Add compact month calendar and enforce streak reset | Done | V2-21-06, V2-21-07A |
 | [V2-21-08](./V2-21-design-stabilisation-tasks/V2-21-08-run-design-stabilisation-regression-gate.md) — Run the design-stabilisation regression gate | Done | V2-21-02 through V2-21-07, V2-21-04A, V2-21-07A |
 | [V2-21-08A](./V2-21-design-stabilisation-tasks/V2-21-08A-run-home-calendar-reset-and-sync-animation-gate.md) — Run Home calendar, reset and sync-animation gate | Ready | V2-21-04B, V2-21-07B |
 

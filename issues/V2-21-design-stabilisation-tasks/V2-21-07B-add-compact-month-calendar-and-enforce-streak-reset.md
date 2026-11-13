@@ -1,7 +1,7 @@
 # V2-21-07B — Add compact month calendar and enforce streak reset
 
 **Parent epic:** V2-21 — Design Stabilisation Tasks
-**Status:** Ready
+**Status:** Done
 **Workspace:** frontend
 **Size:** 5 story points
 **Dependencies:** completed V2-21-06, completed V2-21-07A
@@ -104,21 +104,21 @@ QML locations.
 
 ## Acceptance criteria
 
-- [ ] Dog row count never exceeds two; capacity is 14, with one face total and
+- [x] Dog row count never exceeds two; capacity is 14, with one face total and
       tail hidden only above capacity.
-- [ ] All temporary slider/component/build-flag/TODO integration code is
+- [x] All temporary slider/component/build-flag/TODO integration code is
       removed and Home cannot override the canonical streak.
-- [ ] The compact calendar shows the whole current month within the stated
+- [x] The compact calendar shows the whole current month within the stated
       phone height target and remains readable on phone/tablet widths.
-- [ ] Calendar states truthfully represent completed, missed, today and future
+- [x] Calendar states truthfully represent completed, missed, today and future
       dates without changing persisted learning days.
-- [ ] A complete missed local day resets the visible headline and dog to zero on
+- [x] A complete missed local day resets the visible headline and dog to zero on
       rollover/resume; a subsequent completion starts at one.
-- [ ] Yesterday-completed/today-incomplete remains at risk rather than resetting
+- [x] Yesterday-completed/today-incomplete remains at risk rather than resetting
       early.
-- [ ] Reset behavior is account-isolated and deterministic across month, year,
+- [x] Reset behavior is account-isolated and deterministic across month, year,
       leap-day and DST boundaries.
-- [ ] Repository, Home QML, lifecycle/resume and release tests pass.
+- [x] Repository, Home QML, lifecycle/resume and release tests pass.
 
 ## Non-goals
 
@@ -132,3 +132,43 @@ QML locations.
 - Correct rollover behavior would require changing the approved local-date
   learning-day contract rather than fixing derivation/refresh presentation.
 - Removing the preview tooling would discard any non-test product capability.
+
+## Implementation checkpoint — 2026-11-13
+
+**Frontend commit:** `e1aed55` — `feat(frontend): V2-21-07B add calendar and streak reset`
+
+### Changes
+
+- capped the single-dog composition at two seven-unit rows, retained one face,
+  and hid the single tail only when the exact headline count exceeds 14;
+- removed `DLStreakPreview`, its Home/Main bindings, build/context flag,
+  preview-only tests and every removal marker;
+- replaced the ordinal strip with a localized, read-only full-month calendar
+  that uses compact cells, locale-injectable weekday ordering, distinct
+  completed/today/missed/future states and full-date accessibility names;
+- refreshed canonical repository-derived streak state after quiz, sync,
+  authentication and application-resume events, plus a non-blocking one-shot
+  timer scheduled for the next local-date rollover through an injectable clock;
+- extended repository and Home regressions for retained history, missed-day
+  reset, fresh completion after a gap, rollover without restart, resume,
+  account isolation and month/year/leap-day/DST boundaries.
+
+### Verification
+
+- `cmake --build build-tests --parallel 2` — succeeded (Felgo unavailable, so
+  the configured environment built tests/core only).
+- `ctest --test-dir build-tests --output-on-failure -R '^(TestHomeUi|TestLearningDayRepository|TestAppStateAuthBootstrap)$'`
+  — 3/3 passed.
+- `ctest --test-dir build-tests --output-on-failure` — 36/36 passed.
+- `rg -n "DLStreakPreview|streakPreview|developerStreakPreview|DELEARNER_STREAK_PREVIEW_ENABLED|TODO: Remove after testing" . --glob '!build*'`
+  — no matches.
+- `git diff --check` — passed before the frontend commit.
+
+### Limitations and next task
+
+- No packaged Felgo application or physical-device screenshot was available;
+  the real QML components were exercised through the project test harness at
+  phone, tablet portrait and tablet landscape widths.
+- Per the epic guardrail, the root frontend submodule pointer remains deferred
+  until the V2-21-08A integration gate. V2-21 stays In Progress; the next task
+  is V2-21-08A.
