@@ -1,6 +1,6 @@
 # V2-21 — Design Stabilisation Tasks
 
-**Status:** In Progress — V2-21-07C and V2-21-09 Ready; V2-21-10 blocked on both
+**Status:** In Progress — V2-21-07C Done; V2-21-09 Ready; V2-21-10 blocked
 **Workspace:** root + frontend + backend
 **Dependencies:** completed V2-19 and V2-20 baselines
 
@@ -107,13 +107,12 @@ Task identifiers are stable; use this priority order:
 | 11 | V2-21-04B — Add minimum sync spin and stationary error mark | Done | V2-21-04A |
 | 12 | V2-21-07B — Add compact month calendar and enforce streak reset | Done | V2-21-06, V2-21-07A |
 | 13 | V2-21-08A — Run Home calendar, reset and sync-animation gate | Done | V2-21-04B, V2-21-07B |
-| 14 | V2-21-07C — Integrate the dog track with the circular month calendar | Ready | completed V2-21-07B |
+| 14 | V2-21-07C — Integrate the dog track with the circular month calendar | Done | completed V2-21-07B |
 | 15 | V2-21-09 — Enlarge quiz prompt stage and bottom-anchor wide options | Ready | completed V2-18-03, V2-18-05, V2-21-05 |
 | 16 | V2-21-10 — Run calendar-dog and quiz-layout regression gate | Blocked | V2-21-07C, V2-21-09 |
 
-V2-21-07C and V2-21-09 are independently Ready. Preserve the priority order
-above when both are eligible. V2-21-10 becomes Ready only after both are Done
-and is always last.
+V2-21-07C is Done. V2-21-09 is the next dependency-ready task. V2-21-10
+becomes Ready only after V2-21-09 is Done and is always last.
 
 For each task, Ralph/AFK must:
 

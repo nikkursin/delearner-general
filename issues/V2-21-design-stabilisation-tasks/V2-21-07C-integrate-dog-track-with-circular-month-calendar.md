@@ -1,7 +1,7 @@
 # V2-21-07C — Integrate the dog track with the circular month calendar
 
 **Parent epic:** V2-21 — Design Stabilisation Tasks
-**Status:** Ready
+**Status:** Done
 **Workspace:** frontend
 **Size:** 5 story points
 **Dependencies:** completed V2-21-07B
@@ -104,21 +104,21 @@ badges, typography, colors, premium elements or product behavior.
 
 ## Acceptance criteria
 
-- [ ] Every current-month date uses the same fixed circular geometry; no state
+- [x] Every current-month date uses the same fixed circular geometry; no state
       produces the stretched rounded squares shown in the bad screenshot.
-- [ ] The current streak is rendered behind its date circles as one wrapping
+- [x] The current streak is rendered behind its date circles as one wrapping
       dachshund track across every calendar row it touches.
-- [ ] The complete calendar contains at most one face and one tail; intermediate
+- [x] The complete calendar contains at most one face and one tail; intermediate
       rows never duplicate either endpoint.
-- [ ] A streak that began before the visible month hides the tail, while the
+- [x] A streak that began before the visible month hides the tail, while the
       visible body still communicates continuation.
-- [ ] Historical completions outside the current streak remain distinguishable
+- [x] Historical completions outside the current streak remain distinguishable
       without incorrectly extending the dog through them.
-- [ ] Reset, at-risk, rollover and post-gap-new-streak semantics from V2-21-07B
+- [x] Reset, at-risk, rollover and post-gap-new-streak semantics from V2-21-07B
       remain unchanged and covered by focused tests.
-- [ ] The calendar remains compact, responsive, readable and accessible at the
+- [x] The calendar remains compact, responsive, readable and accessible at the
       required phone/tablet sizes.
-- [ ] Frontend focused tests and the relevant suite pass, with a checkpoint
+- [x] Frontend focused tests and the relevant suite pass, with a checkpoint
       recording commands, results, files changed and visual-test limitations.
 
 ## Non-goals
@@ -135,3 +135,39 @@ badges, typography, colors, premium elements or product behavior.
   learning-day or sync semantics.
 - A proposed implementation needs new licensed character artwork instead of
   composing the existing dog assets and calendar primitives.
+
+## Implementation checkpoint — 2026-11-13
+
+**Frontend commit:** `3894f3f` — `feat(frontend): V2-21-07C integrate streak dog calendar`
+
+### Changes
+
+- moved the canonical current-streak visualization into the month calendar and
+  removed the detached, two-row `DLStreakDog` component;
+- rendered every real day as a fixed 30-logical-pixel circle over one dark
+  track that spans every touched calendar row with alternating edge connectors;
+- retained one face and at most one tail from the existing dog assets, hiding
+  the tail when the real streak begins before the visible month;
+- kept historical completed dates outside the canonical current streak marked
+  without extending the dog through them;
+- added focused geometry, row-wrap, endpoint, rollover, month-boundary,
+  leap-month, locale, accessibility and responsive-width coverage.
+
+### Verification
+
+- `cmake --build build-tests --parallel 2` — succeeded; the configured build
+  contains the frontend core and test targets because Felgo is unavailable.
+- `ctest --test-dir build-tests --output-on-failure -R '^TestHomeUi$'` — 1/1
+  passed.
+- `ctest --test-dir build-tests --output-on-failure` — 36/36 passed.
+- `git diff --check` — passed before the frontend commit.
+- `rg -n "DLStreakDog|streakDog" . --glob '!build*'` — no remaining source or
+  test integration matches.
+
+### Limitations and next task
+
+- No packaged Felgo application or physical-device screenshot was available;
+  the real QML components were exercised by the project harness at 320/393
+  phone, tablet portrait and tablet landscape sizes.
+- V2-21 remains In Progress. V2-21-09 is the next dependency-ready task;
+  V2-21-10 remains blocked on V2-21-09.
