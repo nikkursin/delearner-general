@@ -87,7 +87,7 @@ Task identifiers are stable; use this priority order:
 | 8 | V2-21-07 — Correct streak count and day ordering | Done | V2-21-06 |
 | 9 | V2-21-07A — Fix single-dog and streak-number presentation | Done | V2-21-06, V2-21-07 |
 | 10 | V2-21-08 — Run the design-stabilisation regression gate | Done | V2-21-02 through V2-21-07, V2-21-04A, V2-21-07A |
-| 11 | V2-21-04B — Add minimum sync spin and stationary error mark | Ready | V2-21-04A |
+| 11 | V2-21-04B — Add minimum sync spin and stationary error mark | Done | V2-21-04A |
 | 12 | V2-21-07B — Add compact month calendar and enforce streak reset | Ready | V2-21-06, V2-21-07A |
 | 13 | V2-21-08A — Run Home calendar, reset and sync-animation gate | Ready | V2-21-04B, V2-21-07B |
 

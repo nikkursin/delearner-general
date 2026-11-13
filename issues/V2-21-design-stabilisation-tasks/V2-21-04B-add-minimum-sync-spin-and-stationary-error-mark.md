@@ -1,7 +1,7 @@
 # V2-21-04B — Add minimum sync spin and stationary error mark
 
 **Parent epic:** V2-21 — Design Stabilisation Tasks
-**Status:** Ready
+**Status:** Done
 **Workspace:** frontend
 **Size:** 2 story points
 **Dependencies:** completed V2-21-04A
@@ -77,23 +77,23 @@ Home must not rotate that combined SVG.
 
 ## Acceptance criteria
 
-- [ ] An accepted fast successful manual sync visibly rotates for at least the
+- [x] An accepted fast successful manual sync visibly rotates for at least the
       configured 2500 ms production minimum, then becomes static idle.
-- [ ] A slow manual sync rotates until terminal completion even when longer than
+- [x] A slow manual sync rotates until terminal completion even when longer than
       the minimum.
-- [ ] Automatic sync, page creation and a refused manual request do not start
+- [x] Automatic sync, page creation and a refused manual request do not start
       rotation.
-- [ ] During an error visual cycle, the arrows rotate and the exclamation's
+- [x] During an error visual cycle, the arrows rotate and the exclamation's
       rotation remains exactly zero.
-- [ ] After terminal failure/minimum duration, arrows stop while the stationary
+- [x] After terminal failure/minimum duration, arrows stop while the stationary
       exclamation remains visible and retryable.
-- [ ] Resolving the error restores static normal arrows without starting another
+- [x] Resolving the error restores static normal arrows without starting another
       animation.
-- [ ] The animation introduces no artificial delay into sync/network completion
+- [x] The animation introduces no artificial delay into sync/network completion
       and does not block input or the UI thread.
-- [ ] Focused Home QML tests cover fast success, slow success, early error,
+- [x] Focused Home QML tests cover fast success, slow success, early error,
       late error, retry, automatic sync, refused trigger and teardown.
-- [ ] The complete frontend suite passes.
+- [x] The complete frontend suite passes.
 
 ## Non-goals
 
@@ -101,3 +101,36 @@ Home must not rotate that combined SVG.
 - Adding an artificial delay to the real synchronization operation.
 - Rotating the exclamation mark.
 - Replacing the supplied user asset.
+
+## Implementation checkpoint — 2026-11-13
+
+### Files changed
+
+- `delearner-frontend/qml/Views/DLHomePage.qml` — added an independent,
+  non-blocking 2500 ms manual-sync visual floor; kept the cycle active until
+  both the minimum and real terminal state complete; reset it on teardown and
+  account/session transitions; and separated the rotating idle arrows from the
+  stationary supplied error mark.
+- `delearner-frontend/tests/qml/tst_Home.qml` — added a deterministic duration
+  seam and focused coverage for fast/slow success, early/late failure, retry,
+  automatic and refused sync, recovery, session transition and teardown.
+
+The existing `assets/icons/red-exclamation-mark.svg` was inspected and used
+without modification. The compatibility `sync-refresh-error.svg` remains in
+the catalog but is no longer loaded by Home.
+
+### Verification
+
+- `ctest --test-dir build-tests -R '^TestHomeUi$' --output-on-failure` — passed
+  1/1.
+- `ctest --test-dir build-tests --output-on-failure` — passed 36/36.
+- `git diff --check` — passed before the frontend commit.
+
+### Limitations
+
+- None. The visual duration tests use short injected values while separately
+  asserting the production default remains exactly 2500 ms.
+
+### Next task
+
+- V2-21-07B — Add compact month calendar and enforce streak reset.
