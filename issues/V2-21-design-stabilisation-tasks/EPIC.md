@@ -1,6 +1,6 @@
 # V2-21 — Design Stabilisation Tasks
 
-**Status:** In Progress — V2-21-07C and V2-21-09 Done; V2-21-10 Ready
+**Status:** Done
 **Workspace:** root + frontend + backend
 **Dependencies:** completed V2-19 and V2-20 baselines
 
@@ -109,10 +109,9 @@ Task identifiers are stable; use this priority order:
 | 13 | V2-21-08A — Run Home calendar, reset and sync-animation gate | Done | V2-21-04B, V2-21-07B |
 | 14 | V2-21-07C — Integrate the dog track with the circular month calendar | Done | completed V2-21-07B |
 | 15 | V2-21-09 — Enlarge quiz prompt stage and bottom-anchor wide options | Done | completed V2-18-03, V2-18-05, V2-21-05 |
-| 16 | V2-21-10 — Run calendar-dog and quiz-layout regression gate | Ready | V2-21-07C, V2-21-09 |
+| 16 | V2-21-10 — Run calendar-dog and quiz-layout regression gate | Done | V2-21-07C, V2-21-09 |
 
-V2-21-07C and V2-21-09 are Done. V2-21-10 is the next dependency-ready task
-and is always last.
+V2-21-07C, V2-21-09 and the final V2-21-10 regression gate are Done.
 
 For each task, Ralph/AFK must:
 
