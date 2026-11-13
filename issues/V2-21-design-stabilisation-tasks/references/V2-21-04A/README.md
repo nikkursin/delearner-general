@@ -61,3 +61,19 @@ system and needs reliable tinting/scaling across device densities.
 - two glyphs from unrelated icon families;
 - assets copied from a third-party product without a compatible licence;
 - separate animation frames when one centred glyph can be rotated in QML.
+
+## Later V2-21 visual follow-up references
+
+The same folder also contains user-supplied evidence for V2-21-07C and
+V2-21-09. These files do not alter the sync-icon requirements above:
+
+- `current-bad-phone-calendar.jpeg` — current stretched calendar tiles and
+  detached dog layout;
+- `duolinguo-reference.jpeg` — composition reference for placing date circles
+  above one continuous character/body track; do not copy third-party branding,
+  assets or product behavior;
+- `translation_quiz_bad_phone.jpeg` — current Translation Quiz phone layout;
+- `article_quiz_bad_phone.jpeg` — current narrow Article Quiz answer controls;
+- `quiz_reference_figma.png` — exported quiz hierarchy reference. It is
+  sufficient for this local correction; agents must not access or modify Figma
+  for V2-21-09.

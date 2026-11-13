@@ -172,3 +172,13 @@ QML locations.
 - Per the epic guardrail, the root frontend submodule pointer remains deferred
   until the V2-21-08A integration gate. V2-21 stays In Progress; the next task
   is V2-21-08A.
+
+## Superseding visual follow-up — V2-21-07C
+
+Later phone review accepted the month/reset behavior but rejected the stretched
+date tiles and detached two-row dog composition. V2-21-07B remains Done as
+implementation history. V2-21-07C supersedes only its visual two-row/14-unit
+cap: every date becomes an equal circle and one dog track wraps behind the
+current-streak dates through every calendar row it touches. V2-21-07B's
+canonical streak, reset, rollover and retained-history semantics remain in
+force.

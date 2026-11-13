@@ -119,3 +119,10 @@ asset-layering check fails. Do not mark Done solely from a visual spot check.
   path. The same Home QML suite passed in Debug, and Release/Debug parity for
   the canonical streak was verified by source/build-flag removal rather than
   counted as a second runtime pass.
+
+## Later follow-up gate — V2-21-10
+
+Subsequent physical-phone review requested a new calendar/dog composition and
+quiz-session geometry correction. This completed gate remains immutable
+history. V2-21-10 owns the new integrated regression gate after V2-21-07C and
+V2-21-09.

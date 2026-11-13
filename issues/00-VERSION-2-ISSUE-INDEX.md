@@ -238,8 +238,8 @@ order.
 
 ## V2-21 — Design Stabilisation Tasks
 
-**Status:** Done. Completed history remains closed; V2-21-04B, V2-21-07B and
-V2-21-08A are complete.
+**Status:** In Progress. Completed history remains closed; new follow-ups
+V2-21-07C and V2-21-09 are Ready, and V2-21-10 is blocked on both.
 
 | Task | Status | Dependencies |
 |---|---|---|
@@ -256,6 +256,9 @@ V2-21-08A are complete.
 | [V2-21-07B](./V2-21-design-stabilisation-tasks/V2-21-07B-add-compact-month-calendar-and-enforce-streak-reset.md) — Add compact month calendar and enforce streak reset | Done | V2-21-06, V2-21-07A |
 | [V2-21-08](./V2-21-design-stabilisation-tasks/V2-21-08-run-design-stabilisation-regression-gate.md) — Run the design-stabilisation regression gate | Done | V2-21-02 through V2-21-07, V2-21-04A, V2-21-07A |
 | [V2-21-08A](./V2-21-design-stabilisation-tasks/V2-21-08A-run-home-calendar-reset-and-sync-animation-gate.md) — Run Home calendar, reset and sync-animation gate | Done | V2-21-04B, V2-21-07B |
+| [V2-21-07C](./V2-21-design-stabilisation-tasks/V2-21-07C-integrate-dog-track-with-circular-month-calendar.md) — Integrate the dog track with the circular month calendar | Ready | completed V2-21-07B |
+| [V2-21-09](./V2-21-design-stabilisation-tasks/V2-21-09-enlarge-quiz-prompt-and-bottom-anchor-wide-options.md) — Enlarge quiz prompt stage and bottom-anchor wide options | Ready | completed V2-18-03, V2-18-05, V2-21-05 |
+| [V2-21-10](./V2-21-design-stabilisation-tasks/V2-21-10-run-calendar-dog-and-quiz-layout-gate.md) — Run calendar-dog and quiz-layout regression gate | Blocked | V2-21-07C, V2-21-09 |
 
 ### V2-21 approved semantics
 
@@ -275,11 +278,18 @@ V2-21-08A are complete.
   navigation without device-specific offsets.
 - V2-21-04B adds a non-blocking 2.5-second minimum manual-sync animation and a
   stationary user-supplied exclamation overlay.
-- Streak presentation uses one dog with at most two rows, exactly one face, at
-  most one tail and a hidden tail above 14 days.
+- V2-21-07C supersedes the separate two-row dog cap: equal fixed-size date
+  circles sit above one current-streak dog track that may wrap through every
+  calendar row it touches, with exactly one face and at most one tail.
+- A streak beginning before the visible month hides its tail; historical
+  completed dates outside the current streak do not extend the dog.
 - The preview slider is removed and replaced by a compact current-month
   calendar. One complete missed local day resets the current streak to zero
   without deleting historical completed learning days.
+- Translation and Article quizzes gain a large framed prompt stage plus wide
+  answer controls in a safe-area-aware bottom region. The exported screenshot
+  is sufficient; this local correction must not access or modify Figma or
+  change quiz behavior.
 
 ## Version 2 Non-Goals / Deferred Scope
 
