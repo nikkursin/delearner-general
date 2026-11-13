@@ -1,7 +1,7 @@
 # V2-21-09 — Enlarge quiz prompt stage and bottom-anchor wide options
 
 **Parent epic:** V2-21 — Design Stabilisation Tasks
-**Status:** Ready
+**Status:** Done
 **Workspace:** frontend
 **Size:** 5 story points
 **Dependencies:** completed V2-18-03, completed V2-18-05, completed V2-21-05
@@ -105,19 +105,19 @@ modify the canonical Figma file and do not redesign unrelated quiz screens.
 
 ## Acceptance criteria
 
-- [ ] Both quiz types show a visibly larger framed prompt stage suitable for a
+- [x] Both quiz types show a visibly larger framed prompt stage suitable for a
       word or wrapped phrase.
-- [ ] Translation and Article answer controls use the wide responsive container;
+- [x] Translation and Article answer controls use the wide responsive container;
       Article buttons no longer render as narrow floating controls.
-- [ ] On a normal portrait phone, options are positioned near the bottom usable
+- [x] On a normal portrait phone, options are positioned near the bottom usable
       area with safe spacing rather than floating around mid-screen.
-- [ ] Feedback and the continuation action remain visible/reachable and do not
+- [x] Feedback and the continuation action remain visible/reachable and do not
       cause a large layout jump after selection.
-- [ ] Long text and constrained-height layouts do not clip, overlap or make any
+- [x] Long text and constrained-height layouts do not clip, overlap or make any
       answer/action unreachable.
-- [ ] Existing answer-state colors, scoring, progress, navigation, results and
+- [x] Existing answer-state colors, scoring, progress, navigation, results and
       exactly-once review-statistics behavior remain intact.
-- [ ] Focused QML/quiz tests and the relevant frontend suite pass, with a
+- [x] Focused QML/quiz tests and the relevant frontend suite pass, with a
       checkpoint recording files, commands, results and device limitations.
 
 ## Non-goals
@@ -133,3 +133,41 @@ modify the canonical Figma file and do not redesign unrelated quiz screens.
   answer semantics.
 - A shared quiz component change would alter an unrelated quiz family without
   focused coverage and explicit scope.
+
+## Implementation checkpoint — 2026-11-13
+
+**Result:** Done. Translation and Article sessions now share a safe-area-aware,
+tablet-capped layout with a flexible framed prompt stage, a bottom-anchored
+wide answer region, 44-pixel minimum tap targets, and reserved feedback/action
+space. Long Translation text wraps without elliding, and the existing page
+Flickable provides the bounded fallback for constrained heights.
+
+**Frontend files changed:**
+
+- `qml/Views/DLTranslationQuizSessionPage.qml`
+- `qml/Views/DLArticleQuizSessionPage.qml`
+- `tests/TestTranslationQuizSessionUi.cmake`
+- `tests/TestArticleQuizSessionUi.cmake`
+- `tests/TestQuizSessionLayoutUi.cmake`
+- `tests/CMakeLists.txt`
+
+**Verification:**
+
+- Focused Translation and Article CMake UI checks: passed.
+- Shared 320/360/393 phone, safe-area and 768/1024 tablet width-equation check:
+  passed.
+- `qmllint` on both changed pages: exit 0; only the existing context-property
+  `appStateManager` unqualified-access warnings were reported.
+- Felgo desktop configure and build in `build-ralph-v2-21-09`: passed, including
+  QML cache generation for both changed pages and final application link.
+- Full frontend `ctest --test-dir build-tests --output-on-failure -j 4`: 37/37
+  passed, including Quiz service/repository, results, transactional outbox and
+  both session UI checks.
+- `git diff --check`: passed.
+
+**Device limitation:** no physical iOS/Android device or interactive simulator
+screenshot pass was available in this invocation. Responsive width, safe-area,
+minimum-height, source ordering and scrolling invariants are covered locally;
+the final cross-surface/device confirmation remains part of V2-21-10.
+
+**Next task:** V2-21-10 — Run calendar-dog and quiz-layout regression gate.

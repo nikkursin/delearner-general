@@ -238,8 +238,8 @@ order.
 
 ## V2-21 — Design Stabilisation Tasks
 
-**Status:** In Progress. Completed history remains closed; V2-21-07C is Done,
-V2-21-09 is Ready, and V2-21-10 remains blocked.
+**Status:** In Progress. Completed history remains closed; V2-21-07C and
+V2-21-09 are Done, and V2-21-10 is Ready.
 
 | Task | Status | Dependencies |
 |---|---|---|
@@ -257,8 +257,8 @@ V2-21-09 is Ready, and V2-21-10 remains blocked.
 | [V2-21-08](./V2-21-design-stabilisation-tasks/V2-21-08-run-design-stabilisation-regression-gate.md) — Run the design-stabilisation regression gate | Done | V2-21-02 through V2-21-07, V2-21-04A, V2-21-07A |
 | [V2-21-08A](./V2-21-design-stabilisation-tasks/V2-21-08A-run-home-calendar-reset-and-sync-animation-gate.md) — Run Home calendar, reset and sync-animation gate | Done | V2-21-04B, V2-21-07B |
 | [V2-21-07C](./V2-21-design-stabilisation-tasks/V2-21-07C-integrate-dog-track-with-circular-month-calendar.md) — Integrate the dog track with the circular month calendar | Done | completed V2-21-07B |
-| [V2-21-09](./V2-21-design-stabilisation-tasks/V2-21-09-enlarge-quiz-prompt-and-bottom-anchor-wide-options.md) — Enlarge quiz prompt stage and bottom-anchor wide options | Ready | completed V2-18-03, V2-18-05, V2-21-05 |
-| [V2-21-10](./V2-21-design-stabilisation-tasks/V2-21-10-run-calendar-dog-and-quiz-layout-gate.md) — Run calendar-dog and quiz-layout regression gate | Blocked | V2-21-07C, V2-21-09 |
+| [V2-21-09](./V2-21-design-stabilisation-tasks/V2-21-09-enlarge-quiz-prompt-and-bottom-anchor-wide-options.md) — Enlarge quiz prompt stage and bottom-anchor wide options | Done | completed V2-18-03, V2-18-05, V2-21-05 |
+| [V2-21-10](./V2-21-design-stabilisation-tasks/V2-21-10-run-calendar-dog-and-quiz-layout-gate.md) — Run calendar-dog and quiz-layout regression gate | Ready | V2-21-07C, V2-21-09 |
 
 ### V2-21 approved semantics
 
