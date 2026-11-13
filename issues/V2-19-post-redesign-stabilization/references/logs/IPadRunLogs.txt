@@ -1,0 +1,175 @@
+delearner.backend.http: request_start request_id=3fa559f2-51be-4205-9a83-e936cf659a18 method=POST route=/events
+delearner-backend  | delearner.backend.sync: event_upload_start request_id=3fa559f2-51be-4205-9a83-e936cf659a18 batch_size=9 body_bytes=6033
+delearner-backend  | delearner.backend.auth: bearer_auth_result request_id=3fa559f2-51be-4205-9a83-e936cf659a18 operation=event_upload outcome=invalid_session
+delearner-backend  | delearner.backend.sync: event_upload_result request_id=3fa559f2-51be-4205-9a83-e936cf659a18 outcome=invalid_session accepted_count=0 rejected_count=0
+delearner-backend  | delearner.backend.http: request_complete request_id=3fa559f2-51be-4205-9a83-e936cf659a18 method=POST route=/events status=401 duration_ms=130 outcome=invalid_session
+delearner-backend  | delearner.backend.http: request_start request_id=65672531-3858-49cd-b9dc-3faf6a310a0f method=POST route=/events
+delearner-backend  | delearner.backend.sync: event_upload_start request_id=65672531-3858-49cd-b9dc-3faf6a310a0f batch_size=9 body_bytes=6033
+delearner-backend  | delearner.backend.auth: bearer_auth_result request_id=65672531-3858-49cd-b9dc-3faf6a310a0f operation=event_upload outcome=invalid_session
+delearner-backend  | delearner.backend.sync: event_upload_result request_id=65672531-3858-49cd-b9dc-3faf6a310a0f outcome=invalid_session accepted_count=0 rejected_count=0
+delearner-backend  | delearner.backend.http: request_complete request_id=65672531-3858-49cd-b9dc-3faf6a310a0f method=POST route=/events status=401 duration_ms=9 outcome=invalid_session
+delearner-backend  | delearner.backend.http: request_start request_id=b463b622-c62f-4265-bbde-3f21dddb52c0 method=POST route=/events
+delearner-backend  | delearner.backend.sync: event_upload_start request_id=b463b622-c62f-4265-bbde-3f21dddb52c0 batch_size=9 body_bytes=6033
+delearner-backend  | delearner.backend.auth: bearer_auth_result request_id=b463b622-c62f-4265-bbde-3f21dddb52c0 operation=event_upload outcome=invalid_session
+delearner-backend  | delearner.backend.sync: event_upload_result request_id=b463b622-c62f-4265-bbde-3f21dddb52c0 outcome=invalid_session accepted_count=0 rejected_count=0
+delearner-backend  | delearner.backend.http: request_complete request_id=b463b622-c62f-4265-bbde-3f21dddb52c0 method=POST route=/events status=401 duration_ms=1 outcome=invalid_session
+delearner-backend  | delearner.backend.http: request_start request_id=08b14bd5-1880-4a3c-9070-a7ab80babeb7 method=POST route=/api/v1/auth/sign-in
+delearner-backend  | delearner.backend.auth: auth_start request_id=08b14bd5-1880-4a3c-9070-a7ab80babeb7 operation=sign_in body_bytes=47
+delearner-backend  | delearner.backend.auth: auth_result request_id=08b14bd5-1880-4a3c-9070-a7ab80babeb7 operation=sign_in outcome=success user_id=70bdbbc4-ee85-448d-a045-b1677ff437bc
+delearner-backend  | delearner.backend.http: request_complete request_id=08b14bd5-1880-4a3c-9070-a7ab80babeb7 method=POST route=/api/v1/auth/sign-in status=200 duration_ms=479 outcome=success
+delearner-backend  | delearner.backend.http: request_start request_id=11ac18ca-d30b-4ea4-9b31-cc101c2f4409 method=POST route=/api/v1/devices/register
+delearner-backend  | delearner.backend.device: device_registration_start request_id=11ac18ca-d30b-4ea4-9b31-cc101c2f4409 body_bytes=77
+delearner-backend  | delearner.backend.auth: bearer_auth_result request_id=11ac18ca-d30b-4ea4-9b31-cc101c2f4409 operation=device_registration outcome=success user_id=70bdbbc4-ee85-448d-a045-b1677ff437bc
+delearner-backend  | delearner.backend.device: device_registration_result request_id=11ac18ca-d30b-4ea4-9b31-cc101c2f4409 outcome=success device_id=50b299bf-c20b-4fe0-8325-f64aebd0904d created=false
+delearner-backend  | delearner.backend.http: request_complete request_id=11ac18ca-d30b-4ea4-9b31-cc101c2f4409 method=POST route=/api/v1/devices/register status=200 duration_ms=19 outcome=success
+delearner-backend  | delearner.backend.http: request_start request_id=c8030ffe-76ad-4ff2-bdc4-bd937d71d2a6 method=GET route=/bootstrap
+delearner-backend  | delearner.backend.sync: bootstrap_start request_id=c8030ffe-76ad-4ff2-bdc4-bd937d71d2a6
+delearner-backend  | delearner.backend.auth: bearer_auth_result request_id=c8030ffe-76ad-4ff2-bdc4-bd937d71d2a6 operation=bootstrap outcome=success user_id=70bdbbc4-ee85-448d-a045-b1677ff437bc
+delearner-backend  | delearner.backend.sync: bootstrap_result request_id=c8030ffe-76ad-4ff2-bdc4-bd937d71d2a6 outcome=success group_count=5 word_count=7 review_stats_count=5 learning_settings_count=0 tombstone_count=1 server_sequence=49
+delearner-backend  | delearner.backend.http: request_complete request_id=c8030ffe-76ad-4ff2-bdc4-bd937d71d2a6 method=GET route=/bootstrap status=200 duration_ms=49 outcome=success
+delearner-backend  | delearner.backend.http: request_start request_id=2f3cf86a-c866-4352-998f-93936fa63f07 method=POST route=/api/v1/auth/sign-in
+delearner-backend  | delearner.backend.auth: auth_start request_id=2f3cf86a-c866-4352-998f-93936fa63f07 operation=sign_in body_bytes=47
+delearner-backend  | delearner.backend.auth: auth_result request_id=2f3cf86a-c866-4352-998f-93936fa63f07 operation=sign_in outcome=success user_id=70bdbbc4-ee85-448d-a045-b1677ff437bc
+delearner-backend  | delearner.backend.http: request_complete request_id=2f3cf86a-c866-4352-998f-93936fa63f07 method=POST route=/api/v1/auth/sign-in status=200 duration_ms=361 outcome=success
+delearner-backend  | delearner.backend.http: request_start request_id=bcbf4a78-c5ba-49d1-b274-94cff1720a5d method=POST route=/api/v1/devices/register
+delearner-backend  | delearner.backend.device: device_registration_start request_id=bcbf4a78-c5ba-49d1-b274-94cff1720a5d body_bytes=77
+delearner-backend  | delearner.backend.auth: bearer_auth_result request_id=bcbf4a78-c5ba-49d1-b274-94cff1720a5d operation=device_registration outcome=success user_id=70bdbbc4-ee85-448d-a045-b1677ff437bc
+delearner-backend  | delearner.backend.device: device_registration_result request_id=bcbf4a78-c5ba-49d1-b274-94cff1720a5d outcome=success device_id=50b299bf-c20b-4fe0-8325-f64aebd0904d created=false
+delearner-backend  | delearner.backend.http: request_complete request_id=bcbf4a78-c5ba-49d1-b274-94cff1720a5d method=POST route=/api/v1/devices/register status=200 duration_ms=4 outcome=success
+delearner-backend  | delearner.backend.http: request_start request_id=9ca342be-a214-413e-9496-d6c211c7929d method=GET route=/bootstrap
+delearner-backend  | delearner.backend.sync: bootstrap_start request_id=9ca342be-a214-413e-9496-d6c211c7929d
+delearner-backend  | delearner.backend.auth: bearer_auth_result request_id=9ca342be-a214-413e-9496-d6c211c7929d operation=bootstrap outcome=success user_id=70bdbbc4-ee85-448d-a045-b1677ff437bc
+delearner-backend  | delearner.backend.sync: bootstrap_result request_id=9ca342be-a214-413e-9496-d6c211c7929d outcome=success group_count=5 word_count=7 review_stats_count=5 learning_settings_count=0 tombstone_count=1 server_sequence=49
+delearner-backend  | delearner.backend.http: request_complete request_id=9ca342be-a214-413e-9496-d6c211c7929d method=GET route=/bootstrap status=200 duration_ms=9 outcome=success
+delearner-backend  | delearner.backend.http: request_start request_id=052f8cd1-4ece-435b-8b0f-2bb80e918c9d method=POST route=/api/v1/auth/register
+delearner-backend  | delearner.backend.auth: auth_start request_id=052f8cd1-4ece-435b-8b0f-2bb80e918c9d operation=register body_bytes=48
+delearner-backend  | delearner.backend.auth: auth_result request_id=052f8cd1-4ece-435b-8b0f-2bb80e918c9d operation=register outcome=success user_id=7cc92905-9e2d-499d-86dc-2d875d85a21e
+delearner-backend  | delearner.backend.http: request_complete request_id=052f8cd1-4ece-435b-8b0f-2bb80e918c9d method=POST route=/api/v1/auth/register status=201 duration_ms=333 outcome=success
+delearner-backend  | delearner.backend.http: request_start request_id=9c542e79-06b6-4a84-a553-b17cde0c4454 method=POST route=/api/v1/devices/register
+delearner-backend  | delearner.backend.device: device_registration_start request_id=9c542e79-06b6-4a84-a553-b17cde0c4454 body_bytes=77
+delearner-backend  | delearner.backend.auth: bearer_auth_result request_id=9c542e79-06b6-4a84-a553-b17cde0c4454 operation=device_registration outcome=success user_id=7cc92905-9e2d-499d-86dc-2d875d85a21e
+delearner-backend  | delearner.backend.device: device_registration_result request_id=9c542e79-06b6-4a84-a553-b17cde0c4454 outcome=device_claim_conflict device_id=50b299bf-c20b-4fe0-8325-f64aebd0904d
+delearner-backend  | delearner.backend.http: request_complete request_id=9c542e79-06b6-4a84-a553-b17cde0c4454 method=POST route=/api/v1/devices/register status=409 duration_ms=3 outcome=device_claim_conflict
+
+
+
+Felgo [INFO]: Starting in "test" stage. Note: When you are ready to publish your app to the app stores, switch to Release mode and set the PRODUCT_STAGE in your CMakeLists.txt to "publish". For more information see: https://felgo.com/doc/felgo-publishing/
+application_activity_changed active=0
+Initializing app state
+authenticated_startup_initialized api_origin=http://192.168.178.75:8080 local_database_exists=0
+auth_service_initialized api_origin=http://192.168.178.75:8080 saved_session=0
+stale focus object 0x0 , doing manual update
+application_activity_changed active=1
+sync_trigger_skipped reason=application_resumed application_active=1 network_available=1 auth_service=1 coordinator=0
+stale focus object 0x15f1a3280 , doing manual update
+Reading from public effective user settings.
+<0x15e1e1cc0> Gesture: System gesture gate timed out.
+containerToPush is nil, will not push anything to candidate receiver for request token: F3884D41
+Error: this application, or a library it uses, has passed an invalid numeric value (NaN, or not-a-number) to CoreGraphics API and this value is being ignored. Please fix this problem.
+If you want to see the backtrace, please set CG_NUMERICS_SHOW_BACKTRACE environmental variable.
+Error: this application, or a library it uses, has passed an invalid numeric value (NaN, or not-a-number) to CoreGraphics API and this value is being ignored. Please fix this problem.
+If you want to see the backtrace, please set CG_NUMERICS_SHOW_BACKTRACE environmental variable.
+Error: this application, or a library it uses, has passed an invalid numeric value (NaN, or not-a-number) to CoreGraphics API and this value is being ignored. Please fix this problem.
+If you want to see the backtrace, please set CG_NUMERICS_SHOW_BACKTRACE environmental variable.
+Error: this application, or a library it uses, has passed an invalid numeric value (NaN, or not-a-number) to CoreGraphics API and this value is being ignored. Please fix this problem.
+If you want to see the backtrace, please set CG_NUMERICS_SHOW_BACKTRACE environmental variable.
+Error: this application, or a library it uses, has passed an invalid numeric value (NaN, or not-a-number) to CoreGraphics API and this value is being ignored. Please fix this problem.
+If you want to see the backtrace, please set CG_NUMERICS_SHOW_BACKTRACE environmental variable.
+Error: this application, or a library it uses, has passed an invalid numeric value (NaN, or not-a-number) to CoreGraphics API and this value is being ignored. Please fix this problem.
+If you want to see the backtrace, please set CG_NUMERICS_SHOW_BACKTRACE environmental variable.
+containerToPush is nil, will not push anything to candidate receiver for request token: 518ACE17
+stale focus object 0x15f5e1f80 , doing manual update
+stale focus object 0x15f5e2140 , doing manual update
+-[RTIInputSystemClient remoteTextInputSessionWithID:performInputOperation:]  perform input operation requires a valid sessionID. inputModality = Keyboard, inputOperation = <null selector>, customInfoType = UIEmojiSearchOperations
+stale focus object 0x15f5e2300 , doing manual update
+auth_ui_action_started operation=sign_in
+auth_started operation=sign_in request_id=08b14bd5-1880-4a3c-9070-a7ab80babeb7
+http_request_started method=POST route=/api/v1/auth/sign-in request_id=08b14bd5-1880-4a3c-9070-a7ab80babeb7
+http_request_finished method=POST phase=authentication request_id=08b14bd5-1880-4a3c-9070-a7ab80babeb7 status=200 network_error=0 backend_code=none duration_ms=547
+auth_response_validated operation=sign_in request_id=08b14bd5-1880-4a3c-9070-a7ab80babeb7 has_user_id=1 has_token=1
+device_identity_ready created_or_loaded=1
+device_registration_started request_id=11ac18ca-d30b-4ea4-9b31-cc101c2f4409
+http_request_started method=POST route=/api/v1/devices/register request_id=11ac18ca-d30b-4ea4-9b31-cc101c2f4409
+http_request_finished method=POST phase=device_registration request_id=11ac18ca-d30b-4ea4-9b31-cc101c2f4409 status=200 network_error=0 backend_code=none duration_ms=30
+auth_terminal_success phase=session_persistence request_id=11ac18ca-d30b-4ea4-9b31-cc101c2f4409 session_saved=1 device_registered=1
+authenticated_startup_auth_result success=1
+Opening database at "/var/mobile/Containers/Data/Application/12BB9CCE-56CA-4A83-91D4-1216CC2C0D9F/Library/Application Support/DELerner/delearner.sqlite"
+Creating database tables if needed
+Migrating database schema if needed
+Creating database indexes if needed
+stale focus object 0x15f5e1c00 , doing manual update
+bootstrap_started reason=fresh_install
+sync_cycle_started mode=bootstrap_then_sync
+bootstrap_started replay_pending_after_restore=0 request_id=c8030ffe-76ad-4ff2-bdc4-bd937d71d2a6
+http_request_started method=GET route=/bootstrap phase=bootstrap request_id=c8030ffe-76ad-4ff2-bdc4-bd937d71d2a6
+http_request_finished phase=bootstrap request_id=c8030ffe-76ad-4ff2-bdc4-bd937d71d2a6 status=200 network_error=0 backend_code=none duration_ms=65
+bootstrap_response_received request_id=c8030ffe-76ad-4ff2-bdc4-bd937d71d2a6 payload_bytes=7472
+bootstrap_restore_terminal_failure request_id=c8030ffe-76ad-4ff2-bdc4-bd937d71d2a6 technical_error=Word part_of_speech is not a contract 2 value.
+sync_cycle_terminal_failure phase=bootstrap_restore code=operation_failed technical_error=Word part_of_speech is not a contract 2 value.
+bootstrap_terminal_failure phase=first_sync technical_error=Word part_of_speech is not a contract 2 value.
+Closing database
+stale focus object 0x15f41cb60 , doing manual update
+stale focus object 0x15f576840 , doing manual update
+auth_ui_action_started operation=sign_in
+auth_terminal_failure operation=sign_in phase=input_validation code=missing_credentials
+authenticated_startup_terminal_failure phase=auth_or_device request_id= status=0 network_error=0 backend_code=none
+stale focus object 0x15f5e00e0 , doing manual update
+stale focus object 0x15f576840 , doing manual update
+-[RTIInputSystemClient remoteTextInputSessionWithID:performInputOperation:]  perform input operation requires a valid sessionID. inputModality = Keyboard, inputOperation = <null selector>, customInfoType = UIEmojiSearchOperations
+Error: this application, or a library it uses, has passed an invalid numeric value (NaN, or not-a-number) to CoreGraphics API and this value is being ignored. Please fix this problem.
+If you want to see the backtrace, please set CG_NUMERICS_SHOW_BACKTRACE environmental variable.
+Error: this application, or a library it uses, has passed an invalid numeric value (NaN, or not-a-number) to CoreGraphics API and this value is being ignored. Please fix this problem.
+If you want to see the backtrace, please set CG_NUMERICS_SHOW_BACKTRACE environmental variable.
+Error: this application, or a library it uses, has passed an invalid numeric value (NaN, or not-a-number) to CoreGraphics API and this value is being ignored. Please fix this problem.
+If you want to see the backtrace, please set CG_NUMERICS_SHOW_BACKTRACE environmental variable.
+Error: this application, or a library it uses, has passed an invalid numeric value (NaN, or not-a-number) to CoreGraphics API and this value is being ignored. Please fix this problem.
+If you want to see the backtrace, please set CG_NUMERICS_SHOW_BACKTRACE environmental variable.
+Error: this application, or a library it uses, has passed an invalid numeric value (NaN, or not-a-number) to CoreGraphics API and this value is being ignored. Please fix this problem.
+If you want to see the backtrace, please set CG_NUMERICS_SHOW_BACKTRACE environmental variable.
+Error: this application, or a library it uses, has passed an invalid numeric value (NaN, or not-a-number) to CoreGraphics API and this value is being ignored. Please fix this problem.
+If you want to see the backtrace, please set CG_NUMERICS_SHOW_BACKTRACE environmental variable.
+stale focus object 0x16065f480 , doing manual update
+stale focus object 0x15e1b9b20 , doing manual update
+-[RTIInputSystemClient remoteTextInputSessionWithID:performInputOperation:]  perform input operation requires a valid sessionID. inputModality = Keyboard, inputOperation = <null selector>, customInfoType = UIEmojiSearchOperations
+stale focus object 0x15f576840 , doing manual update
+auth_ui_action_started operation=sign_in
+auth_started operation=sign_in request_id=2f3cf86a-c866-4352-998f-93936fa63f07
+http_request_started method=POST route=/api/v1/auth/sign-in request_id=2f3cf86a-c866-4352-998f-93936fa63f07
+http_request_finished method=POST phase=authentication request_id=2f3cf86a-c866-4352-998f-93936fa63f07 status=200 network_error=0 backend_code=none duration_ms=375
+auth_response_validated operation=sign_in request_id=2f3cf86a-c866-4352-998f-93936fa63f07 has_user_id=1 has_token=1
+device_identity_ready created_or_loaded=1
+device_registration_started request_id=bcbf4a78-c5ba-49d1-b274-94cff1720a5d
+http_request_started method=POST route=/api/v1/devices/register request_id=bcbf4a78-c5ba-49d1-b274-94cff1720a5d
+http_request_finished method=POST phase=device_registration request_id=bcbf4a78-c5ba-49d1-b274-94cff1720a5d status=200 network_error=0 backend_code=none duration_ms=38
+auth_terminal_success phase=session_persistence request_id=bcbf4a78-c5ba-49d1-b274-94cff1720a5d session_saved=1 device_registered=1
+authenticated_startup_auth_result success=1
+Opening database at "/var/mobile/Containers/Data/Application/12BB9CCE-56CA-4A83-91D4-1216CC2C0D9F/Library/Application Support/DELerner/delearner.sqlite"
+Creating database tables if needed
+Migrating database schema if needed
+Creating database indexes if needed
+stale focus object 0x15f5e00e0 , doing manual update
+bootstrap_started reason=fresh_install
+sync_cycle_started mode=bootstrap_then_sync
+bootstrap_started replay_pending_after_restore=0 request_id=9ca342be-a214-413e-9496-d6c211c7929d
+http_request_started method=GET route=/bootstrap phase=bootstrap request_id=9ca342be-a214-413e-9496-d6c211c7929d
+http_request_finished phase=bootstrap request_id=9ca342be-a214-413e-9496-d6c211c7929d status=200 network_error=0 backend_code=none duration_ms=27
+bootstrap_response_received request_id=9ca342be-a214-413e-9496-d6c211c7929d payload_bytes=7472
+bootstrap_restore_terminal_failure request_id=9ca342be-a214-413e-9496-d6c211c7929d technical_error=Word part_of_speech is not a contract 2 value.
+sync_cycle_terminal_failure phase=bootstrap_restore code=operation_failed technical_error=Word part_of_speech is not a contract 2 value.
+bootstrap_terminal_failure phase=first_sync technical_error=Word part_of_speech is not a contract 2 value.
+Closing database
+-[RTIInputSystemClient remoteTextInputSessionWithID:performInputOperation:]  perform input operation requires a valid sessionID. inputModality = Keyboard, inputOperation = dismissAutoFillPanel, customInfoType = UIUserInteractionRemoteInputOperations
+application_activity_changed active=0
+-[RTIInputSystemClient remoteTextInputSessionWithID:performInputOperation:]  perform input operation requires a valid sessionID. inputModality = Keyboard, inputOperation = dismissAutoFillPanel, customInfoType = UIUserInteractionRemoteInputOperations
+[C:4] Error received: Connection interrupted.
+[C:4-1] Error received: Connection interrupted.
+-[RTIInputSystemClient _configureConnection:withMachName:]_block_invoke  Client connection to service was interrupted: <NSXPCConnection: 0x15e2877a0> connection to service with pid -1 named (null)
+Snapshotting a view (0x1604cd400, UIKeyboardImpl) that is not in a visible window requires afterScreenUpdates:YES.
+file:///private/var/containers/Bundle/Application/B0C34087-8A76-493E-A165-C0AFE4BDB91A/delearner.app/qml/Main.qml:59: TypeError: Cannot read property 'currentScreen' of null
+file:///private/var/containers/Bundle/Application/B0C34087-8A76-493E-A165-C0AFE4BDB91A/delearner.app/qml/Views/DLAuthPage.qml:91: TypeError: Cannot read property 'lastError' of null
+file:///private/var/containers/Bundle/Application/B0C34087-8A76-493E-A165-C0AFE4BDB91A/delearner.app/qml/Views/DLAuthPage.qml:81: TypeError: Cannot read property 'authBusy' of null
+file:///private/var/containers/Bundle/Application/B0C34087-8A76-493E-A165-C0AFE4BDB91A/delearner.app/qml/Views/DLAuthPage.qml:73: TypeError: Cannot read property 'authBusy' of null
+file:///private/var/containers/Bundle/Application/B0C34087-8A76-493E-A165-C0AFE4BDB91A/delearner.app/qml/Views/DLAuthPage.qml:74: TypeError: Cannot read property 'authBusy' of null
+file:///private/var/containers/Bundle/Application/B0C34087-8A76-493E-A165-C0AFE4BDB91A/delearner.app/qml/Views/DLAuthPage.qml:64: TypeError: Cannot read property 'authBusy' of null
+file:///private/var/containers/Bundle/Application/B0C34087-8A76-493E-A165-C0AFE4BDB91A/delearner.app/qml/Views/DLAuthPage.qml:55: TypeError: Cannot read property 'authBusy' of null
+Program ended with exit code: 0

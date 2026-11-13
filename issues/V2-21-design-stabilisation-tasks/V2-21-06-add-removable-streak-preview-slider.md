@@ -91,3 +91,10 @@ it development-only and trivially removable in the meantime.
 - Per the V2-21 guardrail, the root frontend submodule pointer remains deferred
   until V2-21-08. V2-21 stays In Progress; the next task remains subject to the
   Ralph selector.
+
+## Removal decision — V2-21-07B
+
+The user has completed visual testing and explicitly requested removal of the
+temporary slider. V2-21-06 remains Done as history; V2-21-07B owns complete
+removal of the component, flag, Loader, preview state, tests and marked
+integration points.

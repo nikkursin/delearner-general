@@ -238,8 +238,8 @@ order.
 
 ## V2-21 — Design Stabilisation Tasks
 
-**Status:** Done. V2-21-01 through V2-21-08 and follow-ups
-V2-21-04A/V2-21-07A are complete.
+**Status:** In Progress. Completed history remains closed; execute follow-ups
+V2-21-04B, V2-21-07B and V2-21-08A in epic priority order.
 
 | Task | Status | Dependencies |
 |---|---|---|
@@ -248,11 +248,14 @@ V2-21-04A/V2-21-07A are complete.
 | [V2-21-03](./V2-21-design-stabilisation-tasks/V2-21-03-implement-split-authentication-pages-and-client-validation.md) — Implement split authentication pages and client validation | Done | V2-21-01, V2-21-02 |
 | [V2-21-04](./V2-21-design-stabilisation-tasks/V2-21-04-move-manual-sync-to-home-refresh-control.md) — Move manual sync to a Home refresh control | Done | completed V2-20-05 |
 | [V2-21-04A](./V2-21-design-stabilisation-tasks/V2-21-04A-refine-home-sync-control-visual-states.md) — Refine Home sync-control visual states | Done | V2-21-04 |
+| [V2-21-04B](./V2-21-design-stabilisation-tasks/V2-21-04B-add-minimum-sync-spin-and-stationary-error-mark.md) — Add minimum sync spin and stationary error mark | Ready | V2-21-04A |
 | [V2-21-05](./V2-21-design-stabilisation-tasks/V2-21-05-fix-ipad-landscape-and-bottom-navigation-geometry.md) — Fix iPad landscape and bottom-navigation geometry | Done | completed V2-16-01, V2-20-05 |
 | [V2-21-06](./V2-21-design-stabilisation-tasks/V2-21-06-add-removable-streak-preview-slider.md) — Add a removable streak preview slider | Done | completed V2-20-04 |
 | [V2-21-07](./V2-21-design-stabilisation-tasks/V2-21-07-correct-streak-count-and-day-ordering.md) — Correct streak count and day ordering | Done | V2-21-06 |
 | [V2-21-07A](./V2-21-design-stabilisation-tasks/V2-21-07A-fix-single-dog-and-streak-number-presentation.md) — Fix single-dog and streak-number presentation | Done | V2-21-06, V2-21-07 |
+| [V2-21-07B](./V2-21-design-stabilisation-tasks/V2-21-07B-add-compact-month-calendar-and-enforce-streak-reset.md) — Add compact month calendar and enforce streak reset | Ready | V2-21-06, V2-21-07A |
 | [V2-21-08](./V2-21-design-stabilisation-tasks/V2-21-08-run-design-stabilisation-regression-gate.md) — Run the design-stabilisation regression gate | Done | V2-21-02 through V2-21-07, V2-21-04A, V2-21-07A |
+| [V2-21-08A](./V2-21-design-stabilisation-tasks/V2-21-08A-run-home-calendar-reset-and-sync-animation-gate.md) — Run Home calendar, reset and sync-animation gate | Ready | V2-21-04B, V2-21-07B |
 
 ### V2-21 approved semantics
 
@@ -270,12 +273,13 @@ V2-21-04A/V2-21-07A are complete.
   rotation.
 - Responsive-shell fixes must cover iPad landscape and safe-area-correct bottom
   navigation without device-specific offsets.
-- Streak presentation uses one dog with at most three rows, exactly one face,
-  at most one tail and a hidden tail above visible capacity. Ascending streak
-  ordinals replace unrelated calendar labels without changing immutable
-  learning-day data.
-- The temporary streak slider is development-only, presentation-only and marked
-  `// TODO: Remove after testing` at every integration point.
+- V2-21-04B adds a non-blocking 2.5-second minimum manual-sync animation and a
+  stationary user-supplied exclamation overlay.
+- Streak presentation uses one dog with at most two rows, exactly one face, at
+  most one tail and a hidden tail above 14 days.
+- The preview slider is removed and replaced by a compact current-month
+  calendar. One complete missed local day resets the current streak to zero
+  without deleting historical completed learning days.
 
 ## Version 2 Non-Goals / Deferred Scope
 

@@ -141,3 +141,11 @@ day-of-month values:
   real QML test harness; no packaged physical-device screenshot was captured.
 - Per the epic guardrail, the root frontend submodule pointer remains deferred
   until V2-21-08. V2-21 stays In Progress; the next task is V2-21-08.
+
+## Superseding Home follow-up — V2-21-07B
+
+Later product review reduces the visual dog cap to two rows, removes the
+temporary preview slider, replaces ordinal markers with a compact full-month
+calendar and requires visible date-rollover/reset behavior after a missed day.
+V2-21-07A remains Done as implementation history; V2-21-07B owns these later
+presentation and lifecycle corrections.

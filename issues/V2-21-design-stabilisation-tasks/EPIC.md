@@ -1,6 +1,6 @@
 # V2-21 — Design Stabilisation Tasks
 
-**Status:** Done
+**Status:** In Progress — reopened for V2-21-04B, V2-21-07B and V2-21-08A
 **Workspace:** root + frontend + backend
 **Dependencies:** completed V2-19 and V2-20 baselines
 
@@ -46,6 +46,9 @@ and iPad regressions without reopening completed V2-19/V2-20 history.
   `references/500px-Refresh_icon.png` treatment is rejected by V2-21-04A and is
   replaced by transparent, properly scaled idle/error states. Rotation occurs
   only during a sync triggered by that Home control.
+- An accepted Home manual sync shows at least 2.5 seconds of non-blocking arrow
+  rotation. The supplied red exclamation remains stationary above the arrows;
+  animation must not delay the actual sync operation.
 - Phone, tablet and desktop-sized layouts use responsive width/safe-area rules.
   iPad landscape must use the available viewport rather than centring a
   portrait-sized surface between black side bars.
@@ -56,18 +59,17 @@ and iPad regressions without reopening completed V2-19/V2-20 history.
 
 - The canonical streak remains derived from account-owned completed learning
   dates. No mutable streak counter is introduced.
-- The displayed count and streak-day ordinal sequence must progress in the
-  expected ascending direction and remain correct for values above seven.
-- The dog is one bounded composition: at most three rows, one face total and at
-  most one tail total. Above 21 days the tail is hidden to show that the body
+- The dog is one bounded composition: at most two rows, one face total and at
+  most one tail total. Above 14 days the tail is hidden to show that the body
   continues beyond the visible range.
-- Home shows ascending streak-day ordinals ending at the displayed count rather
-  than unrelated calendar day-of-month labels.
-- A temporary developer-only Home slider may override only the displayed
-  streak value for visual testing. It must not create, persist, upload or
-  acknowledge learning-day data.
-- Every temporary slider integration point is marked exactly
-  `// TODO: Remove after testing` and is isolated for one-step removal.
+- The temporary developer preview slider and all of its integration code are
+  removed.
+- Home shows a compact read-only calendar for the entire current local month,
+  marking completed, missed, today and future dates without permitting edits.
+- One complete missed local calendar day resets the current streak to zero;
+  historical completed days remain stored and visible. Home recomputes this on
+  local-date rollover and resume, and a later completion starts a new streak at
+  one.
 
 ## Execution order for Ralph/AFK
 
@@ -85,9 +87,12 @@ Task identifiers are stable; use this priority order:
 | 8 | V2-21-07 — Correct streak count and day ordering | Done | V2-21-06 |
 | 9 | V2-21-07A — Fix single-dog and streak-number presentation | Done | V2-21-06, V2-21-07 |
 | 10 | V2-21-08 — Run the design-stabilisation regression gate | Done | V2-21-02 through V2-21-07, V2-21-04A, V2-21-07A |
+| 11 | V2-21-04B — Add minimum sync spin and stationary error mark | Ready | V2-21-04A |
+| 12 | V2-21-07B — Add compact month calendar and enforce streak reset | Ready | V2-21-06, V2-21-07A |
+| 13 | V2-21-08A — Run Home calendar, reset and sync-animation gate | Ready | V2-21-04B, V2-21-07B |
 
-V2-21-04A and V2-21-07A were independently dependency-ready and are now Done.
-V2-21-08 completed the epic after all implementation tasks.
+V2-21-04B and V2-21-07B are independently dependency-ready. Preserve the
+priority order above when both are eligible. V2-21-08A is always last.
 
 For each task, Ralph/AFK must:
 
@@ -116,12 +121,11 @@ For each task, Ralph/AFK must:
 - Do not replace automatic sync with the manual refresh control.
 - Do not fix tablet layout with device-name checks or one iPad-only pixel offset.
 - Do not mutate learning-day history to make the streak graphic look correct.
-- Do not update root submodule pointers until compatible child commits and the
-  V2-21-08 gate are ready.
+- Do not update root submodule pointers for these follow-ups until compatible
+  child commits and the V2-21-08A gate are ready.
 
 ## Completion
 
-V2-21 is Done only when V2-21-01 through V2-21-08, V2-21-04A and V2-21-07A are
-Done, frontend/backend/root tests pass where applicable, an iPad landscape
-check is recorded, and a release build contains no visible or accessible streak
-preview control.
+V2-21 returns to Done only when V2-21-04B, V2-21-07B and V2-21-08A are Done,
+frontend/root tests pass, missed-day reset and date rollover are proven, and no
+visible, accessible or source/build-integrated preview slider remains.

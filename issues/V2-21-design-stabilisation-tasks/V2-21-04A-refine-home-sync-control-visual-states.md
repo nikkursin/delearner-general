@@ -165,3 +165,11 @@ redraw, replace or load them from the issue folder at runtime.
 ### Next task
 
 - V2-21-07A — Fix single-dog and streak-number presentation.
+
+## Superseding animation follow-up — V2-21-04B
+
+Later physical-device review found that normal successful sync completes too
+quickly to communicate activity and that the combined error icon can rotate the
+exclamation with the arrows. V2-21-04A remains Done as implementation history.
+V2-21-04B adds a non-blocking 2.5-second minimum manual animation and uses the
+user-supplied `assets/icons/red-exclamation-mark.svg` as a stationary overlay.

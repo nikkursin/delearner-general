@@ -122,6 +122,13 @@ No duplicate coordinator or mutable streak counter was found: Home still calls
 the existing manager/coordinator path and the displayed streak remains derived
 from immutable account-owned learning dates.
 
+## Superseding follow-up gate — V2-21-08A
+
+V2-21-08 remains Done for the state it verified. Later explicit product
+corrections add V2-21-04B and V2-21-07B; V2-21-08A is the required final gate
+for their sync-animation, two-row dog, compact calendar, slider-removal and
+missed-day reset behavior.
+
 ### Commands and results
 
 - Focused frontend CTest selection for registration, auth/session/bootstrap,
