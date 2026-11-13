@@ -238,8 +238,8 @@ order.
 
 ## V2-21 — Design Stabilisation Tasks
 
-**Status:** In Progress. Completed history remains closed; execute follow-ups
-V2-21-04B, V2-21-07B and V2-21-08A in epic priority order.
+**Status:** Done. Completed history remains closed; V2-21-04B, V2-21-07B and
+V2-21-08A are complete.
 
 | Task | Status | Dependencies |
 |---|---|---|
@@ -255,7 +255,7 @@ V2-21-04B, V2-21-07B and V2-21-08A in epic priority order.
 | [V2-21-07A](./V2-21-design-stabilisation-tasks/V2-21-07A-fix-single-dog-and-streak-number-presentation.md) — Fix single-dog and streak-number presentation | Done | V2-21-06, V2-21-07 |
 | [V2-21-07B](./V2-21-design-stabilisation-tasks/V2-21-07B-add-compact-month-calendar-and-enforce-streak-reset.md) — Add compact month calendar and enforce streak reset | Done | V2-21-06, V2-21-07A |
 | [V2-21-08](./V2-21-design-stabilisation-tasks/V2-21-08-run-design-stabilisation-regression-gate.md) — Run the design-stabilisation regression gate | Done | V2-21-02 through V2-21-07, V2-21-04A, V2-21-07A |
-| [V2-21-08A](./V2-21-design-stabilisation-tasks/V2-21-08A-run-home-calendar-reset-and-sync-animation-gate.md) — Run Home calendar, reset and sync-animation gate | Ready | V2-21-04B, V2-21-07B |
+| [V2-21-08A](./V2-21-design-stabilisation-tasks/V2-21-08A-run-home-calendar-reset-and-sync-animation-gate.md) — Run Home calendar, reset and sync-animation gate | Done | V2-21-04B, V2-21-07B |
 
 ### V2-21 approved semantics
 
